@@ -1,0 +1,5 @@
+book :
+  type: rest
+  resource:     "RestLibraryBundle:Book"
+  name_prefix:  api_
+  method: GET

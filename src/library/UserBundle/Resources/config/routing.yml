@@ -1,0 +1,6 @@
+login :
+  type: rest
+  resource:     "UserBundle:Auth"
+  name_prefix:  api_
+  method: POST
+

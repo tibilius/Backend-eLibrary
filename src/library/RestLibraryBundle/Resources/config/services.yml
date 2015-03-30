@@ -1,0 +1,4 @@
+services:
+#    rest_library.example:
+#        class: library\RestLibraryBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

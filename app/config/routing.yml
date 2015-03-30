@@ -1,0 +1,13 @@
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    type : rest
+    prefix:   /api/v1/
+
+rest_library:
+    type : rest
+    resource: "@RestLibraryBundle/Resources/config/routing.yml"
+    prefix:   /api/v1/
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
