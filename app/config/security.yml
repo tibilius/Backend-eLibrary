@@ -12,18 +12,27 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-            logout:       true
-            anonymous:    true
-        wsse_secured:
-            pattern:   ^/api/.*
-            stateless:    true
-            wsse: true
-            anonymous : true
+            dev:
+                pattern:  ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+            login:
+                pattern:  ^/api/*.+users.*
+                context:      user
+                anonymous:    true
+            token:
+                pattern:  ^/api/*.+tokens.*
+                context:      user
+                anonymous:    true
+            wsse_secured:
+                pattern:      ^/api/.*
+                context:      user
+                stateless:    true
+                wsse:
+                    nonce_dir: null
+                    provider: fos_userbundle
+                    lifetime: 600
+                anonymous:    false
+
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

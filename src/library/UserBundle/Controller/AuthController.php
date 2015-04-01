@@ -45,4 +45,5 @@ class AuthController extends FOSRestController
         $this->container->get('')->loginUser();
         return $paramFetcher->all();
     }
+
 }

@@ -11,3 +11,8 @@ rest_library:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+# app/config/routing.yml
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc

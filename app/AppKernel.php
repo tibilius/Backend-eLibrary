@@ -18,11 +18,17 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Mopa\Bundle\WSSEAuthenticationBundle\MopaWSSEAuthenticationBundle(),
             new AppBundle\AppBundle(),
             new library\RestLibraryBundle\RestLibraryBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new library\UserBundle\UserBundle(),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,33 +1,30 @@
 library\UserBundle\Entity\User:
-    type: entity
-    table: users
-    repositoryClass: library\UserBundle\Entity\UserRepository
+    type:  entity
+    table: fos_user
     id:
         id:
             type: integer
-            id: true
             generator:
                 strategy: AUTO
     fields:
-        login:
-            type: string
-            length: '30'
-        password:
-            type: string
-            length: '40'
-        email:
-            type: string
-            length: '30'
-        firstname:
-            type: string
-            length: '30'
-        lastname:
-            type: string
-            length: '30'
-        avatar:
-            type: string
-            length: '255'
-        phone:
-            type: string
-            length: '50'
+            firstname:
+                type: string
+                length: '30'
+                nullable: true
+            middlename:
+                type: string
+                length: '30'
+                nullable: true
+            lastname:
+                type: string
+                length: '30'
+                nullable: true
+            avatar:
+                type: string
+                length: '255'
+                nullable: true
+            phone:
+                type: string
+                length: '50'
+                nullable: true
     lifecycleCallbacks: {  }

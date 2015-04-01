@@ -2,6 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    # FriendOfSymfony Bundles
+    - { resource: fos/fos_rest.yml }
+    - { resource: fos/fos_user.yml }
+
+    # Others
+    - { resource: jms/jms.yml }
 
 framework:
     #esi:             ~
@@ -55,12 +61,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        mapping_types:
+            enum: string
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -74,24 +76,8 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_rest:
-    param_fetcher_listener: true
-    body_listener: true
-    format_listener: true
-    view:
-        view_response_listener: 'force'
-        formats:
-            xml: true
-            json : true
-        templating_formats:
-            html: true
-        force_redirects:
-            html: true
-        failed_validation: HTTP_BAD_REQUEST
-        default_engine: twig
-    routing_loader:
-        default_format: json
-fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
-    firewall_name: main
-    user_class: library\UserBundle\Entity\User
+# Mopa WSSE authentication configuration
+mopa_wsse_authentication:
+    provider_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Authentication\Provider\WsseAuthenticationProvider
+    listener_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Firewall\WsseListener
+    factory_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Factory\WsseFactory
