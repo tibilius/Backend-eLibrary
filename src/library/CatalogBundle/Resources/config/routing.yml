@@ -1,5 +1,5 @@
 book :
   type: rest
-  resource:     "RestLibraryBundle:Book"
+  resource:     "CatalogBundle:Book"
   name_prefix:  api_
   method: GET

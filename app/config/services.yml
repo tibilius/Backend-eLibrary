@@ -3,7 +3,7 @@
 parameters:
 #    parameter_name: value
 
-services:
+#services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
@@ -12,3 +12,7 @@ services:
       class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
       tags:
          - { name: serializer.normalizer }
+
+   cache_nonces:
+           class: Doctrine\Common\Cache\PhpFileCache
+           arguments: [%kernel.cache_dir%/security/nonces]

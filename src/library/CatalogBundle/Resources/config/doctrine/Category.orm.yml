@@ -1,0 +1,22 @@
+library\CatalogBundle\Entity\Category:
+    type: entity
+    table: categories
+    repositoryClass: library\CatalogBundle\Entity\CategoryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        description:
+            type: text
+        owner:
+            type: object
+        parentId:
+            type: integer
+            column: parent_id
+    lifecycleCallbacks: {  }

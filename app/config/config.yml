@@ -76,8 +76,9 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-# Mopa WSSE authentication configuration
-mopa_wsse_authentication:
-    provider_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Authentication\Provider\WsseAuthenticationProvider
-    listener_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Firewall\WsseListener
-    factory_class: Mopa\Bundle\WSSEAuthenticationBundle\Security\Factory\WsseFactory
+# Escape WSSE authentication configuration
+escape_wsse_authentication:
+    authentication_provider_class: Escape\WSSEAuthenticationBundle\Security\Core\Authentication\Provider\Provider
+    authentication_listener_class: Escape\WSSEAuthenticationBundle\Security\Http\Firewall\Listener
+    authentication_entry_point_class: Escape\WSSEAuthenticationBundle\Security\Http\EntryPoint\EntryPoint
+    authentication_encoder_class: Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder

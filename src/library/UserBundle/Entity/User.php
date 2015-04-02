@@ -15,25 +15,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class User extends BaseUser
 {
 
+
     /**
      * @var integer
      */
     protected $id;
 
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
     /**
      * @var string
      */
     private $firstname;
+
+    /**
+     * @var string
+     */
+    private $middlename;
 
     /**
      * @var string
@@ -50,6 +46,16 @@ class User extends BaseUser
      */
     private $phone;
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set firstname
@@ -72,6 +78,29 @@ class User extends BaseUser
     public function getFirstname()
     {
         return $this->firstname;
+    }
+
+    /**
+     * Set middlename
+     *
+     * @param string $middlename
+     * @return User
+     */
+    public function setMiddlename($middlename)
+    {
+        $this->middlename = $middlename;
+
+        return $this;
+    }
+
+    /**
+     * Get middlename
+     *
+     * @return string 
+     */
+    public function getMiddlename()
+    {
+        return $this->middlename;
     }
 
     /**
@@ -141,33 +170,5 @@ class User extends BaseUser
     public function getPhone()
     {
         return $this->phone;
-    }
-    /**
-     * @var string
-     */
-    private $middlename;
-
-
-    /**
-     * Set middlename
-     *
-     * @param string $middlename
-     * @return User
-     */
-    public function setMiddlename($middlename)
-    {
-        $this->middlename = $middlename;
-
-        return $this;
-    }
-
-    /**
-     * Get middlename
-     *
-     * @return string 
-     */
-    public function getMiddlename()
-    {
-        return $this->middlename;
     }
 }

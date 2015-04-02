@@ -1,7 +1,10 @@
 # app/config/security.yml
 security:
     encoders:
-        FOS\UserBundle\Model\UserInterface: sha512
+        FOS\UserBundle\Model\UserInterface:
+            algorithm: sha1
+            encode_as_base64: true
+            iterations: 1
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -15,24 +18,21 @@ security:
             dev:
                 pattern:  ^/(_(profiler|wdt)|css|images|js)/
                 security: false
-            login:
-                pattern:  ^/api/*.+users.*
-                context:      user
-                anonymous:    true
             token:
                 pattern:  ^/api/*.+tokens.*
                 context:      user
                 anonymous:    true
             wsse_secured:
-                pattern:      ^/api/.*
-                context:      user
-                stateless:    true
+                pattern:   ^/api/.*
+                anonymous : true
                 wsse:
-                    nonce_dir: null
                     provider: fos_userbundle
-                    lifetime: 600
-                anonymous:    false
-
+                    realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
+                    profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
+                    encoder: #digest algorithm
+                        algorithm: sha1
+                        encodeHashAsBase64: true
+                        iterations: 1
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

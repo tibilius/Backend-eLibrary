@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "da815f847ebab7bfa0e4a108f000c49c",
+    "hash": "ff870601af1a4011283fc9d60bd119a1",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -747,6 +747,64 @@
                 "orm"
             ],
             "time": "2014-12-16 13:45:01"
+        },
+        {
+            "name": "escapestudios/wsse-authentication-bundle",
+            "version": "dev-master",
+            "target-dir": "Escape/WSSEAuthenticationBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle.git",
+                "reference": "74d234b36b0c5cd9fed1391c0665d85c60abe177"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/escapestudios/EscapeWSSEAuthenticationBundle/zipball/74d234b36b0c5cd9fed1391c0665d85c60abe177",
+                "reference": "74d234b36b0c5cd9fed1391c0665d85c60abe177",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.3",
+                "symfony/security-bundle": "~2.3"
+            },
+            "require-dev": {
+                "symfony/finder": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Escape\\WSSEAuthenticationBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Joos",
+                    "email": "david@escapestudios.com"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle/graphs/contributors"
+                }
+            ],
+            "description": "Symfony2 bundle to implement WSSE authentication",
+            "homepage": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle",
+            "keywords": [
+                "Authentication",
+                "bundle",
+                "wsse"
+            ],
+            "time": "2015-01-19 17:59:22"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1599,54 +1657,6 @@
             "time": "2014-12-12 05:04:05"
         },
         {
-            "name": "kriswallsmith/buzz",
-            "version": "v0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "487760b05d6269a4c2c374364325326cfa65b12c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/487760b05d6269a4c2c374364325326cfa65b12c",
-                "reference": "487760b05d6269a4c2c374364325326cfa65b12c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-curl": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Buzz": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
-            "keywords": [
-                "curl",
-                "http client"
-            ],
-            "time": "2014-09-15 12:42:36"
-        },
-        {
             "name": "michelf/php-markdown",
             "version": "1.5.0",
             "source": {
@@ -1769,55 +1779,6 @@
                 "psr-3"
             ],
             "time": "2015-03-09 09:58:04"
-        },
-        {
-            "name": "mopa/wsse-authentication-bundle",
-            "version": "dev-master",
-            "target-dir": "Mopa/Bundle/WSSEAuthenticationBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phiamo/MopaWSSEAuthenticationBundle.git",
-                "reference": "1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaWSSEAuthenticationBundle/zipball/1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3",
-                "reference": "1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3",
-                "shasum": ""
-            },
-            "require": {
-                "kriswallsmith/buzz": ">=v0.9",
-                "symfony/symfony": ">=2.1.0"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Mopa\\Bundle\\WSSEAuthenticationBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Philipp A. Mohrenweiser",
-                    "email": "phiamo@googlemail.com",
-                    "homepage": "http://bootstrap.mohrenweiserpartner.de"
-                },
-                {
-                    "name": "David Joos",
-                    "homepage": "http://www.escapestudios.com/"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/mopastudios/MopaWSSEAuthenticationBundle/contributors"
-                }
-            ],
-            "description": "a simple and easy way to implement WSSE authentication into Symfony2 applications",
-            "keywords": [
-                "Authentication",
-                "Symfony2",
-                "wsse"
-            ],
-            "time": "2013-06-16 11:02:26"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -2806,6 +2767,103 @@
     ],
     "packages-dev": [
         {
+            "name": "kriswallsmith/buzz",
+            "version": "v0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/Buzz.git",
+                "reference": "487760b05d6269a4c2c374364325326cfa65b12c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/487760b05d6269a4c2c374364325326cfa65b12c",
+                "reference": "487760b05d6269a4c2c374364325326cfa65b12c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
+            ],
+            "time": "2014-09-15 12:42:36"
+        },
+        {
+            "name": "mopa/wsse-authentication-bundle",
+            "version": "dev-master",
+            "target-dir": "Mopa/Bundle/WSSEAuthenticationBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phiamo/MopaWSSEAuthenticationBundle.git",
+                "reference": "1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phiamo/MopaWSSEAuthenticationBundle/zipball/1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3",
+                "reference": "1eb1855501ca5ca1af7f7c33c42e31d8ba5385d3",
+                "shasum": ""
+            },
+            "require": {
+                "kriswallsmith/buzz": ">=v0.9",
+                "symfony/symfony": ">=2.1.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Mopa\\Bundle\\WSSEAuthenticationBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Philipp A. Mohrenweiser",
+                    "email": "phiamo@googlemail.com",
+                    "homepage": "http://bootstrap.mohrenweiserpartner.de"
+                },
+                {
+                    "name": "David Joos",
+                    "homepage": "http://www.escapestudios.com/"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/mopastudios/MopaWSSEAuthenticationBundle/contributors"
+                }
+            ],
+            "description": "a simple and easy way to implement WSSE authentication into Symfony2 applications",
+            "keywords": [
+                "Authentication",
+                "Symfony2",
+                "wsse"
+            ],
+            "time": "2013-06-16 11:02:26"
+        },
+        {
             "name": "sensio/generator-bundle",
             "version": "v2.5.3",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
@@ -2858,10 +2916,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "nelmio/api-doc-bundle": 20,
-        "mopa/wsse-authentication-bundle": 20,
         "jms/di-extra-bundle": 20,
         "jms/security-extra-bundle": 20,
-        "stof/doctrine-extensions-bundle": 20
+        "stof/doctrine-extensions-bundle": 20,
+        "escapestudios/wsse-authentication-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

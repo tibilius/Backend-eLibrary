@@ -1,6 +1,6 @@
 library\UserBundle\Entity\User:
     type:  entity
-    table: fos_user
+    table: users
     id:
         id:
             type: integer
@@ -27,4 +27,5 @@ library\UserBundle\Entity\User:
                 type: string
                 length: '50'
                 nullable: true
+
     lifecycleCallbacks: {  }

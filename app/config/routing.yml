@@ -1,11 +1,11 @@
-user:
-    resource: "@UserBundle/Resources/config/routing.yml"
+catalog:
+    resource: "@CatalogBundle/Resources/config/routing.yml"
     type : rest
     prefix:   /api/v1/
 
-rest_library:
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
     type : rest
-    resource: "@RestLibraryBundle/Resources/config/routing.yml"
     prefix:   /api/v1/
 
 app:
