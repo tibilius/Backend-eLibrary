@@ -56,17 +56,17 @@ class UserRestController extends FOSRestController
      *   }
      * )
      *
-     * @param string $slug username or email
+     * @param string $id identifier
      *
      * @return View
      */
-    public function getUserAction($slug)
+    public function getUserAction($id)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         /**
          * @var \library\UserBundle\Entity\User $entity
          */
-        $entity = $userManager->findUserByUsernameOrEmail($slug);
+        $entity = $userManager->findUserBy(array("id" => $id));
 
         if (!$entity) {
             throw $this->createNotFoundException('Data not found.');
@@ -150,7 +150,7 @@ class UserRestController extends FOSRestController
      * @RequestParam(name="id", nullable=false, strict=true, description="id.")
      * @RequestParam(name="username", nullable=true, strict=true, description="Username.")
      * @RequestParam(name="email", nullable=true, strict=true, description="Email.")
-     * @RequestParam(name="name", nullable=true, strict=true, description="Name.")
+     * @RequestParam(name="firstname", nullable=true, strict=true, description="Name.")
      * @RequestParam(name="lastname", nullable=true, strict=true, description="Lastname.")
      * * @RequestParam(name="middlename", nullable=true, strict=true, description="Middlename.")
      * @RequestParam(name="password", nullable=true, strict=true, description="Plain Password.")
@@ -170,7 +170,7 @@ class UserRestController extends FOSRestController
         if($paramFetcher->get('username')){ $user->setUsername($paramFetcher->get('username')); }
         if($paramFetcher->get('email')){$user->setEmail($paramFetcher->get('email')); }
         if($paramFetcher->get('password')){$user->setPlainPassword($paramFetcher->get('password')); }
-        if($paramFetcher->get('name')){$user->setName($paramFetcher->get('name')); }
+        if($paramFetcher->get('firstname')){$user->setFirstname($paramFetcher->get('firstname')); }
         if($paramFetcher->get('lastname')){$user->setLastname($paramFetcher->get('lastname')); }
         if($paramFetcher->get('middlename')){$user->setLastname($paramFetcher->get('middlename')); }
 

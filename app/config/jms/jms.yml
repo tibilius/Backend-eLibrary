@@ -14,7 +14,6 @@ jms_di_extra:
         all_bundles: false
         bundles: [AppBundle]
         directories: ["%kernel.root_dir%/../src"]
-
 # Configuration
 jms_serializer:
     metadata:
