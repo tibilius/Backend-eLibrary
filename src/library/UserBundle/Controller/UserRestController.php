@@ -56,14 +56,13 @@ class UserRestController extends FOSRestController
      *   }
      * )
      *
-     * @param int $id username or email
+     * @param string $slug username or email
      *
      * @return View
      */
     public function getUserAction($slug)
     {
-        $securityToken = $this->get('security.context')->getToken();
-        $this->container->get('fos_user.user_manager');
+        $userManager = $this->container->get('fos_user.user_manager');
         /**
          * @var \library\UserBundle\Entity\User $entity
          */
@@ -74,17 +73,7 @@ class UserRestController extends FOSRestController
         }
 
         $view = View::create();
-        $result = array(
-            "id" => $entity->getId(),
-            "firstname" => $entity->getAvatar(),
-            "lastname" => $entity->getLastname(),
-            "middlename" => $entity->getMiddlename(),
-            "avatar" => $entity->getAvatar(),
-            "email" => $entity->getEmail,
-            "phone" => $entity->getPhone()
-
-        );
-        $view->setData($result)->setStatusCode(200);
+        $view->setData($entity)->setStatusCode(200);
         return $view;
     }
 

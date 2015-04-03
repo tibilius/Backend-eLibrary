@@ -24,27 +24,27 @@ class User extends BaseUser
     /**
      * @var string
      */
-    private $firstname;
+    protected $firstname;
 
     /**
      * @var string
      */
-    private $middlename;
+    protected $middlename;
 
     /**
      * @var string
      */
-    private $lastname;
+    protected $lastname;
 
     /**
      * @var string
      */
-    private $avatar;
+    protected $avatar;
 
     /**
      * @var string
      */
-    private $phone;
+    protected $phone;
 
 
     /**
