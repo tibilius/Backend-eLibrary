@@ -20,14 +20,18 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-            new library\UserBundle\UserBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new library\CatalogBundle\CatalogBundle(),
             new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
-//            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new DCS\RatingBundle\DCSRatingBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new Library\CatalogBundle\CatalogBundle(),
+            new Library\UserBundle\UserBundle(),
+            new Library\CommentBundle\LibraryCommentBundle(),
+            new Library\VotesBundle\LibraryVotesBundle(),
+            new Acme\TestBundle\AcmeTestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

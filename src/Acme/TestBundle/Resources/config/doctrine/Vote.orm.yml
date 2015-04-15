@@ -1,0 +1,50 @@
+Acme\TestBundle\Entity\Vote:
+    type: entity
+    table: vote
+    indexes:
+        idx_fa222a5aa32efc6:
+            columns:
+                - rating_id
+        idx_fa222a5aebb4b8ad:
+            columns:
+                - voter_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        value:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+    manyToOne:
+        rating:
+            targetEntity: Rating
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rating_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        voter:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                voter_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

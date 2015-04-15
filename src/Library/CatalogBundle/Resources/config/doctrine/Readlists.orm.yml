@@ -1,0 +1,53 @@
+library\CatalogBundle\Entity\Readlists:
+    type: entity
+    table: readlists
+    indexes:
+        IDX_D0F73387A76ED395:
+            columns:
+                - user_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            comment: ''
+        color:
+            type: string
+            nullable: true
+            length: 6
+            fixed: false
+            comment: ''
+        inRead:
+            type: boolean
+            nullable: true
+            comment: ''
+            column: in_read
+    manyToOne:
+        user:
+            targetEntity: library\UserBundle\Entity\User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        book:
+            targetEntity: Books
+            cascade: {  }
+            mappedBy: readlist
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

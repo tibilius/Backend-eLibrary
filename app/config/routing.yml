@@ -1,3 +1,11 @@
+acme_test:
+    resource: "@AcmeTestBundle/Resources/config/routing.yml"
+    prefix:   /
+
+library_votes:
+    resource: "@LibraryVotesBundle/Resources/config/routing.yml"
+    prefix:   /
+
 catalog:
     resource: "@CatalogBundle/Resources/config/routing.yml"
     type : rest
@@ -16,3 +24,10 @@ app:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
+
+
+fos_comment_api:
+    type: rest
+    resource: "@FOSCommentBundle/Resources/config/routing.yml"
+    prefix: /api
+    defaults: { _format: html }

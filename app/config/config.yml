@@ -5,8 +5,10 @@ imports:
     # FriendOfSymfony Bundles
     - { resource: fos/fos_rest.yml }
     - { resource: fos/fos_user.yml }
+    - { resource: fos/fos_comment.yml }
 
     # Others
+    - { resource: dcs_rating.yml }
     - { resource: jms/jms.yml }
 
 framework:
@@ -61,9 +63,11 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        types:
+            integer[]: Ajgl\Doctrine\DBAL\Types\IntegerArrayType
         mapping_types:
             enum: string
-
+            _int4: integer[]
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
@@ -75,6 +79,9 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+
+
 
 # Escape WSSE authentication configuration
 escape_wsse_authentication:

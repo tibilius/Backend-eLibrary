@@ -1,0 +1,45 @@
+Acme\TestBundle\Entity\Writers:
+    type: entity
+    table: writers
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        firstName:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+            comment: ''
+            column: first_name
+        middleName:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+            comment: ''
+            column: middle_name
+        lastName:
+            type: string
+            nullable: true
+            length: 256
+            fixed: false
+            comment: ''
+            column: last_name
+        description:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        pictures:
+            type: integerarray
+            nullable: true
+            comment: ''
+    lifecycleCallbacks: {  }

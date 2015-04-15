@@ -1,0 +1,55 @@
+Acme\TestBundle\Entity\Comment:
+    type: entity
+    table: comment
+    indexes:
+        idx_5bc96bf0e2904019:
+            columns:
+                - thread_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        body:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        ancestors:
+            type: string
+            nullable: false
+            length: 1024
+            fixed: false
+            comment: ''
+        depth:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        state:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+    manyToOne:
+        thread:
+            targetEntity: Thread
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                thread_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
