@@ -1,0 +1,4 @@
+Library\CatalogBundle\Entity\Books:
+    file:
+        mapping:           book_image
+        filename_property: filepath

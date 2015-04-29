@@ -1,0 +1,15 @@
+services:
+    vich_image.listener.image_removed:
+        class:      Library\CatalogBundle\EventListener\ImageDelete
+        arguments:  [ @logger ]
+        tags:
+            - { name: kernel.event_listener, event: vich_uploader.post_remove, method: onImageRemoved }
+
+    vich_image.listener.image_show:
+        class:      Library\CatalogBundle\EventListener\ImageShow
+        arguments:  [ @vich_uploader.storage ]
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: postPersist }
+
+

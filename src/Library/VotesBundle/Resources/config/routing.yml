@@ -1,0 +1,3 @@
+library_votes_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: LibraryVotesBundle:Default:index }

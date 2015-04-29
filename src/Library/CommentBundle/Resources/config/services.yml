@@ -1,0 +1,4 @@
+services:
+#    library_comment.example:
+#        class: Library\CommentBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

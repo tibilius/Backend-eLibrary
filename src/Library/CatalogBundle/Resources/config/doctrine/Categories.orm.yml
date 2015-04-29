@@ -1,0 +1,34 @@
+Library\CatalogBundle\Entity\Categories:
+    type: entity
+    table: categories
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        description:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+#    manyToMany:
+#        books:
+#            targetEntity: Books
+#            cascade: {  }
+#            mappedBy: categories
+#            inversedBy: null
+#            joinTable: null
+#            orderBy: null
+    lifecycleCallbacks: {  }

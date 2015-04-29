@@ -1,0 +1,4 @@
+Library\CatalogBundle\Entity\Writers:
+    file:
+        mapping:           writer_image
+        filename_property: filepath

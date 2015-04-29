@@ -1,0 +1,22 @@
+vich_uploader:
+    db_driver: orm
+    storage: file_system
+    mappings:
+        book_image:
+            uri_prefix:         /images/books
+            upload_destination: %kernel.root_dir%/../web/images/books
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        user_image:
+            uri_prefix:         /images/avatars
+            upload_destination: %kernel.root_dir%/../web/images/avatars
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        writer_image:
+            uri_prefix:         /images/writers
+            upload_destination: %kernel.root_dir%/../web/images/writers
+            namer:              vich_uploader.namer_uniqid
+            delete_on_update:   true
+            delete_on_remove:   true

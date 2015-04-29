@@ -1,0 +1,44 @@
+Acme\TestBundle\Entity\Rating:
+    type: entity
+    table: rating
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        numVotes:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: num_votes
+        rate:
+            type: decimal
+            nullable: false
+            precision: 4
+            scale: 1
+            comment: ''
+        securityRole:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: security_role
+        permalink:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+    lifecycleCallbacks: {  }
