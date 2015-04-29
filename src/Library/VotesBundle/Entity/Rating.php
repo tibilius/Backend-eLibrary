@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryVotesBundle\Entity;
+namespace Library\VotesBundle\Entity;
 
 
 use DCS\RatingBundle\Entity\Rating as BaseRating;
@@ -20,7 +20,7 @@ class Rating extends BaseRating
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="library\VotesBundle\Entity\Vote", mappedBy="rating")
+     * @ORM\OneToMany(targetEntity="Library\VotesBundle\Entity\Vote", mappedBy="rating")
      */
     protected $votes;
 }

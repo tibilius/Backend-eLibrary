@@ -1,4 +1,4 @@
-library\CatalogBundle\Entity\Readlists:
+Library\CatalogBundle\Entity\Readlists:
     type: entity
     table: readlists
     indexes:
@@ -34,7 +34,7 @@ library\CatalogBundle\Entity\Readlists:
             column: in_read
     manyToOne:
         user:
-            targetEntity: library\UserBundle\Entity\User
+            targetEntity: Library\UserBundle\Entity\User
             cascade: {  }
             mappedBy: null
             inversedBy: null

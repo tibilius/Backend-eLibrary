@@ -5,6 +5,9 @@ Acme\TestBundle\Entity\Comment:
         idx_5bc96bf0e2904019:
             columns:
                 - thread_id
+        idx_5bc96bf0f675f31b:
+            columns:
+                - author_id
     id:
         id:
             type: integer
@@ -50,6 +53,15 @@ Acme\TestBundle\Entity\Comment:
             inversedBy: null
             joinColumns:
                 thread_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        author:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                author_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

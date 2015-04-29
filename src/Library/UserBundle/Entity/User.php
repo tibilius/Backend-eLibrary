@@ -1,130 +1,51 @@
 <?php
 
-namespace LibraryUserBundle\Entity;
+namespace Library\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * User
  *
  * @Gedmo\Loggable
- * @ORM\Table()
+ * @ORM\Table(name="users")
  * @ORM\Entity()
  */
+
 class User extends BaseUser
 {
-
-
     /**
-     * @var integer
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @var string
-     */
-    protected $firstname;
-
-    /**
-     * @var string
-     */
-    protected $middlename;
-
-    /**
-     * @var string
-     */
-    protected $lastname;
-
-    /**
-     * @var string
+     *
+     * @Orm\Column(type="string", nullable=true)
+     *
+     * @var string $avatar
      */
     protected $avatar;
 
     /**
-     * @var string
+     *
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="avatar")
+     *
+     * @var File $avatarImage
+     */
+    protected $avatarImage;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $phone;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     * @return User
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-     * Get firstname
-     *
-     * @return string 
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * Set middlename
-     *
-     * @param string $middlename
-     * @return User
-     */
-    public function setMiddlename($middlename)
-    {
-        $this->middlename = $middlename;
-
-        return $this;
-    }
-
-    /**
-     * Get middlename
-     *
-     * @return string 
-     */
-    public function getMiddlename()
-    {
-        return $this->middlename;
-    }
-
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     * @return User
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-     * Get lastname
-     *
-     * @return string 
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
 
     /**
      * Set avatar
@@ -142,33 +63,37 @@ class User extends BaseUser
     /**
      * Get avatar
      *
-     * @return string 
+     * @return string
      */
     public function getAvatar()
     {
         return $this->avatar;
     }
 
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     * @return User
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
 
-        return $this;
+
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->avatarImage = $image;
+
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updated = new \DateTime('now');
+        }
     }
 
     /**
-     * Get phone
-     *
-     * @return string 
+     * @return File
      */
-    public function getPhone()
+    public function getImageFile()
     {
-        return $this->phone;
+        return $this->avatarImage;
     }
+    
 }

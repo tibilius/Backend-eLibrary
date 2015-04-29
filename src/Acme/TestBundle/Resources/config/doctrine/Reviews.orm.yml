@@ -1,0 +1,58 @@
+Acme\TestBundle\Entity\Reviews:
+    type: entity
+    table: reviews
+    indexes:
+        idx_6970eb0fe2904019:
+            columns:
+                - thread_id
+        idx_6970eb0f16a2b381:
+            columns:
+                - book_id
+        idx_6970eb0ff675f31b:
+            columns:
+                - author_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        text:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    manyToOne:
+        book:
+            targetEntity: Books
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                book_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        author:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                author_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        thread:
+            targetEntity: Thread
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                thread_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle;
+namespace Library\CommentBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

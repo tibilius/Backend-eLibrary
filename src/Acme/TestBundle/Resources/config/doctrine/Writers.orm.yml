@@ -38,8 +38,10 @@ Acme\TestBundle\Entity\Writers:
             length: null
             fixed: false
             comment: ''
-        pictures:
-            type: integerarray
+        filepath:
+            type: string
             nullable: true
+            length: 256
+            fixed: false
             comment: ''
     lifecycleCallbacks: {  }

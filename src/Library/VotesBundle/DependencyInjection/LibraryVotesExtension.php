@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryVotesBundle\DependencyInjection;
+namespace Library\VotesBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

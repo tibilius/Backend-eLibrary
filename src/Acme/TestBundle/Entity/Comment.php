@@ -192,4 +192,32 @@ class Comment
     {
         return $this->thread;
     }
+    /**
+     * @var \Acme\TestBundle\Entity\Users
+     */
+    private $author;
+
+
+    /**
+     * Set author
+     *
+     * @param \Acme\TestBundle\Entity\Users $author
+     * @return Comment
+     */
+    public function setAuthor(\Acme\TestBundle\Entity\Users $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Acme\TestBundle\Entity\Users 
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 }

@@ -9,6 +9,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Readlists
 {
+
+    const IN_READ = 'in_read';
+    const READED = 'readed';
+    const PAUSED = 'paused';
+
+    protected $types = [
+        self::IN_READ,
+        self::READED,
+        self::PAUSED,
+    ];
+
     /**
      * @var integer
      */
@@ -25,9 +36,10 @@ class Readlists
     private $color;
 
     /**
-     * @var boolean
+     * @var string
      */
-    private $inRead;
+    private $type;
+
 
     /**
      * @var \Acme\TestBundle\Entity\Users
@@ -50,7 +62,7 @@ class Readlists
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,7 +85,7 @@ class Readlists
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -96,34 +108,11 @@ class Readlists
     /**
      * Get color
      *
-     * @return string 
+     * @return string
      */
     public function getColor()
     {
         return $this->color;
-    }
-
-    /**
-     * Set inRead
-     *
-     * @param boolean $inRead
-     * @return Readlists
-     */
-    public function setInRead($inRead)
-    {
-        $this->inRead = $inRead;
-
-        return $this;
-    }
-
-    /**
-     * Get inRead
-     *
-     * @return boolean 
-     */
-    public function getInRead()
-    {
-        return $this->inRead;
     }
 
     /**
@@ -142,7 +131,7 @@ class Readlists
     /**
      * Get user
      *
-     * @return \Acme\TestBundle\Entity\Users 
+     * @return \Acme\TestBundle\Entity\Users
      */
     public function getUser()
     {
@@ -175,10 +164,34 @@ class Readlists
     /**
      * Get book
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBook()
     {
         return $this->book;
+    }
+
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Readlists
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

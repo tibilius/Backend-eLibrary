@@ -1,13 +1,13 @@
 <?php
 
-namespace LibraryUserBundle\Controller;
+namespace Library\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use library\UserBundle\Entity\User as User;
+use Library\UserBundle\Entity\User as User;
 
 class TokenRestController extends FOSRestController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCatalogBundle\Entity;
+namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -142,7 +142,7 @@ class Readlists
     /**
      * Get user
      *
-     * @return \Library\UserBundle\Entity\User
+     * @return \Library\UserBundle\Entity\User 
      */
     public function getUser()
     {

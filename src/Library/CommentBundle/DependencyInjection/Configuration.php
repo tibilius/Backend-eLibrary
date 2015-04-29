@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle\DependencyInjection;
+namespace Library\CommentBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

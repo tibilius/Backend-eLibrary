@@ -332,4 +332,116 @@ class Books
     {
         return $this->rating;
     }
+    /**
+     * @var string
+     */
+    private $fileName;
+
+    /**
+     * @var integer
+     */
+    private $created;
+
+    /**
+     * @var integer
+     */
+    private $updated;
+
+
+    /**
+     * Set fileName
+     *
+     * @param string $fileName
+     * @return Books
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * Get fileName
+     *
+     * @return string 
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Set created
+     *
+     * @param integer $created
+     * @return Books
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return integer 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param integer $updated
+     * @return Books
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return integer 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+    /**
+     * @var string
+     */
+    private $filepath;
+
+
+    /**
+     * Set filepath
+     *
+     * @param string $filepath
+     * @return Books
+     */
+    public function setFilepath($filepath)
+    {
+        $this->filepath = $filepath;
+
+        return $this;
+    }
+
+    /**
+     * Get filepath
+     *
+     * @return string 
+     */
+    public function getFilepath()
+    {
+        return $this->filepath;
+    }
 }

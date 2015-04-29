@@ -1,4 +1,4 @@
 services:
 #    catalog.example:
-#        class: library\CatalogBundle\Example
+#        class: Library\CatalogBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

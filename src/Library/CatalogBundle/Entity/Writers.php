@@ -1,11 +1,11 @@
 <?php
 
-namespace LibraryCatalogBundle\Entity;
+namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
 /**
- * Writers
+ *  Writers
  */
 class Writers
 {
@@ -35,10 +35,20 @@ class Writers
     private $description;
 
     /**
-     * @var integer[]
+     * @var string
      */
-    private $pictures;
+    private $filepath;
 
+    /**
+     *
+     * @var File $file
+     */
+    protected $file;
+
+
+    public function __toString() {
+        return $this->getId() .':' .$this->getFirstName().$this->getLastName();
+    }
 
     /**
      * Get id
@@ -145,12 +155,12 @@ class Writers
     /**
      * Set pictures
      *
-     * @param integer[] $pictures
+     * @param string $filepath
      * @return Writers
      */
-    public function setPictures($pictures)
+    public function setFilepath($filepath)
     {
-        $this->pictures = $pictures;
+        $this->filepath = $filepath;
 
         return $this;
     }
@@ -158,10 +168,32 @@ class Writers
     /**
      * Get pictures
      *
-     * @return integer[] 
+     * @return string
      */
-    public function getPictures()
+    public function getFilepath()
     {
-        return $this->pictures;
+        return $this->filepath;
+    }
+
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @return Writers
+     */
+
+    public function setFile(File $image = null)
+    {
+        $this->file = $image;
+        return $this;
+
+    }
+
+    /**
+     * @return File
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

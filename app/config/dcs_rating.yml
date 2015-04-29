@@ -3,5 +3,5 @@ dcs_rating:
     base_path_to_redirect: / # when the permalink is not configured
     max_value: 5 # maximum value for the vote (stars displayed)
     model:
-        rating: Library\UserBundle\Entity\Rating
-        vote: Library\UserBundle\Entity\Vote
+        rating: Library\VotesBundle\Entity\Rating
+        vote: Library\VotesBundle\Entity\Vote

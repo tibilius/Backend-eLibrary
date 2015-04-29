@@ -31,7 +31,12 @@ class AppKernel extends Kernel
             new Library\UserBundle\UserBundle(),
             new Library\CommentBundle\LibraryCommentBundle(),
             new Library\VotesBundle\LibraryVotesBundle(),
-            new Acme\TestBundle\AcmeTestBundle(),
+            new Voryx\RESTGeneratorBundle\VoryxRESTGeneratorBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
+            new Fresh\DoctrineEnumBundle\FreshDoctrineEnumBundle(),
+//            new Acme\TestBundle\AcmeTestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

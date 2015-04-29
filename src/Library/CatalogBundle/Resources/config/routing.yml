@@ -3,3 +3,8 @@ book :
   resource:     "CatalogBundle:Book"
   name_prefix:  api_
   method: GET
+
+categories :
+  type: rest
+  resource:     "CatalogBundle:Categories"
+  name_prefix:  api_

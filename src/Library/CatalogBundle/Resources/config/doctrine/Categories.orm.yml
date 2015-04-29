@@ -1,4 +1,4 @@
-library\CatalogBundle\Entity\Categories:
+Library\CatalogBundle\Entity\Categories:
     type: entity
     table: categories
     id:
@@ -23,21 +23,12 @@ library\CatalogBundle\Entity\Categories:
             length: null
             fixed: false
             comment: ''
-    manyToMany:
-        book:
-            targetEntity: Books
-            cascade: {  }
-            mappedBy: null
-            inversedBy: category
-            joinTable:
-                name: books_categories
-                joinColumns:
-                    -
-                        name: category_id
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    -
-                        name: book_id
-                        referencedColumnName: id
-            orderBy: null
+#    manyToMany:
+#        books:
+#            targetEntity: Books
+#            cascade: {  }
+#            mappedBy: categories
+#            inversedBy: null
+#            joinTable: null
+#            orderBy: null
     lifecycleCallbacks: {  }

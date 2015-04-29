@@ -1,7 +1,7 @@
 fos_user:
     db_driver: orm
     firewall_name: admin
-    user_class: library\UserBundle\Entity\User
+    user_class: Library\UserBundle\Entity\User
     from_email:
         address:        noreply@noexist.com
         sender_name:    Mail Service

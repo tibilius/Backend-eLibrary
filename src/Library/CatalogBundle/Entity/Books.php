@@ -1,8 +1,9 @@
 <?php
 
-namespace LibraryCatalogBundle\Entity;
+namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Books
@@ -30,43 +31,70 @@ class Books
     private $isbn;
 
     /**
+     * @var string
+     */
+    private $filepath;
+
+    /**
      * @var integer
      */
     private $pageNumber;
 
     /**
-     * @var integer[]
+     * @var integer
      */
-    private $cases;
+    private $created;
+
+    /**
+     * @var integer
+     */
+    private $updated;
 
     /**
      * @var \Library\CatalogBundle\Entity\Writers
      */
-    private $writter;
+    private $writer;
+
+    /**
+     * @var \Library\CommentBundle\Entity\Thread
+     */
+    private $thread;
+
+    /**
+     * @var \Library\VotesBundle\Entity\Rating
+     */
+    private $rating;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $category;
+    private $categories;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $readlist;
+    private $readlists;
+
+
+    /**
+     * @var File $file
+     */
+    protected $file;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->readlist = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->readlists = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -89,7 +117,7 @@ class Books
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -112,7 +140,7 @@ class Books
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -135,11 +163,34 @@ class Books
     /**
      * Get isbn
      *
-     * @return string 
+     * @return string
      */
     public function getIsbn()
     {
         return $this->isbn;
+    }
+
+    /**
+     * Set file_name
+     *
+     * @param string $fileName
+     * @return Books
+     */
+    public function setFilepath($fileName)
+    {
+        $this->filepath = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * Get file_name
+     *
+     * @return string
+     */
+    public function getFilepath()
+    {
+        return $this->filepath;
     }
 
     /**
@@ -158,7 +209,7 @@ class Books
     /**
      * Get pageNumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getPageNumber()
     {
@@ -166,37 +217,60 @@ class Books
     }
 
     /**
-     * Set cases
+     * Set created
      *
-     * @param integer[] $cases
+     * @param integer $created
      * @return Books
      */
-    public function setCases($cases)
+    public function setCreated($created)
     {
-        $this->cases = $cases;
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get cases
+     * Get created
      *
-     * @return integer[] 
+     * @return integer
      */
-    public function getCases()
+    public function getCreated()
     {
-        return $this->cases;
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param integer $updated
+     * @return Books
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return integer
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**
      * Set writter
      *
-     * @param \Library\CatalogBundle\Entity\Writers $writter
+     * @param \Library\CatalogBundle\Entity\Writers $writer
      * @return Books
      */
-    public function setWritter(\Library\CatalogBundle\Entity\Writers $writter = null)
+    public function setWriter(\Library\CatalogBundle\Entity\Writers $writer = null)
     {
-        $this->writter = $writter;
+        $this->writer = $writer;
 
         return $this;
     }
@@ -206,86 +280,10 @@ class Books
      *
      * @return \Library\CatalogBundle\Entity\Writers
      */
-    public function getWritter()
+    public function getWriter()
     {
-        return $this->writter;
+        return $this->writer;
     }
-
-    /**
-     * Add category
-     *
-     * @param \Library\CatalogBundle\Entity\Categories $category
-     * @return Books
-     */
-    public function addCategory(\Library\CatalogBundle\Entity\Categories $category)
-    {
-        $this->category[] = $category;
-
-        return $this;
-    }
-
-    /**
-     * Remove category
-     *
-     * @param \Library\CatalogBundle\Entity\Categories $category
-     */
-    public function removeCategory(\Library\CatalogBundle\Entity\Categories $category)
-    {
-        $this->category->removeElement($category);
-    }
-
-    /**
-     * Get category
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Add readlist
-     *
-     * @param \Library\CatalogBundle\Entity\Readlists $readlist
-     * @return Books
-     */
-    public function addReadlist(\Library\CatalogBundle\Entity\Readlists $readlist)
-    {
-        $this->readlist[] = $readlist;
-
-        return $this;
-    }
-
-    /**
-     * Remove readlist
-     *
-     * @param \Library\CatalogBundle\Entity\Readlists $readlist
-     */
-    public function removeReadlist(\Library\CatalogBundle\Entity\Readlists $readlist)
-    {
-        $this->readlist->removeElement($readlist);
-    }
-
-    /**
-     * Get readlist
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getReadlist()
-    {
-        return $this->readlist;
-    }
-    /**
-     * @var \Library\CommentBundle\Entity\Thread
-     */
-    private $thread;
-
-    /**
-     * @var \libary\VotesBundle\Entity\Rating
-     */
-    private $rating;
-
 
     /**
      * Set thread
@@ -313,10 +311,10 @@ class Books
     /**
      * Set rating
      *
-     * @param \libary\VotesBundle\Entity\Rating $rating
+     * @param \Library\VotesBundle\Entity\Rating $rating
      * @return Books
      */
-    public function setRating(\libary\VotesBundle\Entity\Rating $rating = null)
+    public function setRating(\Library\VotesBundle\Entity\Rating $rating = null)
     {
         $this->rating = $rating;
 
@@ -326,10 +324,143 @@ class Books
     /**
      * Get rating
      *
-     * @return \libary\VotesBundle\Entity\Rating 
+     * @return \Library\VotesBundle\Entity\Rating
      */
     public function getRating()
     {
         return $this->rating;
     }
+
+
+    /**
+     * Add category
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $categories
+     * @return Books
+     */
+    public function setCategories(\Doctrine\Common\Collections\ArrayCollection $categories)
+    {
+        $add = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach($categories as $category) {
+            if (!$this->categories->exists(function($key, $element)use($category){
+                return $element->getId() == $category->getId();
+            })) {
+                $add->add($category);
+            }
+        }
+        foreach($this->categories as $key => $category) {
+            if (!$categories->exists(function($key, $element)use($category) {
+                return $element->getId() == $category->getId();
+            })) {
+                $this->categories->remove($key);
+            }
+        }
+
+        foreach($add as $category) {
+            $this->categories->add($category);
+        }
+        return $this;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Library\CatalogBundle\Entity\Categories $category
+     * @return Books
+     */
+    public function addCategory(\Library\CatalogBundle\Entity\Categories $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+
+    /**
+     * Remove category
+     *
+     * @param \Library\CatalogBundle\Entity\Categories $category
+     */
+    public function removeCategory(\Library\CatalogBundle\Entity\Categories $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add readlist
+     *
+     * @param \Library\CatalogBundle\Entity\Readlists $readlist
+     * @return Books
+     */
+    public function addReadlist(\Library\CatalogBundle\Entity\Readlists $readlist)
+    {
+        $this->readlists[] = $readlist;
+
+        return $this;
+    }
+
+    /**
+     * Remove readlist
+     *
+     * @param \Library\CatalogBundle\Entity\Readlists $readlist
+     */
+    public function removeReadlist(\Library\CatalogBundle\Entity\Readlists $readlist)
+    {
+        $this->readlists->removeElement($readlist);
+    }
+
+    /**
+     * Get readlist
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReadlists()
+    {
+        return $this->readlists;
+    }
+
+    /**
+     * Set readlist
+     *
+     * @return Books
+     */
+    public function setReadlists($readlists)
+    {
+        $this->readlists = $readlists;
+        return $this;
+    }
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setFile(File $image = null)
+    {
+        $this->file = $image;
+
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updated = time();
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
 }

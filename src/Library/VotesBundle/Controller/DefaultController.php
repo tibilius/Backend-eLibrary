@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryVotesBundle\Controller;
+namespace Library\VotesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

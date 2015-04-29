@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryUserBundle\Controller;
+namespace Library\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
@@ -241,7 +241,7 @@ class UserRestController extends FOSRestController
     public function getUserSaltAction($slug)
     {
 
-        $entity = $this->getDoctrine()->getRepository('library\UserBundle\Entity\User')->findOneBy(
+        $entity = $this->getDoctrine()->getRepository('Library\UserBundle\Entity\User')->findOneBy(
             array('username' => $slug)
         );
 

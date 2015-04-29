@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCatalogBundle;
+namespace Library\CatalogBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

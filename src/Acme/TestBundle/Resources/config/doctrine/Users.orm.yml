@@ -2,12 +2,12 @@ Acme\TestBundle\Entity\Users:
     type: entity
     table: users
     uniqueConstraints:
-        uniq_1483a5e9a0d96fbf:
-            columns:
-                - email_canonical
         uniq_1483a5e992fc23a8:
             columns:
                 - username_canonical
+        uniq_1483a5e9a0d96fbf:
+            columns:
+                - email_canonical
     id:
         id:
             type: integer
@@ -106,24 +106,6 @@ Acme\TestBundle\Entity\Users:
             nullable: true
             comment: ''
             column: credentials_expire_at
-        firstname:
-            type: string
-            nullable: true
-            length: 30
-            fixed: false
-            comment: ''
-        middlename:
-            type: string
-            nullable: true
-            length: 30
-            fixed: false
-            comment: ''
-        lastname:
-            type: string
-            nullable: true
-            length: 30
-            fixed: false
-            comment: ''
         avatar:
             type: string
             nullable: true
@@ -133,7 +115,7 @@ Acme\TestBundle\Entity\Users:
         phone:
             type: string
             nullable: true
-            length: 50
+            length: 255
             fixed: false
             comment: ''
     lifecycleCallbacks: {  }

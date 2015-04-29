@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCatalogBundle\Entity;
+namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,14 +27,14 @@ class Categories
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $book;
+    private $books;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->book = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -101,7 +101,7 @@ class Categories
      */
     public function addBook(\Library\CatalogBundle\Entity\Books $book)
     {
-        $this->book[] = $book;
+        $this->books[] = $book;
 
         return $this;
     }
@@ -113,16 +113,16 @@ class Categories
      */
     public function removeBook(\Library\CatalogBundle\Entity\Books $book)
     {
-        $this->book->removeElement($book);
+        $this->books->removeElement($book);
     }
 
     /**
      * Get book
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getBook()
+    public function getBooks()
     {
-        return $this->book;
+        return $this->books;
     }
 }

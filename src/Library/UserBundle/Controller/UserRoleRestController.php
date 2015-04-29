@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryUserBundle\Controller;
+namespace Library\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;

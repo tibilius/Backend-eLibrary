@@ -1,0 +1,58 @@
+Library\CatalogBundle\Entity\Reviews:
+    type: entity
+    table: reviews
+    indexes:
+        fki_thread_id_fkey:
+            columns:
+                - thread_id
+        fki_book_id_fkey:
+            columns:
+                - book_id
+        IDX_6970EB0FF675F31B:
+            columns:
+                - author_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        text:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    manyToOne:
+        book:
+            targetEntity: Library\CatalogBundle\Entity\Books
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                book_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        author:
+            targetEntity: Library\UserBundle\Entity\User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                author_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        thread:
+            targetEntity: Library\CommentBundle\Entity\Thread
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                thread_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

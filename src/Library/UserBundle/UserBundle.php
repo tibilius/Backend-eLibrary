@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryUserBundle;
+namespace Library\UserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

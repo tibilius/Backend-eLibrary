@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryVotesBundle;
+namespace Library\VotesBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

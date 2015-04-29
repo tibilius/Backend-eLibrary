@@ -33,7 +33,14 @@
         "damianociarla/rating-bundle": "~1.2",
         "friendsofsymfony/comment-bundle": "~2.0",
         "ajgl/doctrine-dbal-pgsql-types": "0.1.*",
-        "doctrine/doctrine-fixtures-bundle": "~2.2"
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "symfony/validator": "~2.6",
+        "symfony/options-resolver": "~2.6",
+        "voryx/restgeneratorbundle": "0.2.*",
+        "vich/uploader-bundle": "0.14.*",
+        "liip/imagine-bundle": "~1.2",
+        "imagine/imagine": "0.6.*",
+        "fresh/doctrine-enum-bundle": "v3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle\Controller;
+namespace Library\CommentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

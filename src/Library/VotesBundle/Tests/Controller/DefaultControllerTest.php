@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryVotesBundle\Tests\Controller;
+namespace Library\VotesBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

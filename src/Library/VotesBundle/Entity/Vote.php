@@ -1,5 +1,5 @@
 <?php
-namespace LibraryVotesBundle\Entity;
+namespace Library\VotesBundle\Entity;
 
 
 use DCS\RatingBundle\Entity\Vote as BaseVote;
@@ -19,13 +19,13 @@ class Vote extends BaseVote
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="library\VotesBundle\Entity\Rating", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="Library\VotesBundle\Entity\Rating", inversedBy="votes")
      * @ORM\JoinColumn(name="rating_id", referencedColumnName="id")
      */
     protected $rating;
 
     /**
-     * @ORM\ManyToOne(targetEntity="library\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Library\UserBundle\Entity\User")
      */
     protected $voter;
 }

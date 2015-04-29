@@ -164,4 +164,32 @@ class Writers
     {
         return $this->pictures;
     }
+    /**
+     * @var string
+     */
+    private $filepath;
+
+
+    /**
+     * Set filepath
+     *
+     * @param string $filepath
+     * @return Writers
+     */
+    public function setFilepath($filepath)
+    {
+        $this->filepath = $filepath;
+
+        return $this;
+    }
+
+    /**
+     * Get filepath
+     *
+     * @return string 
+     */
+    public function getFilepath()
+    {
+        return $this->filepath;
+    }
 }

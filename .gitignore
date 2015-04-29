@@ -9,5 +9,7 @@
 /composer.phar
 /vendor/
 /web/bundles/
+/web/images/
+/web/media/
 .idea*
 *.iml

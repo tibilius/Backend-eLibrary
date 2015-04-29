@@ -1,4 +1,4 @@
-library\CatalogBundle\Entity\Writers:
+Library\CatalogBundle\Entity\Writers:
     type: entity
     table: writers
     id:
@@ -38,8 +38,11 @@ library\CatalogBundle\Entity\Writers:
             length: null
             fixed: false
             comment: ''
-        pictures:
-            type: integer[]
+        filepath:
+            type: string
             nullable: true
             comment: ''
+            length: 256
+            fixed: false
+            column: filepath
     lifecycleCallbacks: {  }

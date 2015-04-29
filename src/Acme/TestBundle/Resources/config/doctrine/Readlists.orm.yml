@@ -27,11 +27,12 @@ Acme\TestBundle\Entity\Readlists:
             length: 6
             fixed: false
             comment: ''
-        inRead:
-            type: boolean
+        type:
+            type: string
             nullable: true
+            length: null
+            fixed: false
             comment: ''
-            column: in_read
     manyToOne:
         user:
             targetEntity: Users

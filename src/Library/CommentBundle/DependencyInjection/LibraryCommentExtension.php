@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle\DependencyInjection;
+namespace Library\CommentBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

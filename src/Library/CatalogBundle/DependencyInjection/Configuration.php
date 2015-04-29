@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCatalogBundle\DependencyInjection;
+namespace Library\CatalogBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

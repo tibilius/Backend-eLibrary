@@ -1,0 +1,4 @@
+Library\CatalogBundle\Categories:
+   getters:
+          name:
+              - NotBlank:

@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle\Entity;
+namespace Library\CommentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\CommentBundle\Entity\Thread as BaseThread;

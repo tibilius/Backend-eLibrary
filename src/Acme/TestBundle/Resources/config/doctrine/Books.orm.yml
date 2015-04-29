@@ -5,12 +5,12 @@ Acme\TestBundle\Entity\Books:
         idx_4a1b2a92679e91b3:
             columns:
                 - writter_id
-        fki_rating_id_fkey:
-            columns:
-                - rating_id
-        fki_thread_id_fkey:
+        idx_4a1b2a92e2904019:
             columns:
                 - thread_id
+        idx_4a1b2a92a32efc6:
+            columns:
+                - rating_id
     id:
         id:
             type: integer
@@ -39,15 +39,27 @@ Acme\TestBundle\Entity\Books:
             length: 64
             fixed: false
             comment: ''
+        filepath:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+            comment: ''
         pageNumber:
             type: integer
             nullable: true
             unsigned: false
             comment: ''
             column: page_number
-        cases:
-            type: integerarray
+        created:
+            type: integer
             nullable: true
+            unsigned: false
+            comment: ''
+        updated:
+            type: integer
+            nullable: true
+            unsigned: false
             comment: ''
     manyToOne:
         writter:
@@ -78,6 +90,13 @@ Acme\TestBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
+        category:
+            targetEntity: Categories
+            cascade: {  }
+            mappedBy: book
+            inversedBy: null
+            joinTable: null
+            orderBy: null
         readlist:
             targetEntity: Readlists
             cascade: {  }
@@ -93,12 +112,5 @@ Acme\TestBundle\Entity\Books:
                     -
                         name: readlist_id
                         referencedColumnName: id
-            orderBy: null
-        category:
-            targetEntity: Categories
-            cascade: {  }
-            mappedBy: book
-            inversedBy: null
-            joinTable: null
             orderBy: null
     lifecycleCallbacks: {  }

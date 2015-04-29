@@ -1,4 +1,4 @@
-library\CatalogBundle\Entity\Books:
+Library\CatalogBundle\Entity\Books:
     type: entity
     table: books
     indexes:
@@ -34,18 +34,33 @@ library\CatalogBundle\Entity\Books:
             fixed: false
             comment: ''
             column: ISBN
+        filepath:
+            type: string
+            nullable: true
+            length: 128
+            fixed: false
+            comment: ''
+            column: filepath
         pageNumber:
             type: integer
             nullable: true
             unsigned: false
             comment: ''
             column: page_number
-        cases:
-            type: integer[]
+        created:
+            type: integer
             nullable: true
+            unsigned: false
             comment: ''
+            column: created
+        updated:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: updated
     manyToOne:
-        writter:
+        writer:
             targetEntity: Writers
             cascade: {  }
             mappedBy: null
@@ -55,7 +70,7 @@ library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
         thread:
-            targetEntity: library\CommentBundle\Entity\Thread
+            targetEntity: Library\CommentBundle\Entity\Thread
             cascade: {  }
             mappedBy: null
             inversedBy: null
@@ -64,7 +79,7 @@ library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
         rating:
-            targetEntity: libary\VotesBundle\Entity\Rating
+            targetEntity: Library\VotesBundle\Entity\Rating
             cascade: {  }
             mappedBy: null
             inversedBy: null
@@ -73,14 +88,23 @@ library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
-        category:
+        categories:
             targetEntity: Categories
             cascade: {  }
-            mappedBy: book
-            inversedBy: null
-            joinTable: null
+            mappedBy: null
+            inversedBy: book
+            joinTable:
+                name: books_categories
+                joinColumns:
+                   -
+                       name: book_id
+                       referencedColumnName: id
+                inverseJoinColumns:
+                   -
+                       name: category_id
+                       referencedColumnName: id
             orderBy: null
-        readlist:
+        readlists:
             targetEntity: Readlists
             cascade: {  }
             mappedBy: null

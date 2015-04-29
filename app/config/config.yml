@@ -10,6 +10,8 @@ imports:
     # Others
     - { resource: dcs_rating.yml }
     - { resource: jms/jms.yml }
+    - { resource: vich_uploader/config.yml }
+    - { resource: liip_imagine/config.yml }
 
 framework:
     #esi:             ~
@@ -65,6 +67,7 @@ doctrine:
         charset:  UTF8
         types:
             integer[]: Ajgl\Doctrine\DBAL\Types\IntegerArrayType
+            readlist_type: Library\CatalogBundle\DBAL\Types\ReadlistType
         mapping_types:
             enum: string
             _int4: integer[]
@@ -80,6 +83,8 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+sensio_framework_extra:
+    request: { converters: true }
 
 
 

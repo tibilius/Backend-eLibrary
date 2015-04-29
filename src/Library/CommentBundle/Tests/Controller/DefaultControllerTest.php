@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryCommentBundle\Tests\Controller;
+namespace Library\CommentBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

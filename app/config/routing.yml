@@ -1,15 +1,37 @@
-acme_test:
-    resource: "@AcmeTestBundle/Resources/config/routing.yml"
-    prefix:   /
+catalog_readlists_api_v1:
+    resource: "@CatalogBundle/Controller/ReadlistsRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
+catalog_writers_api_v1:
+    resource: "@CatalogBundle/Controller/WritersRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
+catalog_reviews_api_v1:
+    resource: "@CatalogBundle/Controller/ReviewsRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
+catalog_books_api_v1:
+    resource: "@CatalogBundle/Controller/BooksRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
+
+catalog_categories_api_v1:
+    resource: "@CatalogBundle/Controller/CategoriesRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
+#acme_test:
+#    resource: "@AcmeTestBundle/Resources/config/routing.yml"
+#    prefix:   /
 
 library_votes:
     resource: "@LibraryVotesBundle/Resources/config/routing.yml"
     prefix:   /
 
-catalog:
-    resource: "@CatalogBundle/Resources/config/routing.yml"
-    type : rest
-    prefix:   /api/v1/
 
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
@@ -31,3 +53,6 @@ fos_comment_api:
     resource: "@FOSCommentBundle/Resources/config/routing.yml"
     prefix: /api
     defaults: { _format: html }
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
