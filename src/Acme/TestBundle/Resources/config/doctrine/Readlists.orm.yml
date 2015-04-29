@@ -1,4 +1,4 @@
-Library\CatalogBundle\Entity\Readlists:
+Acme\TestBundle\Entity\Readlists:
     type: entity
     table: readlists
     indexes:
@@ -33,7 +33,7 @@ Library\CatalogBundle\Entity\Readlists:
             comment: ''
     manyToOne:
         user:
-            targetEntity: Library\UserBundle\Entity\User
+            targetEntity: Users
             cascade: {  }
             mappedBy: null
             inversedBy: null

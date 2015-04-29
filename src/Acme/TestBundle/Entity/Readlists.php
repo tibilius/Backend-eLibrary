@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\CatalogBundle\Entity;
+namespace Acme\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,7 +25,7 @@ class Readlists
     private $color;
 
     /**
-     * @var string
+     * @var readlist_type
      */
     private $type;
 
@@ -106,7 +106,7 @@ class Readlists
     /**
      * Set type
      *
-     * @param string $type
+     * @param readlist_type $type
      * @return Readlists
      */
     public function setType($type)
@@ -119,7 +119,7 @@ class Readlists
     /**
      * Get type
      *
-     * @return string
+     * @return readlist_type 
      */
     public function getType()
     {

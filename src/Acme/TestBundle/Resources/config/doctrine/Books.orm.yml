@@ -1,11 +1,16 @@
-Library\CatalogBundle\Entity\Books:
+Acme\TestBundle\Entity\Books:
     type: entity
-    repositoryClass: Library\CatalogBundle\Repository\BookRepository
     table: books
     indexes:
-        fki_writter_id_fkey:
+        idx_4a1b2a92679e91b3:
             columns:
                 - writter_id
+        idx_4a1b2a92e2904019:
+            columns:
+                - thread_id
+        idx_4a1b2a92a32efc6:
+            columns:
+                - rating_id
     id:
         id:
             type: integer
@@ -34,14 +39,12 @@ Library\CatalogBundle\Entity\Books:
             length: 64
             fixed: false
             comment: ''
-            column: ISBN
         filepath:
             type: string
             nullable: true
             length: 128
             fixed: false
             comment: ''
-            column: filepath
         pageNumber:
             type: integer
             nullable: true
@@ -53,15 +56,13 @@ Library\CatalogBundle\Entity\Books:
             nullable: true
             unsigned: false
             comment: ''
-            column: created
         updated:
             type: integer
             nullable: true
             unsigned: false
             comment: ''
-            column: updated
     manyToOne:
-        writer:
+        writter:
             targetEntity: Writers
             cascade: {  }
             mappedBy: null
@@ -71,7 +72,7 @@ Library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
         thread:
-            targetEntity: Library\CommentBundle\Entity\Thread
+            targetEntity: Thread
             cascade: {  }
             mappedBy: null
             inversedBy: null
@@ -80,7 +81,7 @@ Library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
         rating:
-            targetEntity: Library\VotesBundle\Entity\Rating
+            targetEntity: Rating
             cascade: {  }
             mappedBy: null
             inversedBy: null
@@ -89,23 +90,14 @@ Library\CatalogBundle\Entity\Books:
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
-        categories:
+        category:
             targetEntity: Categories
             cascade: {  }
-            mappedBy: null
-            inversedBy: book
-            joinTable:
-                name: books_categories
-                joinColumns:
-                   -
-                       name: book_id
-                       referencedColumnName: id
-                inverseJoinColumns:
-                   -
-                       name: category_id
-                       referencedColumnName: id
+            mappedBy: book
+            inversedBy: null
+            joinTable: null
             orderBy: null
-        readlists:
+        readlist:
             targetEntity: Readlists
             cascade: {  }
             mappedBy: null

@@ -1,3 +1,0 @@
-rest_library_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: RestLibraryBundle:Default:index }

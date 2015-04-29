@@ -67,7 +67,7 @@ doctrine:
         charset:  UTF8
         types:
             integer[]: Ajgl\Doctrine\DBAL\Types\IntegerArrayType
-            readlist_type: Library\CatalogBundle\DBAL\Types\ReadlistType
+            readlist_type: Library\CatalogBundle\DBAL\Types\ReadlistEnumType
         mapping_types:
             enum: string
             readlist_type: readlist_type

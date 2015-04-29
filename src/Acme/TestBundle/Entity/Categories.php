@@ -1,13 +1,13 @@
 <?php
 
-namespace Library\CatalogBundle\Entity;
+namespace Acme\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Readlists
+ * Categories
  */
-class Readlists
+class Categories
 {
     /**
      * @var integer
@@ -22,17 +22,7 @@ class Readlists
     /**
      * @var string
      */
-    private $color;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var \Acme\TestBundle\Entity\Users
-     */
-    private $user;
+    private $description;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -61,7 +51,7 @@ class Readlists
      * Set name
      *
      * @param string $name
-     * @return Readlists
+     * @return Categories
      */
     public function setName($name)
     {
@@ -81,79 +71,33 @@ class Readlists
     }
 
     /**
-     * Set color
+     * Set description
      *
-     * @param string $color
-     * @return Readlists
+     * @param string $description
+     * @return Categories
      */
-    public function setColor($color)
+    public function setDescription($description)
     {
-        $this->color = $color;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get color
+     * Get description
      *
      * @return string 
      */
-    public function getColor()
+    public function getDescription()
     {
-        return $this->color;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return Readlists
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Acme\TestBundle\Entity\Users $user
-     * @return Readlists
-     */
-    public function setUser(\Acme\TestBundle\Entity\Users $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Acme\TestBundle\Entity\Users 
-     */
-    public function getUser()
-    {
-        return $this->user;
+        return $this->description;
     }
 
     /**
      * Add book
      *
      * @param \Acme\TestBundle\Entity\Books $book
-     * @return Readlists
+     * @return Categories
      */
     public function addBook(\Acme\TestBundle\Entity\Books $book)
     {

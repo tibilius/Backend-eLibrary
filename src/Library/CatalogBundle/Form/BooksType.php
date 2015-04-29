@@ -21,22 +21,37 @@ class BooksType extends AbstractType
             ->add('description', 'text')
             ->add('isbn', 'text')
             ->add('pageNumber', 'integer')
-            ->add('writer','voryx_entity', ['class' => 'Library\CatalogBundle\Entity\Writers', 'required'=>false])
-            ->add('thread', 'voryx_entity', ['class' => 'Library\CommentBundle\Entity\Thread', 'required' => false])
-            ->add('rating', 'voryx_entity', ['class' => 'Library\VotesBundle\Entity\Rating', 'required' => false])
+            ->add('writer', 'entity', [
+                'class'    => 'Library\CatalogBundle\Entity\Writers',
+                'required' => false,
+                'property' => 'id',
+            ])
+            ->add('thread', 'entity', [
+                'class'    => 'Library\CommentBundle\Entity\Thread',
+                'required' => false,
+                'property' => 'id',
+            ])
+            ->add('rating', 'entity', [
+                'class'    => 'Library\VotesBundle\Entity\Rating',
+                'property' => 'id',
+                'required' => false,
+            ])
             ->add(
                 'categories',
                 'entity',
                 [
-                    'class' => 'Library\CatalogBundle\Entity\Categories',
-                    'required'=>false,
-                    'multiple'=>true,
+                    'class'    => 'Library\CatalogBundle\Entity\Categories',
+                    'required' => false,
+                    'multiple' => true,
                     'property' => 'id',
                 ]
             )
-            ->add('readlists', 'voryx_entity', ['class' => 'Library\CatalogBundle\Entity\Readlists', 'required' => false, ])
+            ->add('readlists', 'entity', [
+                'class'    => 'Library\CatalogBundle\Entity\Readlists',
+                'required' => false,
+                'property' => 'id',
+            ])
             ->add('file', 'file');
-        ;
     }
 
 
@@ -46,12 +61,10 @@ class BooksType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Library\CatalogBundle\Entity\Books',
-            'csrf_protection'   => false,
+            'data_class'      => 'Library\CatalogBundle\Entity\Books',
+            'csrf_protection' => false,
         ));
     }
-
-
 
 
     /**

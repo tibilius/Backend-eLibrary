@@ -25,9 +25,9 @@ class Readlists
     private $color;
 
     /**
-     * @var boolean
+     * @var readlist
      */
-    private $inRead;
+    private $type;
 
     /**
      * @var \Acme\TestBundle\Entity\Users
@@ -104,26 +104,26 @@ class Readlists
     }
 
     /**
-     * Set inRead
+     * Set type
      *
-     * @param boolean $inRead
+     * @param \readlist $type
      * @return Readlists
      */
-    public function setInRead($inRead)
+    public function setType(\readlist $type)
     {
-        $this->inRead = $inRead;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get inRead
+     * Get type
      *
-     * @return boolean 
+     * @return \readlist 
      */
-    public function getInRead()
+    public function getType()
     {
-        return $this->inRead;
+        return $this->type;
     }
 
     /**
