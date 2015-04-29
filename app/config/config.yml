@@ -70,6 +70,7 @@ doctrine:
             readlist_type: Library\CatalogBundle\DBAL\Types\ReadlistType
         mapping_types:
             enum: string
+            readlist_type: readlist_type
             _int4: integer[]
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
