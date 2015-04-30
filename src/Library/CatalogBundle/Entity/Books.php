@@ -370,8 +370,8 @@ class Books
      */
     public function addCategory(\Library\CatalogBundle\Entity\Categories $category)
     {
+        $category->addBook($this);
         $this->categories[] = $category;
-
         return $this;
     }
 

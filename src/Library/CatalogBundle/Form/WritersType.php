@@ -15,11 +15,11 @@ class WritersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', 'text')
-            ->add('middleName', 'text')
-            ->add('lastName', 'text')
+            ->add('firstName', 'text', ['required' => true])
+            ->add('middleName', 'text', ['required' => true])
+            ->add('lastName', 'text', ['required' => true])
             ->add('description', 'textarea')
-            ->add('file', 'file');
+            ->add('file', 'file', ['required' => true]);
     }
 
     /**
