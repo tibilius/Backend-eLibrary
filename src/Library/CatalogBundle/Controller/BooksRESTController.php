@@ -74,21 +74,6 @@ class BooksRESTController extends VoryxController
      * Create a Books entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   description = "Creates a new user from the submitted data.",
-     *   statusCodes = {
-     *     201 = "Returned when successful",
-     *     400 = "Returned when the form has errors"
-     *   }
-     * )
-     * @RequestParam(name="name", nullable=false, strict=true, description="Name")
-     * @RequestParam(name="fos_user_registration_form[plainPassword][first]", nullable=false, strict=true, description="Password")
-     * @RequestParam(name="fos_user_registration_form[plainPassword][second]", nullable=false, strict=true, description="Password repeat")
-     * @RequestParam(name="fos_user_registration_form[firstName]", nullable=false, strict=true, description="First Name")
-     * @RequestParam(name="fos_user_registration_form[middleName]", nullable=true, strict=true, description="Middle name.")
-     * @RequestParam(name="fos_user_registration_form[lastName]", nullable=false, strict=true, description="Last name.")
      * @param Request $request
      *
      * @return Response
