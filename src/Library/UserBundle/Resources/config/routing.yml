@@ -13,3 +13,9 @@ service_user_role:
     parent: service_user
     resource: "UserBundle:UserRoleRest"
     name_prefix:  api_
+
+fos_user_register:
+    type: rest
+    resource: "UserBundle:RegisterUserREST"
+    name_prefix:  api_
+    methods: [ POST ]

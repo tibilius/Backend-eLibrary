@@ -95,5 +95,18 @@ class User extends BaseUser
     {
         return $this->avatarImage;
     }
-    
+
+    public function setEmail($email)
+    {
+        $this->setEmailCanonical($email);
+        return parent::setEmail($email);
+    }
+
+    public function setUsername($username)
+    {
+        $this->setUsernameCanonical($username);
+        return parent::setUsername($username);
+    }
+
+
 }

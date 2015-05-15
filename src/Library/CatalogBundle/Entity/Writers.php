@@ -45,6 +45,11 @@ class Writers
      */
     protected $file;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $books;
+
 
     public function __toString() {
         return $this->getId() .':' .$this->getFirstName().$this->getLastName();
@@ -195,5 +200,38 @@ class Writers
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Add book
+     *
+     * @param \Library\CatalogBundle\Entity\Books $book
+     * @return Categories
+     */
+    public function addBook(\Library\CatalogBundle\Entity\Books $book)
+    {
+        $this->books[] = $book;
+
+        return $this;
+    }
+
+    /**
+     * Remove book
+     *
+     * @param \Library\CatalogBundle\Entity\Books $book
+     */
+    public function removeBook(\Library\CatalogBundle\Entity\Books $book)
+    {
+        $this->books->removeElement($book);
+    }
+
+    /**
+     * Get book
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBooks()
+    {
+        return $this->books;
     }
 }

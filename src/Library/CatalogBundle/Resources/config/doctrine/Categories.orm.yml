@@ -1,5 +1,6 @@
 Library\CatalogBundle\Entity\Categories:
     type: entity
+    repositoryClass: Library\CatalogBundle\Repository\CategoryRepository
     table: categories
     id:
         id:

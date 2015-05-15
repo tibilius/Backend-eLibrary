@@ -25,7 +25,7 @@ class ImageShow {
     public function postPersist(LifecycleEventArgs $args) {
         $entity = &$args->getEntity();
         if (method_exists($entity, 'getFile') && $file = $entity->getFile()) {
-            $entity->setFilepath($this->vichStorage->resolveUri($entity, 'file'));
+//            $entity->setFilepath($this->vichStorage->resolveUri($entity, 'file'));
         }
     }
 }

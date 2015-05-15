@@ -40,7 +40,9 @@
         "vich/uploader-bundle": "0.14.*",
         "liip/imagine-bundle": "~1.2",
         "imagine/imagine": "0.6.*",
-        "fresh/doctrine-enum-bundle": "v3.2"
+        "fresh/doctrine-enum-bundle": "v3.2",
+        "hwi/oauth-bundle": "0.4.*@dev"
+
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
