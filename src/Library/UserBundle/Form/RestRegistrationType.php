@@ -1,41 +1,32 @@
 <?php
 namespace Library\UserBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\DependencyInjection\Container;
 
-class RestRegistrationType extends AbstractType
+class RestRegistrationType extends RegistrationFormType
 {
-    protected $routeName;
-    private $class;
 
-    /**
-     * @param Container $container
-     * @param string $class The User class name
-     */
-    public function __construct(Container $container, $class)
-    {
-        $request = $container->get('request');
-        $this->routeName = $request->get('_route');
-        $this->class = $class;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+        $required = ['required' => true];
+        $notRequired = ['required' => false];
         $builder
-            ->add('email', 'email')
-            ->add('username', null)
-            ->add('plainPassword', 'password');
+            ->remove('username')
+            ->add('firstName', 'text', $required)
+            ->add('lastName', 'text', $required)
+            ->add('middleName', 'text', $notRequired);
 
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-
         $resolver->setDefaults(array(
-            'data_class'      => $this->class,
+            'data_class'      => 'Library\UserBundle\Entity\User',
             'intention'       => 'registration',
             'csrf_protection' => false
         ));

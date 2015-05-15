@@ -15,7 +15,7 @@ class UserRoleRestController extends FOSRestController
     /**
      * Return all roles for an user identified by username/email.
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_USER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return an user identified by username/email",
@@ -48,7 +48,7 @@ class UserRoleRestController extends FOSRestController
     /**
      * Create a Role from the submitted data.<br/>
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_ADMIN")
      * @ApiDoc(
      *   resource = true,
      *   description = "Creates a new role from the submitted data.",
@@ -87,7 +87,7 @@ class UserRoleRestController extends FOSRestController
     /**
      * Delete a Role from the submitted data.<br/>
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_ADMIN")
      * @ApiDoc(
      *   resource = true,
      *   description = "Deletes a role from the submitted data.",
