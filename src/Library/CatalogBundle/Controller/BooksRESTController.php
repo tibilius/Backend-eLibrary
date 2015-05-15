@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
 
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
@@ -74,6 +76,7 @@ class BooksRESTController extends VoryxController
      * Create a Books entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     *
      * @param Request $request
      *
      * @return Response
