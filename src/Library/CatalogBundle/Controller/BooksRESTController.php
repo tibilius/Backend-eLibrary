@@ -74,7 +74,6 @@ class BooksRESTController extends VoryxController
      * Create a Books entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
      * @param Request $request
      *
      * @return Response

@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Request\ParamFetcher;
+use Library\UserBundle\Entity\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -16,7 +17,7 @@ class UserRestController extends FOSRestController
     /**
      * Return the overall user list.
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return the overall User List",
@@ -46,7 +47,7 @@ class UserRestController extends FOSRestController
 
     /**
      * Return an user identified by id.
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return an user identified by ID",
@@ -80,6 +81,7 @@ class UserRestController extends FOSRestController
     /**
      * Create a User from the submitted data.<br/>
      *
+     * @Secure(roles="ROLE_SUPER_ADMIN")
      * @ApiDoc(
      *   resource = true,
      *   description = "Creates a new user from the submitted data.",
@@ -117,7 +119,7 @@ class UserRestController extends FOSRestController
         }
         $user->setLastname($paramFetcher->get('lastname'));
         $user->setEnabled(true);
-        $user->addRole('ROLE_API');
+        $user->addRole(User::ROLE_READER);
         $view = View::create();
 
         $errors = $this->get('validator')->validate($user, array('Registration'));
@@ -135,7 +137,7 @@ class UserRestController extends FOSRestController
     /**
      * Update a User from the submitted data by ID.<br/>
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_USER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Updates a user from the submitted data by ID.",
@@ -152,13 +154,18 @@ class UserRestController extends FOSRestController
      * @RequestParam(name="email", nullable=true, strict=true, description="Email.")
      * @RequestParam(name="firstname", nullable=true, strict=true, description="Name.")
      * @RequestParam(name="lastname", nullable=true, strict=true, description="Lastname.")
-     * * @RequestParam(name="middlename", nullable=true, strict=true, description="Middlename.")
+     * @RequestParam(name="middlename", nullable=true, strict=true, description="Middlename.")
      * @RequestParam(name="password", nullable=true, strict=true, description="Plain Password.")
      *
      * @return View
      */
     public function putUserAction(ParamFetcher $paramFetcher)
     {
+
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        if ($currentUser->getId() !=  $paramFetcher->get('id')) {
+            return  View::create(null, 403);
+        }
 
         $entity = $this->getDoctrine()->getRepository('UserBundle:User')->findOneBy(
             array('id' => $paramFetcher->get('id'))
@@ -191,7 +198,7 @@ class UserRestController extends FOSRestController
     /**
      * Delete an user identified by username/email.
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Delete an user identified by username/email",

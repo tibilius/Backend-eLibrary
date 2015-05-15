@@ -7,6 +7,7 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * User
  *
@@ -14,9 +15,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="users")
  * @ORM\Entity()
  */
-
 class User extends BaseUser
 {
+    const ROLE_GUEST = 'ROLE_GUEST';
+    const ROLE_READER = 'ROLE_READER';
+    const ROLE_GROSSMEISER = 'ROLE_GROSSMEISER';
+    const ROLE_EXPERT = 'ROLE_EXPERT';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -45,7 +50,30 @@ class User extends BaseUser
      */
     protected $phone;
 
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $firstName;
 
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $lastName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $middleName;
+
+    /**
+     * Get avatar
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
 
     /**
      * Set avatar
@@ -59,19 +87,6 @@ class User extends BaseUser
 
         return $this;
     }
-
-    /**
-     * Get avatar
-     *
-     * @return string
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
-
-
 
     /**
      *
@@ -99,6 +114,7 @@ class User extends BaseUser
     public function setEmail($email)
     {
         $this->setEmailCanonical($email);
+        $this->setUsername($email);
         return parent::setEmail($email);
     }
 
@@ -106,6 +122,60 @@ class User extends BaseUser
     {
         $this->setUsernameCanonical($username);
         return parent::setUsername($username);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMiddleName()
+    {
+        return $this->middleName;
+    }
+
+    /**
+     * @param mixed $middleName
+     * @return User
+     */
+    public function setMiddleName($middleName)
+    {
+        $this->middleName = $middleName;
+        return $this;
     }
 
 

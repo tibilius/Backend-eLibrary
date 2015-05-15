@@ -17,6 +17,9 @@ class UserType extends AbstractType
         $builder
             ->add('avatar')
             ->add('phone')
+            ->add('firstName')
+            ->add('lastName')
+            ->add('middleName')
         ;
     }
     
@@ -26,7 +29,8 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Library\UserBundle\Entity\User'
+            'data_class' => 'Library\UserBundle\Entity\User',
+            'csrf_protection' => false,
         ));
     }
 

@@ -32,7 +32,7 @@ FOS\UserBundle\Model\User:
     properties:
         email:
             - NotBlank:
-                message: should not be empty
+                message: fos_user.email.blank
                 groups: [ "LibraryRegistration", "LibraryProfile" ]
             - Length:
                 min: 2
@@ -53,45 +53,6 @@ FOS\UserBundle\Model\User:
                 groups: [ "LibraryRegistration", "LibraryProfile", "ResetPassword", "ChangePassword"]
 
 FOS\UserBundle\Model\Group:
-    properties:
-        name:
-            - NotBlank:
-                message: fos_user.group.blank
-                groups: [ "LibraryRegistration" ]
-            - Length:
-                min: 2
-                minMessage: fos_user.group.short
-                max: 255
-                maxMessage: fos_user.group.long
-                groups: [ "LibraryRegistration" ]
-
-FOS\UserBundle\Propel\User:
-    properties:
-        email:
-            - NotBlank:
-                message: fos_user.email.blank
-                groups: [ "LibraryRegistration", "LibraryProfile" ]
-            - Length:
-                min: 2
-                minMessage: fos_user.email.short
-                max: 255
-                maxMessage: fos_user.email.long
-                groups: [ "LibraryRegistration", "ResetPassword" ]
-            - Email:
-                message: fos_user.email.invalid
-                groups: [ "LibraryRegistration", "LibraryProfile" ]
-
-        plainPassword:
-            - NotBlank:
-                message: fos_user.password.blank
-                groups: [ "LibraryRegistration", "ResetPassword", "ChangePassword" ]
-            - Length:
-                min: 2
-                minMessage: fos_user.password.blank
-                groups: [ "LibraryRegistration", "LibraryProfile", "ResetPassword", "ChangePassword"]
-
-
-FOS\UserBundle\Propel\Group:
     properties:
         name:
             - NotBlank:
