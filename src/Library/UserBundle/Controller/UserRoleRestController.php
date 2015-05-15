@@ -15,7 +15,7 @@ class UserRoleRestController extends FOSRestController
     /**
      * Return all roles for an user identified by username/email.
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return an user identified by username/email",

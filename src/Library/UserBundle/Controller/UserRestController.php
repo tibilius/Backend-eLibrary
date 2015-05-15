@@ -17,7 +17,7 @@ class UserRestController extends FOSRestController
     /**
      * Return the overall user list.
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return the overall User List",
@@ -47,7 +47,7 @@ class UserRestController extends FOSRestController
 
     /**
      * Return an user identified by id.
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Return an user identified by ID",
@@ -137,7 +137,7 @@ class UserRestController extends FOSRestController
     /**
      * Update a User from the submitted data by ID.<br/>
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_USER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Updates a user from the submitted data by ID.",
@@ -198,7 +198,7 @@ class UserRestController extends FOSRestController
     /**
      * Delete an user identified by username/email.
      *
-     * @Secure(roles="ROLE_API")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
      *   description = "Delete an user identified by username/email",
