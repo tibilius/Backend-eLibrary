@@ -29,6 +29,12 @@ class Categories
      */
     private $books;
 
+
+    /**
+     * @var integer
+     */
+    private $last;
+
     /**
      * Constructor
      */
@@ -125,4 +131,25 @@ class Categories
     {
         return $this->books;
     }
+
+    /**
+     * @return int
+     */
+    public function getLast()
+    {
+        return $this->last;
+    }
+
+    /**
+     * @param int $last
+     * @return Categories
+     */
+    public function setLast($last)
+    {
+        $this->last = $last;
+        return $this;
+    }
+
+
+
 }

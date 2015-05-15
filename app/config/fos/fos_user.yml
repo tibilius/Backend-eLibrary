@@ -5,3 +5,15 @@ fos_user:
     from_email:
         address:        noreply@noexist.com
         sender_name:    Mail Service
+    registration:
+        confirmation:
+            enabled:    true
+            from_email:
+                address:        info@elib.tld
+                sender_name:    Mail-bot
+        form:
+            type:  fos_user_rest_registration
+            validation_groups:  [LibraryRegistration]
+    profile:
+        form:
+            validation_groups: [LibraryProfile]

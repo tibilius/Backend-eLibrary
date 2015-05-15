@@ -17,13 +17,14 @@ class BooksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
+            ->add('name', 'text', ['required' => true])
             ->add('description', 'text')
             ->add('isbn', 'text')
-            ->add('pageNumber', 'integer')
-            ->add('writer', 'entity', [
+            ->add('pageNumber', 'integer', ['required' => true])
+            ->add('writers', 'entity', [
                 'class'    => 'Library\CatalogBundle\Entity\Writers',
-                'required' => false,
+                'required' => true,
+                'multiple' => true,
                 'property' => 'id',
             ])
             ->add('thread', 'entity', [
@@ -37,9 +38,7 @@ class BooksType extends AbstractType
                 'required' => false,
             ])
             ->add(
-                'categories',
-                'entity',
-                [
+                'categories', 'entity', [
                     'class'    => 'Library\CatalogBundle\Entity\Categories',
                     'required' => false,
                     'multiple' => true,

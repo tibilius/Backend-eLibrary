@@ -1,4 +1,6 @@
 services:
-#    user.example:
-#        class: UserBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    library.registration.form.type:
+        class: Library\UserBundle\Form\RestRegistrationType
+        arguments: ["@service_container", "Library\UserBundle\Entity\User"]
+        tags:
+            - { name: form.type, alias: fos_user_rest_registration }
