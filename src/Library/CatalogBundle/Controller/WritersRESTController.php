@@ -126,6 +126,35 @@ class WritersRESTController extends VoryxController
         }
     }
     /**
+     * Update a Writers entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postUpdateAction(Request $request, Writers $entity)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+//            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new WritersType(), $entity, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    /**
      * Partial Update to a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)

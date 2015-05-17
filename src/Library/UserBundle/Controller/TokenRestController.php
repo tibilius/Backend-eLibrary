@@ -28,7 +28,6 @@ class TokenRestController extends FOSRestController
      *
      * @RequestParam(name="username", nullable=false, strict=true, description="username.")
      * @RequestParam(name="password", nullable=false, strict=true, description="password.")
-     * @RequestParam(name="salt", nullable=false, strict=true, description="salt.")
      *
      * @return View
      */
@@ -47,13 +46,14 @@ class TokenRestController extends FOSRestController
         }
 
         $factory = $this->get('security.encoder_factory');
+        $salt = $user->getSalt();
 
         $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword($paramFetcher->get('password'), $paramFetcher->get('salt'));
+        $password = $encoder->encodePassword($paramFetcher->get('password'), $salt);
         $created = date('c');
         $nonce = substr(md5(uniqid('nonce_', true)), 0, 16);
         $nonceSixtyFour = base64_encode($nonce);
-        $passwordDigest = $encoder->encodePassword($nonce . $created . $password, $paramFetcher->get('salt'));
+        $passwordDigest = $encoder->encodePassword($nonce . $created . $password, $salt);
 
         $token = sprintf(
             'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"',

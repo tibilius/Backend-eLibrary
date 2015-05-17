@@ -20,6 +20,29 @@ class UserRestController extends FOSRestController
      * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *   resource = true,
+     *   description = "Return the current loginned user",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     401 = "Returned when the user is not found"
+     *   }
+     * )
+     *
+     * @return View
+     */
+    public function getWhoamiAction() {
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->container->get('fos_user.user_manager')->findUserBy(['id'=>$currentUser->getId()]);
+        $view = View::create($user, 200);
+        return $view;
+    }
+
+
+    /**
+     * Return the overall user list.
+     *
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @ApiDoc(
+     *   resource = true,
      *   description = "Return the overall User List",
      *   statusCodes = {
      *     200 = "Returned when successful",

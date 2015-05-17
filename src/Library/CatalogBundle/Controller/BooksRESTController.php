@@ -99,6 +99,38 @@ class BooksRESTController extends VoryxController
 
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * Update a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postUpdateAction(Request $request, Books $entity)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            //$request->setMethod('POST'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     /**
      * Update a Books entity.
      *
@@ -128,6 +160,7 @@ class BooksRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Partial Update to a Books entity.
      *
