@@ -14,6 +14,7 @@ parameters:
     secret: 0aa27abafe70bc706ed270aaa4bb39d5de4f9c2d
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
+    front_url: http://146.66.175.147:3000
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1

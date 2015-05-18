@@ -1,46 +1,15 @@
-catalog_readlists_api_v1:
-    resource: "@CatalogBundle/Controller/ReadlistsRESTController.php"
-    type:   rest
-    prefix:   /api/v1
-
-catalog_writers_api_v1:
-    resource: "@CatalogBundle/Controller/WritersRESTController.php"
-    type:   rest
-    prefix:   /api/v1
-
-catalog_reviews_api_v1:
-    resource: "@CatalogBundle/Controller/ReviewsRESTController.php"
-    type:   rest
-    prefix:   /api/v1
-
-catalog_books_api_v1:
-    resource: "@CatalogBundle/Controller/BooksRESTController.php"
-    type:   rest
-    prefix:   /api/v1
-
-
-catalog_categories_api_v1:
-    resource: "@CatalogBundle/Controller/CategoriesRESTController.php"
-    type:   rest
-    prefix:   /api/v1
-
-#acme_test:
-#    resource: "@AcmeTestBundle/Resources/config/routing.yml"
-#    prefix:   /
+catalog:
+    resource: "@CatalogBundle/Resources/config/routing.yml"
+    prefix: /api/v1/
 
 library_votes:
     resource: "@LibraryVotesBundle/Resources/config/routing.yml"
-    prefix:   /
-
+    prefix:   /api/v1/
 
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     type : rest
     prefix:   /api/v1/
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
 
 # app/config/routing.yml
 NelmioApiDocBundle:
@@ -56,3 +25,27 @@ fos_comment_api:
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
+#HWIOAuthBundle routes
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /login
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+facebook_login:
+    pattern: /login/check-facebook
+
+vkontakte_login:
+    pattern: /login/check-vkontakte
+
+logout:
+    path: /logout
+fos_user_oauth_wsse_bridge:
+    pattern: /oauth/bridge
+    defaults: {_controller: UserBundle:OAuthBridgeWSSE:bridge}

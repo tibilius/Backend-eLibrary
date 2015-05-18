@@ -30,6 +30,26 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     */
+    protected $facebook_id;
+
+    /**
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    protected $facebook_access_token;
+
+    /**
+     * @ORM\Column(name="vkontakte_id", type="string", length=255, nullable=true)
+     */
+    protected $vkontakte_id;
+
+    /**
+     * @ORM\Column(name="vkontakte_access_token", type="string", length=255, nullable=true)
+     */
+    protected $vkontakte_access_token;
+
+    /**
      *
      * @Orm\Column(type="string", nullable=true)
      *
@@ -51,12 +71,12 @@ class User extends BaseUser
     protected $phone;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $lastName;
 
@@ -177,6 +197,79 @@ class User extends BaseUser
         $this->middleName = $middleName;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookId()
+    {
+        return $this->facebook_id;
+    }
+
+    /**
+     * @param mixed $facebook_id
+     * @return User
+     */
+    public function setFacebookId($facebook_id)
+    {
+        $this->facebook_id = $facebook_id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebook_access_token;
+    }
+
+    /**
+     * @param mixed $facebook_access_token
+     * @return User
+     */
+    public function setFacebookAccessToken($facebook_access_token)
+    {
+        $this->facebook_access_token = $facebook_access_token;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVkontakteId()
+    {
+        return $this->vkontakte_id;
+    }
+
+    /**
+     * @param mixed $vkontakte_id
+     * @return User;
+     */
+    public function setVkontakteId($vkontakte_id)
+    {
+        $this->vkontakte_id = $vkontakte_id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVkontakteAccessToken()
+    {
+        return $this->vkontakte_access_token;
+    }
+
+    /**
+     * @param mixed $vkontakte_access_token
+     * @return User
+     */
+    public function setVkontakteAccessToken($vkontakte_access_token)
+    {
+        $this->vkontakte_access_token = $vkontakte_access_token;
+    }
+
+
 
 
 }
