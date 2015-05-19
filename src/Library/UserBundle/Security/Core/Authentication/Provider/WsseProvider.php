@@ -19,18 +19,21 @@ class WsseProvider extends Provider implements AuthenticationProviderInterface
         //check whether timestamp is formatted correctly
         if(!$this->isFormattedCorrectly($created))
         {
+            die('3');
             throw new BadCredentialsException('Incorrectly formatted "created" in token.');
         }
 
         //check whether timestamp is not in the future
         if($this->isTokenFromFuture($created))
         {
+            die('2');
             throw new BadCredentialsException('Future token detected.');
         }
 
         //expire timestamp after specified lifetime
         if(strtotime($this->getCurrentTime()) - strtotime($created) > $this->getLifetime())
         {
+            die('1');
             throw new CredentialsExpiredException('Token has expired.');
         }
 
