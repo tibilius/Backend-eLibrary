@@ -4,7 +4,7 @@ security:
         FOS\UserBundle\Model\UserInterface:
             algorithm: sha1
             encode_as_base64: true
-            iterations: 10000
+            iterations: 5000
 
     role_hierarchy:
         ROLE_EXPERT:      [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
@@ -27,14 +27,14 @@ security:
                 pattern:   ^/api/.*
                 anonymous : true
                 wsse:
-                    lifetime: 5000
+                    lifetime: 60
                     provider: fos_userbundle
                     realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
                     profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
                     encoder: #digest algorithm
                         algorithm: sha1
                         encodeHashAsBase64: true
-                        iterations: 10000
+                        iterations: 5000
             secured_area:
                 logout:    true
                 anonymous: true
