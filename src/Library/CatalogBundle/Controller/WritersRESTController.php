@@ -16,12 +16,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
 /**
  * Writers controller.
  * @RouteResource("Writers")
+ * @Security("has_role('ROLE_EXPERT')")
  */
 class WritersRESTController extends VoryxController
 {
@@ -71,6 +72,7 @@ class WritersRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Create a Writers entity.
      *
@@ -97,36 +99,6 @@ class WritersRESTController extends VoryxController
 
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
-    /**
-     * Update a Writers entity.
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $entity
-     *
-     * @return Response
-     */
-    public function putAction(Request $request, Writers $entity)
-    {
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new WritersType(), $entity, array("method" => $request->getMethod()));
-            $this->removeExtraFields($request, $form);
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
-
-                return $entity;
-            }
-
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (\Exception $e) {
-            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
 
     /**
      * Update a Writers entity.
@@ -157,6 +129,7 @@ class WritersRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Partial Update to a Writers entity.
      *
@@ -166,11 +139,42 @@ class WritersRESTController extends VoryxController
      * @param $entity
      *
      * @return Response
-*/
+     */
     public function patchAction(Request $request, Writers $entity)
     {
         return $this->putAction($request, $entity);
     }
+
+    /**
+     * Update a Writers entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putAction(Request $request, Writers $entity)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new WritersType(), $entity, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * Delete a Writers entity.
      *

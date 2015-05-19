@@ -7,8 +7,8 @@ security:
             iterations: 10000
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_ADMIN:       [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
@@ -55,3 +55,6 @@ security:
         - { path: ^/oauth/bridge, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/api/v1/oauths/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/, role: ROLE_READER }

@@ -16,12 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Reviews controller.
  * @RouteResource("Reviews")
+ * @Security("has_role('ROLE_EXPERT')")
  */
 class ReviewsRESTController extends VoryxController
 {
@@ -29,7 +31,7 @@ class ReviewsRESTController extends VoryxController
      * Get a Reviews entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_READER")
      * @return Response
      *
      */
@@ -37,11 +39,12 @@ class ReviewsRESTController extends VoryxController
     {
         return $entity;
     }
+
     /**
      * Get all Reviews entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_READER")
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
@@ -70,6 +73,7 @@ class ReviewsRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Create a Reviews entity.
      *
@@ -87,8 +91,12 @@ class ReviewsRESTController extends VoryxController
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
 
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if (!$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity)) {
+                return FOSView::create(array('errors' => 'unreaded'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -97,6 +105,22 @@ class ReviewsRESTController extends VoryxController
 
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * Partial Update to a Reviews entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function patchAction(Request $request, Reviews $entity)
+    {
+        return $this->putAction($request, $entity);
+    }
+
     /**
      * Update a Reviews entity.
      *
@@ -126,20 +150,7 @@ class ReviewsRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    /**
-     * Partial Update to a Reviews entity.
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $entity
-     *
-     * @return Response
-*/
-    public function patchAction(Request $request, Reviews $entity)
-    {
-        return $this->putAction($request, $entity);
-    }
+
     /**
      * Delete a Reviews entity.
      *

@@ -5,7 +5,6 @@ vich_uploader:
         book_image:
             uri_prefix:         /images/books
             upload_destination: %kernel.root_dir%/../web/images/books
-            inject_on_load:     false
             namer:              vich_uploader.namer_uniqid
             delete_on_update:   true
             delete_on_remove:   true
