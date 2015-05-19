@@ -51,6 +51,7 @@ class WsseProvider extends Provider implements AuthenticationProviderInterface
             ),
             $salt
         );
+        var_dump($digest, $expected);die;
 
         return $digest === $expected;
     }

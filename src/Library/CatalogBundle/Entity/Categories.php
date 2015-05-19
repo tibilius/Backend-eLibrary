@@ -36,6 +36,11 @@ class Categories
     private $last;
 
     /**
+     * @var integer
+     */
+    private $items;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -149,6 +154,26 @@ class Categories
         $this->last = $last;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param int $items
+     * @return Categories
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+        return $this;
+    }
+
+
 
 
 

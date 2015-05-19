@@ -44,8 +44,7 @@ class TokenRestController extends FOSRestController
         }
         $factory = $this->get('security.encoder_factory');
         $encoder = $factory->getEncoder($user);
-        $salt = $user->getSalt();
-        $password = $encoder->encodePassword($paramFetcher->get('password'), $salt);
+        $password = $encoder->encodePassword($paramFetcher->get('password'), $user->getSalt());
         if ($password !== $user->getPassword()) {
             $view->setStatusCode(404)->setData("Incorrect credentials");
             return $view;
