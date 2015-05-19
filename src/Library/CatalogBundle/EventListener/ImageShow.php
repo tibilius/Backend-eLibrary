@@ -15,10 +15,9 @@ class ImageShow {
         $this->vichStorage = $storage;
     }
 
-    public function postLoad(LifecycleEventArgs $args){
-        $entity = &$args->getEntity();
-        if (method_exists($entity, 'getFile') && $file = $entity->getFile()) {
-            $entity->setFilepath($this->vichStorage->resolveUri($entity, 'file'));
+    public function postLoad(LifecycleEventArgs $args) {
+        if (method_exists($args->getEntity(), 'getFile') && $file = $args->getEntity()->getFile()) {
+            $args->getEntity()->setFilepath($this->vichStorage->resolveUri($args->getEntity(), 'file'));
         }
     }
 
