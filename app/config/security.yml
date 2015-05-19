@@ -6,10 +6,10 @@ security:
             encode_as_base64: true
             iterations: 10000
 
-#    role_hierarchy:
-#        ROLE_EXPERT:      [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
-#        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
-#        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_ADMIN]
+    role_hierarchy:
+        ROLE_EXPERT:      [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
+        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
@@ -55,7 +55,8 @@ security:
         - { path: ^/connect, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth/bridge, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/api/v1/oauths/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/registers, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/api/v1/, role: ROLE_READER }

@@ -39,7 +39,7 @@ class TokenRestController extends FOSRestController
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserByUsername($paramFetcher->get('username'));
         if (!$user instanceof User) {
-            $view->setStatusCode(404)->setData("Data received succesfully but with errors.");
+            $view->setStatusCode(404)->setData("User not found");
             return $view;
         }
         $factory = $this->get('security.encoder_factory');
@@ -47,7 +47,7 @@ class TokenRestController extends FOSRestController
         $salt = $user->getSalt();
         $password = $encoder->encodePassword($paramFetcher->get('password'), $salt);
         if ($password !== $user->getPassword()) {
-            $view->setStatusCode(404)->setData("Data received succesfully but with errors.");
+            $view->setStatusCode(404)->setData("Incorrect credentials");
             return $view;
         }
         list($data, $token) = $this->getWSSEHeader($user);
@@ -84,7 +84,7 @@ class TokenRestController extends FOSRestController
             $paramFetcher->get('type') . '_access_token' => $paramFetcher->get('token'),
         ]);
         if (!$user instanceof User) {
-            $view->setStatusCode(404)->setData("Data received succesfully but with errors.");
+            $view->setStatusCode(404)->setData("User not found");
             return $view;
         }
         $password = $user->getPassword();
