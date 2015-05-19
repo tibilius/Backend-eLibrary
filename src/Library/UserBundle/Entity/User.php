@@ -117,8 +117,6 @@ class User extends BaseUser
         $this->avatarImage = $image;
 
         if ($image) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
             $this->updated = new \DateTime('now');
         }
     }
@@ -133,6 +131,7 @@ class User extends BaseUser
 
     public function setEmail($email)
     {
+        $email = strtolower($email);
         $this->setEmailCanonical($email);
         $this->setUsername($email);
         return parent::setEmail($email);
