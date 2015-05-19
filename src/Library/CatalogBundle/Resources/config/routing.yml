@@ -1,10 +1,19 @@
-book :
-  type: rest
-  resource:     "CatalogBundle:Book"
-  name_prefix:  api_
-  method: GET
+catalog_books_api_v1:
+    type: rest
+    resource: "@CatalogBundle/Controller/BooksRESTController.php"
 
-categories :
-  type: rest
-  resource:     "CatalogBundle:Categories"
-  name_prefix:  api_
+catalog_categories_api_v1:
+    type: rest
+    resource: "@CatalogBundle/Controller/CategoriesRESTController.php"
+
+catalog_writers_api_v1:
+    type: rest
+    resource: "@CatalogBundle/Controller/WritersRESTController.php"
+
+catalog_readlists_api_v1:
+    type: rest
+    resource: "@CatalogBundle/Controller/ReadlistsRESTController.php"
+
+catalog_reviews_api_v1:
+    type: rest
+    resource: "@CatalogBundle/Controller/ReviewsRESTController.php"

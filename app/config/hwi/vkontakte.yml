@@ -1,6 +1,0 @@
-hwi_oauth:
-    resource_owners:
-        vk:
-            type:                vkontakte
-            client_id:           4899856
-            client_secret:       5Sqwi71uVM99Q3TPGfBt

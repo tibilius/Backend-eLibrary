@@ -37,6 +37,7 @@ class WritersRESTController extends VoryxController
     {
         return $entity;
     }
+
     /**
      * Get all Writers entities.
      *
@@ -125,6 +126,8 @@ class WritersRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
     /**
      * Update a Writers entity.
      *

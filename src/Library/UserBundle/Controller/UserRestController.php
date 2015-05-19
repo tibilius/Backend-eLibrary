@@ -272,7 +272,7 @@ class UserRestController extends FOSRestController
     {
 
         $entity = $this->getDoctrine()->getRepository('Library\UserBundle\Entity\User')->findOneBy(
-            array('username' => $slug)
+            ['email_canonical' => strtolower($slug)]
         );
 
         if (!$entity) {

@@ -15,3 +15,11 @@ FOS\UserBundle\Model\User:
         exclude: true
       usernameCanonical:
         exclude: true
+      facebook_id:
+        exclude: true
+      vkontacte_id:
+        exclude: true
+      vkontacte_access_token:
+        exclude: true
+      facebook_access_token:
+        exclude: true

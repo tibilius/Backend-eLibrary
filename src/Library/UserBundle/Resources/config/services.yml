@@ -4,3 +4,8 @@ services:
         arguments: ["Library\UserBundle\Entity\User"]
         tags:
             - { name: form.type, alias: fos_user_rest_registration }
+
+    library_user_provider:
+        class: Library\UserBundle\Security\Core\User\FOSUBUserProvider
+        #this is the place where the properties are passed to the UserProvider - see config.yml
+        arguments: [@fos_user.user_manager, {facebook: facebook_id, vkontakte: vkontakte_id}]

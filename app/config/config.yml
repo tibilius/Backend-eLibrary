@@ -12,6 +12,7 @@ imports:
     - { resource: jms/jms.yml }
     - { resource: vich_uploader/config.yml }
     - { resource: liip_imagine/config.yml }
+    - { resource: hwi/config.yml }
 
 framework:
     #esi:             ~
