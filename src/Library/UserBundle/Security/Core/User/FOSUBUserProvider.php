@@ -63,7 +63,7 @@ class FOSUBUserProvider extends BaseClass
             $user->setEmail($response->getEmail());
             $user->setPassword($username);
             $user->setEnabled(true);
-            list($firstName, $lastName, $middleName) = explode(' ', $response->getRealName(), 3) + [ 2 => ''];
+            list($firstName, $lastName, $middleName) = explode(' ', $response->getRealName(), 3); + [ 2 => ''];
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setMiddleName($middleName);
