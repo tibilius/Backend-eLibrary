@@ -1,6 +1,7 @@
 Library\CatalogBundle\Entity\Readlists:
     type: entity
     table: readlists
+    repositoryClass: Library\CatalogBundle\Repository\ReadlistsRepository
     indexes:
         idx_d0f73387a76ed395:
             columns:

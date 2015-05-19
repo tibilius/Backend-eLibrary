@@ -19,16 +19,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Categories controller.
  * @RouteResource("Categories")
+ * @Security("has_role('ROLE_EXPERT')")
  */
 class CategoriesRESTController extends VoryxController
 {
     /**
      * Get a Categories entity
-     *
+     * @Secure(roles="ROLE_READER")
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @return Response
@@ -43,7 +46,7 @@ class CategoriesRESTController extends VoryxController
      * Get all Categories entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_READER")
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response

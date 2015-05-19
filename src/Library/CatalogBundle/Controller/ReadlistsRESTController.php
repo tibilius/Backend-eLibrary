@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
+use Library\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -89,6 +90,7 @@ class ReadlistsRESTController extends VoryxController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setUser($this->getUser());
             $em->persist($entity);
             $em->flush();
 
@@ -109,6 +111,11 @@ class ReadlistsRESTController extends VoryxController
      */
     public function putAction(Request $request, Readlists $entity)
     {
+        $canEdit = $this->getUser()->hasRole(User::ROLE_SUPER_ADMIN)
+            || $entity->getUser()->getId() == $this->getUser()->getId();
+        if (!$canEdit) {
+            return FOSView::create(null, 403);
+        }
         try {
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
@@ -153,6 +160,11 @@ class ReadlistsRESTController extends VoryxController
      */
     public function deleteAction(Request $request, Readlists $entity)
     {
+        $canEdit = $this->getUser()->hasRole(User::ROLE_SUPER_ADMIN)
+            || $entity->getUser()->getId() == $this->getUser()->getId();
+        if (!$canEdit) {
+            return FOSView::create(null, 403);
+        }
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);

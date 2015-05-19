@@ -18,18 +18,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Books controller.
  * @RouteResource("Books")
+ * @Security("has_role('ROLE_EXPERT')")
  */
 class BooksRESTController extends VoryxController
 {
     /**
      * Get a Books entity
-     *
+     * @Secure(roles="ROLE_READER")
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @return Response
@@ -39,13 +41,14 @@ class BooksRESTController extends VoryxController
     {
         return $entity;
     }
+
     /**
      * Get all Books entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
      *
      * @param ParamFetcherInterface $paramFetcher
-     *
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
@@ -72,6 +75,7 @@ class BooksRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Create a Books entity.
      *

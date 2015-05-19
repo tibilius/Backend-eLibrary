@@ -8,6 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReviewsType extends AbstractType
 {
+    protected $maxSymbols;
+
+    public function __construct($maxSymbols)
+    {
+        $this->maxSymbols = $maxSymbols;
+        return $this;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,10 +23,17 @@ class ReviewsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text')
-            ->add('book')
-            ->add('author')
-            ->add('thread')
+            ->add('text','textarea', ['max_length' => $this->maxSymbols, 'required' => true])
+            ->add('book', 'entity', [
+                'data_class' => 'Library\CatalogBundle\Entity\Books',
+                'property' => 'id',
+                'required' => false,
+            ])
+            ->add('thread', 'entity', [
+                'data_class' => 'Library\VotesBundle\Entity\Thread',
+                'property' => 'id',
+                'required' => false,
+            ])
         ;
     }
     
