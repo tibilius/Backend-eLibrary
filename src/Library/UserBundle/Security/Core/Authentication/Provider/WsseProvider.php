@@ -37,11 +37,11 @@ class WsseProvider extends Provider implements AuthenticationProviderInterface
         /// protection only by lifetime
         //validate that nonce is unique within specified lifetime
         //if it is not, this could be a replay attack
-        if($this->getNonceCache()->contains($nonce))
+        if($this->getNonceCache()->contains($nonce . $secret))
         {
             throw new NonceExpiredException('Previously used nonce detected.');
         }
-        $this->getNonceCache()->save($nonce, strtotime($this->getCurrentTime()), $this->getLifetime());
+        $this->getNonceCache()->save($nonce . $secret, strtotime($this->getCurrentTime()), $this->getLifetime());
         //validate secret
         $expected = $this->getEncoder()->encodePassword(
             sprintf(

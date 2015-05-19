@@ -101,8 +101,8 @@ class TokenRestController extends FOSRestController
 
     protected function getWSSEHeader(User $user)
     {
-        $created = date('c');
-        $nonce = substr(md5(uniqid('nonce_', true)), 0, 16);
+        $created = '2015-05-20T02:34:35+03:00';date('c');
+        $nonce = '2015-05-20T02:34';substr(md5(uniqid('nonce_', true)), 0, 16);
         $nonceSixtyFour = base64_encode($nonce);
         $factory = $this->get('security.encoder_factory');
         $encoder = $factory->getEncoder($user);
