@@ -4,6 +4,7 @@ namespace Library\UserBundle\Security\Core\Authentication\Provider;
 
 use Escape\WSSEAuthenticationBundle\Security\Core\Authentication\Provider\Provider;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 
