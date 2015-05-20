@@ -87,16 +87,19 @@ class ReviewsRESTController extends VoryxController
     public function postAction(Request $request)
     {
         $entity = new Reviews();
-        $form = $this->createForm(new ReviewsType(), $entity, array("method" => $request->getMethod()));
+        $form = $this->createForm(
+            new ReviewsType($this->container->getParameter('max_revision_symbols')),
+            $entity, array("method" => $request->getMethod())
+        );
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
 
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if (!$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity)) {
-                return FOSView::create(array('errors' => 'unreaded'), Codes::HTTP_INTERNAL_SERVER_ERROR);
-            }
+//            if ($entity->getBook() && !$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity->getBook())) {
+//                return FOSView::create(array('errors' => 'unreaded'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+//            }
             $em->persist($entity);
             $em->flush();
 
@@ -136,7 +139,10 @@ class ReviewsRESTController extends VoryxController
         try {
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new ReviewsType(), $entity, array("method" => $request->getMethod()));
+            $form = $this->createForm(
+                new ReviewsType($this->container->getParameter('max_revision_symbols')),
+                $entity, array("method" => $request->getMethod())
+            );
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {

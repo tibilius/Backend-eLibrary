@@ -23,14 +23,15 @@ class ReviewsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('title','text', ['required' => true])
             ->add('text','textarea', ['max_length' => $this->maxSymbols, 'required' => true])
             ->add('book', 'entity', [
-                'data_class' => 'Library\CatalogBundle\Entity\Books',
+                'class' => 'Library\CatalogBundle\Entity\Books',
                 'property' => 'id',
                 'required' => false,
             ])
             ->add('thread', 'entity', [
-                'data_class' => 'Library\VotesBundle\Entity\Thread',
+                'class' => 'Library\CommentBundle\Entity\Thread',
                 'property' => 'id',
                 'required' => false,
             ])

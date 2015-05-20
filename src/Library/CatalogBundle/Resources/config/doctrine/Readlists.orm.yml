@@ -29,7 +29,7 @@ Library\CatalogBundle\Entity\Readlists:
             fixed: false
             comment: ''
         type:
-            type: readlist_type
+            type: Library\CatalogBundle\DBAL\Types\ReadListEnumType
             nullable: true
             comment: ''
     manyToOne:
@@ -46,8 +46,8 @@ Library\CatalogBundle\Entity\Readlists:
         book:
             targetEntity: Books
             cascade: {  }
-            mappedBy: readlist
-            inversedBy: null
+            mappedBy: null
+            inversedBy: readlists
             joinTable: null
             orderBy: null
     lifecycleCallbacks: {  }
