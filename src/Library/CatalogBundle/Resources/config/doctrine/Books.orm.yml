@@ -48,6 +48,12 @@ Library\CatalogBundle\Entity\Books:
             type: datetime
         updated:
             type: datetime
+    oneToMany:
+        reviews:
+            targetEntity: Reviews
+            mappedBy: book
+            joinColumn:
+                name: book_id
     manyToOne:
         thread:
             targetEntity: Library\CommentBundle\Entity\Thread

@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Fresh\DoctrineEnumBundle\FreshDoctrineEnumBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
 //            new Acme\TestBundle\AcmeTestBundle(),
         );
 

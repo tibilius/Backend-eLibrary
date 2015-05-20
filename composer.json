@@ -41,7 +41,9 @@
         "liip/imagine-bundle": "~1.2",
         "imagine/imagine": "0.6.*",
         "fresh/doctrine-enum-bundle": "v3.2",
-        "hwi/oauth-bundle": "0.4.*@dev"
+        "hwi/oauth-bundle": "0.4.*@dev",
+        "doctrine/migrations": "1.0.*@dev",
+        "doctrine/doctrine-migrations-bundle": "~1.0"
 
     },
     "require-dev": {

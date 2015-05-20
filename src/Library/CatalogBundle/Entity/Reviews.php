@@ -12,6 +12,11 @@ class Reviews
     /**
      * @var string
      */
+    private $title;
+
+    /**
+     * @var string
+     */
     private $text;
 
     /**
@@ -131,6 +136,26 @@ class Reviews
         $this->book = $book;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return Reviews
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+
 
 
 

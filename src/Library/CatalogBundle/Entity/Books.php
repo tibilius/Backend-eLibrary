@@ -66,6 +66,10 @@ class Books
      * @var \Doctrine\Common\Collections\Collection
      */
     private $readlists;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reviews;
 
     /**
      * Constructor
@@ -75,6 +79,7 @@ class Books
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->readlists = new \Doctrine\Common\Collections\ArrayCollection();
         $this->writers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -285,12 +290,78 @@ class Books
                 $this->writers->remove($key);
             }
         }
-
         foreach ($add as $writer) {
             $this->writers->add($writer);
         }
         return $this;
     }
+
+    /**
+     * Add writer
+     *
+     * @param \Library\CatalogBundle\Entity\Reviews $review
+     * @return Books
+     */
+    public function addReview(\Library\CatalogBundle\Entity\Reviews $review)
+    {
+        $review->setBook($this);
+        $this->reviews[] = $review;
+        return $this;
+    }
+
+    /**
+     * Remove writer
+     *
+     * @param \Library\CatalogBundle\Entity\Reviews $review
+     * @return Books
+     */
+    public function removeReview(\Library\CatalogBundle\Entity\Reviews $review)
+    {
+        $this->reviews->removeElement($review);
+        return $this;
+    }
+
+    /**
+     * Get writer
+     *
+     * @return \Library\CatalogBundle\Entity\Reviews
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * Set writer
+     *
+     * @param \Doctrine\Common\Collections\Collection $reviews
+     * @return Books
+     */
+    public function setReviews(\Doctrine\Common\Collections\Collection $reviews = null)
+    {
+        $add = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach ($reviews as $review) {
+            if (!$this->reviews->exists(function ($key, $element) use ($review) {
+                return $element->getId() == $review->getId();
+            })
+            ) {
+                $add->add($review);
+            }
+        }
+        foreach ($this->categories as $key => $review) {
+            if (!$reviews->exists(function ($key, $element) use ($review) {
+                return $element->getId() == $review->getId();
+            })
+            ) {
+                $this->reviews->remove($key);
+            }
+        }
+        foreach ($add as $review) {
+            $this->reviews->add($review);
+        }
+        return $this;
+    }
+
 
     /**
      * Get thread
