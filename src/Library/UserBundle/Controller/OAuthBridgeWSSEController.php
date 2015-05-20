@@ -15,10 +15,13 @@ class OAuthBridgeWSSEController extends Controller
          * @var $user \Library\UserBundle\Entity\User
          */
         $user = $this->getUser();
-        list($type, $token) = $user->getFacebookAccessToken()
-            ? ['facebook', $user->getFacebookAccessToken()]
-            : ['vkontakte', $user->getVkontakteAccessToken()];
-        $route = $this->container->getParameter('front_url') . '/auth?' . http_build_query(compact('type', 'token'));
+        if (!$user->getFacebookAccessToken() && !$user->getFacebookAccessToken()) {
+            $route = $this->container->getParameter('front_url') . '/login';
+        }
+        else{
+            $params = ['username' => $user->getUsername(), 'password' => $user->getPassword()];
+            $route = $this->container->getParameter('front_url') . '/auth?' . http_build_query($params);
+        }
         return new RedirectResponse($route);
     }
 
