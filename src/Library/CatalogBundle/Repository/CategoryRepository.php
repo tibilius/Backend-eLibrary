@@ -10,6 +10,9 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
     {
 
         $result = parent::findBy($criteria, $orderBy, $limit, $offset);
+        if (!count($result)) {
+            return $result;
+        }
         $linked = [];
         foreach ($result as &$entity) {
             $linked[$entity->getId()] = $entity;
