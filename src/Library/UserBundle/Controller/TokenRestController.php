@@ -114,9 +114,10 @@ class TokenRestController extends FOSRestController
      */
     public function getTimeAction(ParamFetcher $paramFetcher)
     {
+
         return View::create([
             'time' => date('c'),
-            'token_lifetime' => $this->container->get('escape_wsse_authentication.provider')->getLifetime(),
+            'token_lifetime' => $this->container->getParameter('token_lifetime'),
         ], 200);
     }
 

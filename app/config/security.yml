@@ -27,7 +27,7 @@ security:
                 pattern:   ^/api/.*
                 anonymous : true
                 wsse:
-                    lifetime: 300
+                    lifetime: %token_lifetime%
                     provider: fos_userbundle
                     realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
                     profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
@@ -60,5 +60,6 @@ security:
         - { path: ^/api/v1/users/.*/salt, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/registers, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/time, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/api/v1/, role: ROLE_READER }
