@@ -15,7 +15,7 @@ class OAuthBridgeWSSEController extends Controller
          * @var $user \Library\UserBundle\Entity\User
          */
         $user = $this->getUser();
-        if (!$user->getFacebookAccessToken() && !$user->getFacebookAccessToken()) {
+        if (!$user->getFacebookAccessToken() && !$user->getVkontakteAccessToken()) {
             $route = $this->container->getParameter('front_url') . '/login';
         }
         else{

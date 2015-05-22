@@ -98,6 +98,27 @@ class TokenRestController extends FOSRestController
         return $view;
     }
 
+    /**
+     * Create a Token from the submitted data.<br/>
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Creates a new token from the submitted data.",
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @param ParamFetcher $paramFetcher Paramfetcher
+     * @return View
+     */
+    public function getTimeAction(ParamFetcher $paramFetcher)
+    {
+        return View::create([
+            'time' => date('c'),
+            'token_lifetime' => $this->container->get('escape_wsse_authentication.provider')->getLifetime(),
+        ], 200);
+    }
 
     protected function getWSSEHeader(User $user)
     {

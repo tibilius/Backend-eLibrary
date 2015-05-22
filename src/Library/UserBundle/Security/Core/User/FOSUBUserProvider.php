@@ -15,6 +15,7 @@ class FOSUBUserProvider extends BaseClass
      */
     public function connect(UserInterface $user, UserResponseInterface $response)
     {
+        $this->userManager->reloadUser();
         $property = $this->getProperty($response);
         $username = $response->getUsername();
 

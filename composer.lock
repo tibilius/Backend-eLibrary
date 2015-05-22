@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e9c6e33f743eb43be85afdffcdee78c3",
+    "hash": "a93acd1ebc89131598b7ea5ff309208b",
     "packages": [
         {
             "name": "ajgl/doctrine-dbal-pgsql-types",
