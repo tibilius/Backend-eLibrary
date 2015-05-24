@@ -10,15 +10,16 @@ use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 
 class ReadlistsRepository extends \Doctrine\ORM\EntityRepository
 {
+
     public function isReaded(User $user, Books $book)
     {
         $query = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('r')
             ->from('CatalogBundle:Readlists', 'r')
-            ->innerJoin('r.book', 'book')
+            ->innerJoin('r.books', 'books')
             ->innerJoin('r.user', 'u')
-            ->where('book.id = :bid AND u.id = :uid AND r.type = :type')
+            ->where('books.id = :bid AND u.id = :uid AND r.type = :type')
             ->setParameter('type', ReadlistEnumType::READED)
             ->setParameter('bid', $book->getId())
             ->setParameter('uid', $user->getId());
@@ -33,7 +34,7 @@ class ReadlistsRepository extends \Doctrine\ORM\EntityRepository
         return (bool)$this->findBy([
             'user' => $user,
             'type' => ReadlistEnumType::PAUSED,
-            'book' => $book,
+            'books' => $book,
         ]);
     }
 
@@ -42,7 +43,7 @@ class ReadlistsRepository extends \Doctrine\ORM\EntityRepository
         return (bool)$this->findBy([
             'user' => $user,
             'type' => ReadlistEnumType::IN_READ,
-            'book' => $book,
+            'books' => $book,
         ]);
     }
 }

@@ -2,10 +2,6 @@ catalog:
     resource: "@CatalogBundle/Resources/config/routing.yml"
     prefix: /api/v1/
 
-library_votes:
-    resource: "@LibraryVotesBundle/Resources/config/routing.yml"
-    prefix:   /api/v1/
-
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     type : rest
@@ -15,10 +11,6 @@ user:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
-
-#_profiler:
-#    resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
-#    prefix:   /_profiler
 
 
 fos_comment_api:

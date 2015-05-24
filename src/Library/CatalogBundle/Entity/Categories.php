@@ -105,7 +105,7 @@ class Categories
     }
 
     /**
-     * Add book
+     * Add books
      *
      * @param \Library\CatalogBundle\Entity\Books $book
      * @return Categories
@@ -118,7 +118,7 @@ class Categories
     }
 
     /**
-     * Remove book
+     * Remove books
      *
      * @param \Library\CatalogBundle\Entity\Books $book
      */
@@ -128,7 +128,7 @@ class Categories
     }
 
     /**
-     * Get book
+     * Get books
      *
      * @return \Doctrine\Common\Collections\Collection
      */

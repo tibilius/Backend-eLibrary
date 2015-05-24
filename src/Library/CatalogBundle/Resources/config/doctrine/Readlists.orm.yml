@@ -1,7 +1,7 @@
 Library\CatalogBundle\Entity\Readlists:
     type: entity
     table: readlists
-    repositoryClass: Library\CatalogBundle\Repository\ReadlistsRepository
+#    repositoryClass: Library\CatalogBundle\Repository\ReadlistsRepository
     indexes:
         idx_d0f73387a76ed395:
             columns:
@@ -29,7 +29,7 @@ Library\CatalogBundle\Entity\Readlists:
             fixed: false
             comment: ''
         type:
-            type: Library\CatalogBundle\DBAL\Types\ReadListEnumType
+            type: readlist_type
             nullable: true
             comment: ''
     manyToOne:
@@ -43,11 +43,19 @@ Library\CatalogBundle\Entity\Readlists:
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
-        book:
+        books:
             targetEntity: Books
             cascade: {  }
             mappedBy: null
             inversedBy: readlists
-            joinTable: null
+            joinTable:
+                name: readlists_books
+                joinColumns:
+                    readlist_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    book_id:
+                        referencedColumnName: id
             orderBy: null
+            fetch: EXTRA_LAZY
     lifecycleCallbacks: {  }

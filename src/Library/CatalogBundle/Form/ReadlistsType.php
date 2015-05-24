@@ -19,12 +19,9 @@ class ReadlistsType extends AbstractType
             ->add('name', 'text')
             ->add('color', 'text')
             ->add('type', 'choice', ['choices' => ReadlistEnumType::getChoices()])
-            ->add('user', 'entity', [
-                'data_class' => 'Library\UserBundle\Entity\User',
-                'property' => 'id',
-            ])
-            ->add('book', 'entity', [
-                'data_class' => 'Library\CatalogBundle\Entity\Books',
+            ->add('books', 'entity', [
+                'class' => 'Library\CatalogBundle\Entity\Books',
+                'required' => false,
                 'multiple' => true,
                 'property' => 'id',
             ]);
@@ -36,7 +33,8 @@ class ReadlistsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Library\CatalogBundle\Entity\Readlists'
+            'data_class' => 'Library\CatalogBundle\Entity\Readlists',
+            'csrf_protection' => false,
         ));
     }
 
@@ -45,6 +43,6 @@ class ReadlistsType extends AbstractType
      */
     public function getName()
     {
-        return 'library_catalogbundle_readlists';
+        return 'library_catalog_readlists';
     }
 }

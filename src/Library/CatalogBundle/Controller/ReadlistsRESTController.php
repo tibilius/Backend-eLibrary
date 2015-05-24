@@ -17,12 +17,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
 /**
  * Readlists controller.
  * @RouteResource("Readlists")
+ * @Security("has_role('ROLE_READER')")
  */
 class ReadlistsRESTController extends VoryxController
 {

@@ -11,6 +11,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
+use Library\VotesBundle\Entity\Rating;
+use Library\VotesBundle\Entity\Vote;
+use Library\VotesBundle\Form\VoteType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -25,7 +28,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Books controller.
  * @RouteResource("Books")
- * @Security("has_role('ROLE_EXPERT')")
  */
 class BooksRESTController extends VoryxController
 {
@@ -80,7 +82,7 @@ class BooksRESTController extends VoryxController
      * Create a Books entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      *
      * @return Response
@@ -108,7 +110,7 @@ class BooksRESTController extends VoryxController
      * Update a Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -134,12 +136,72 @@ class BooksRESTController extends VoryxController
         }
     }
 
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postVoteAction(Request $request, Books $entity) {
+        $vote = new \Library\VotesBundle\Entity\Vote();
+        $em = $this->getDoctrine()->getManager();
+        if(! $rate = $entity->getRating()) {
+            $rate = new Rating();
+            $entity->setRating($rate);
+            $em->persist($rate);
+        }
+        $voteManager = $this->container->get('dcs_rating.manager.vote');
+        if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
+            return FOSView::create(array('errors' => ['already voted']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $vote->setRating($rate);
+        $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+        $this->removeExtraFields($request, $form);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $vote->setVoter($this->getUser());
+            $voteManager->saveVote($vote);
+            return $entity;
+        }
+        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putVoteAction(Request $request, Books $entity, Vote $vote) {
+        $em = $this->getDoctrine()->getManager();
+        if(! $rate = $entity->getRating()) {
+            return FOSView::create(null, 404);
+        }
+        $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+        $this->removeExtraFields($request, $form);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $voteManager = $this->container->get('dcs_rating.manager.vote');
+            $voteManager->saveVote($vote);
+            return $entity;
+        }
+        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
 
     /**
      * Update a Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -169,7 +231,7 @@ class BooksRESTController extends VoryxController
      * Partial Update to a Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -183,7 +245,7 @@ class BooksRESTController extends VoryxController
      * Delete a Books entity.
      *
      * @View(statusCode=204)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      * @internal param $id

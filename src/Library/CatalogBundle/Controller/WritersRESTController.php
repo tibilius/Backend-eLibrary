@@ -17,12 +17,12 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
 /**
  * Writers controller.
  * @RouteResource("Writers")
- * @Security("has_role('ROLE_EXPERT')")
  */
 class WritersRESTController extends VoryxController
 {
@@ -30,6 +30,7 @@ class WritersRESTController extends VoryxController
      * Get a Writers entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
      *
      * @return Response
      *
@@ -45,7 +46,7 @@ class WritersRESTController extends VoryxController
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
-     *
+     * @Secure(roles="ROLE_READER")
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")

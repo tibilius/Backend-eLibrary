@@ -17,3 +17,7 @@ catalog_readlists_api_v1:
 catalog_reviews_api_v1:
     type: rest
     resource: "@CatalogBundle/Controller/ReviewsRESTController.php"
+
+dcs_rating:
+    resource: "@DCSRatingBundle/Resources/config/routing.xml"
+    prefix:   /

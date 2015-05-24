@@ -203,7 +203,7 @@ class Writers
     }
 
     /**
-     * Add book
+     * Add books
      *
      * @param \Library\CatalogBundle\Entity\Books $book
      * @return Categories
@@ -216,7 +216,7 @@ class Writers
     }
 
     /**
-     * Remove book
+     * Remove books
      *
      * @param \Library\CatalogBundle\Entity\Books $book
      */
@@ -226,7 +226,7 @@ class Writers
     }
 
     /**
-     * Get book
+     * Get books
      *
      * @return \Doctrine\Common\Collections\Collection
      */

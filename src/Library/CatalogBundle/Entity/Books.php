@@ -71,6 +71,10 @@ class Books
      */
     private $reviews;
 
+
+    protected $commentCount;
+    protected $reviewsCount;
+
     /**
      * Constructor
      */
@@ -569,6 +573,42 @@ class Books
     public function setCreated($created)
     {
         $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentCount()
+    {
+        return $this->commentCount;
+    }
+
+    /**
+     * @param mixed $commentCount
+     * @return Books
+     */
+    public function setCommentCount($commentCount)
+    {
+        $this->commentCount = $commentCount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReviewsCount()
+    {
+        return $this->reviewsCount;
+    }
+
+    /**
+     * @param mixed $reviewsCount
+     * @return Books
+     */
+    public function setReviewsCount($reviewsCount)
+    {
+        $this->reviewsCount = $reviewsCount;
         return $this;
     }
 

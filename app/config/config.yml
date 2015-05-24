@@ -9,7 +9,7 @@ imports:
     - { resource: fos/fos_comment.yml }
 
     # Others
-    - { resource: dcs_rating.yml }
+    - { resource: dcs/config.yml }
     - { resource: jms/jms.yml }
     - { resource: vich_uploader/config.yml }
     - { resource: liip_imagine/config.yml }

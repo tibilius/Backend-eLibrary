@@ -9,6 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class RatingType extends AbstractType
 {
 
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+    }
+
     /**
      * @param OptionsResolverInterface $resolver
      */
@@ -24,6 +33,6 @@ class RatingType extends AbstractType
      */
     public function getName()
     {
-        return 'library_votesbundle_rating';
+        return 'library_rating';
     }
 }

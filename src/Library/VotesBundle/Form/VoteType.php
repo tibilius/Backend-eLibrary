@@ -15,9 +15,7 @@ class VoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('rating')
-            ->add('voter')
-        ;
+            ->add('value', 'number');
     }
     
     /**
@@ -26,6 +24,7 @@ class VoteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'csrf_protection' => false,
             'data_class' => 'Library\VotesBundle\Entity\Vote'
         ));
     }

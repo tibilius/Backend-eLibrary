@@ -37,9 +37,10 @@ Library\CatalogBundle\Entity\Reviews:
         book:
             targetEntity: Library\CatalogBundle\Entity\Books
             cascade: {  }
-            mappedBy: book
-            inversedBy: null
-            orphanRemoval: false
+            inversedBy: reviews
+            joinColumn:
+                name: book_id
+                referencedColumnName: id
             fetch: EXTRA_LAZY
         author:
             targetEntity: Library\UserBundle\Entity\User

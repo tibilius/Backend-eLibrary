@@ -30,21 +30,21 @@ class Readlists
     private $type;
 
     /**
-     * @var \Acme\TestBundle\Entity\Users
+     * @var \Library\UserBundle\Entity\User
      */
     private $user;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $book;
+    private $books;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->book = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -129,10 +129,10 @@ class Readlists
     /**
      * Set user
      *
-     * @param \Acme\TestBundle\Entity\Users $user
+     * @param \Library\UserBundle\Entity\User $user
      * @return Readlists
      */
-    public function setUser(\Acme\TestBundle\Entity\Users $user = null)
+    public function setUser(\Library\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -142,7 +142,7 @@ class Readlists
     /**
      * Get user
      *
-     * @return \Acme\TestBundle\Entity\Users 
+     * @return \Library\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -150,35 +150,37 @@ class Readlists
     }
 
     /**
-     * Add book
+     * Add books
      *
-     * @param \Acme\TestBundle\Entity\Books $book
+     * @param \Library\CatalogBundle\Entity\Books $book
      * @return Readlists
      */
-    public function addBook(\Acme\TestBundle\Entity\Books $book)
+    public function addBook(\Library\CatalogBundle\Entity\Books $book)
     {
-        $this->book[] = $book;
-
+        $book->addReadlist($this);
+        $this->books->add($book);
         return $this;
     }
 
     /**
-     * Remove book
+     * Remove books
      *
-     * @param \Acme\TestBundle\Entity\Books $book
+     * @param \Library\CatalogBundle\Entity\Books $book
+     * @return Readlists
      */
-    public function removeBook(\Acme\TestBundle\Entity\Books $book)
+    public function removeBook(\Library\CatalogBundle\Entity\Books $book)
     {
-        $this->book->removeElement($book);
+        $this->books->removeElement($book);
+        return $this;
     }
 
     /**
-     * Get book
+     * Get books
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getBook()
+    public function getBooks()
     {
-        return $this->book;
+        return $this->books;
     }
 }

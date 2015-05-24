@@ -22,8 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Reviews controller.
- * @RouteResource("Reviews")
- * @Security("has_role('ROLE_EXPERT')")
+ * @RouteResource("Reviews")нrb
  */
 class ReviewsRESTController extends VoryxController
 {
@@ -78,9 +77,9 @@ class ReviewsRESTController extends VoryxController
      * Create a Reviews entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_EXPERT")
      *
      * @param Request $request
-     *
      * @return Response
      *
      */
@@ -97,7 +96,7 @@ class ReviewsRESTController extends VoryxController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-//            if ($entity->getBook() && !$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity->getBook())) {
+//            if ($entity->getBooks() && !$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity->getBooks())) {
 //                return FOSView::create(array('errors' => 'unreaded'), Codes::HTTP_INTERNAL_SERVER_ERROR);
 //            }
             $em->persist($entity);
@@ -116,7 +115,7 @@ class ReviewsRESTController extends VoryxController
      *
      * @param Request $request
      * @param $entity
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @return Response
      */
     public function patchAction(Request $request, Reviews $entity)
@@ -128,6 +127,7 @@ class ReviewsRESTController extends VoryxController
      * Update a Reviews entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_EXPERT")
      *
      * @param Request $request
      * @param $entity
