@@ -12,9 +12,32 @@ class ReadlistEnumType extends AbstractEnumType
     const USUAL= 'usual';
 
     protected static $choices = [
-        self::IN_READ    => 'In read',
-        self::READED => 'Already red',
-        self::PAUSED  => 'Pause in read',
+        self::IN_READ    => 'В чтении',
+        self::READED => 'Прочитано',
+        self::PAUSED  => 'Приостановлено',
+        self::USUAL  => 'Список чтения',
+    ];
+    protected static $colors = [
+        self::IN_READ    => 'info',
+        self::READED => 'success',
+        self::PAUSED  => 'warning',
+        self::USUAL  => 'readlist',
+    ];
+
+    protected static $allowChoices = [
         self::USUAL  => 'Usual readlist',
     ];
+
+    public static function getAllowedChoices()
+    {
+        return static::$allowChoices;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getColors()
+    {
+        return static::$colors;
+    }
 }

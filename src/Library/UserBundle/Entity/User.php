@@ -2,9 +2,12 @@
 
 namespace Library\UserBundle\Entity;
 
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
+use Library\CatalogBundle\Entity\Readlists;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -13,6 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @Gedmo\Loggable
  * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity()
  */
 class User extends BaseUser
@@ -268,7 +272,28 @@ class User extends BaseUser
         $this->vkontakte_access_token = $vkontakte_access_token;
     }
 
-
-
-
+    /**
+     * @ORM\PostUpdate
+     */
+    public function onPostUpdate(LifecycleEventArgs $args) {
+        $em = $args->getObjectManager();
+        $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
+        $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
+        foreach($readlists as $entity) {
+            $types = array_diff($types, $entity->getType());
+        }
+        if (!$types){
+            return;
+        }
+        foreach($types as $type) {
+            $readlist =  new Readlists();
+            $readlist
+                ->setUser($this)
+                ->setType($type)
+                ->setName(ReadlistEnumType::getChoices()[$type])
+                ->setColor(ReadlistEnumType::getColors()[$type]);
+            $em->persist($readlist);
+        }
+        $em->flush();
+    }
 }

@@ -18,7 +18,7 @@ class ReadlistsType extends AbstractType
         $builder
             ->add('name', 'text')
             ->add('color', 'text')
-            ->add('type', 'choice', ['choices' => ReadlistEnumType::getChoices()])
+            ->add('type', 'choice', ['choices' => ReadlistEnumType::getAllowedChoices()])
             ->add('books', 'entity', [
                 'class' => 'Library\CatalogBundle\Entity\Books',
                 'required' => false,

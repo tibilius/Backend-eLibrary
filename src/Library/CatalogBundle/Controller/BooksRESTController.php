@@ -24,7 +24,7 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use JMS\DiExtraBundle\Annotation as DI;
 /**
  * Books controller.
  * @RouteResource("Books")
@@ -32,10 +32,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class BooksRESTController extends VoryxController
 {
     /**
+     * @DI\Inject("library_catalogbundle.repository.bookrepository")
+     */
+    protected $booksRepository;
+
+    /**
      * Get a Books entity
      * @Secure(roles="ROLE_READER")
      * @View(serializerEnableMaxDepthChecks=true)
-     *
      * @return Response
      *
      */
@@ -66,8 +70,8 @@ class BooksRESTController extends VoryxController
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-            $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('CatalogBundle:Books')->findBy($filters, $order_by, $limit, $offset);
+
+            $entities = $this->booksRepository->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
             }

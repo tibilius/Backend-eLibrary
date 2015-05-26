@@ -74,6 +74,7 @@ class Books
 
     protected $commentCount;
     protected $reviewsCount;
+    protected $userReadlistsIds;
 
     /**
      * Constructor
@@ -84,6 +85,7 @@ class Books
         $this->readlists = new \Doctrine\Common\Collections\ArrayCollection();
         $this->writers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userReadlistsIds = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -611,5 +613,44 @@ class Books
         $this->reviewsCount = $reviewsCount;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserReadlistsIds()
+    {
+        return $this->userReadlistsIds;
+    }
+
+    /**
+     * @param mixed $userReadlistsIds
+     * @return Books
+     */
+    public function setUserReadlistsIds($userReadlistsIds)
+    {
+        $this->userReadlistsIds = $userReadlistsIds;
+        return $this;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Books
+     */
+    public function addUserReadlistsId($id)
+    {
+        $this->userReadlistsIds[] =$id;
+        return $this;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Books
+     */
+    public function removeUserReadlistsId($id)
+    {
+        $this->userReadlistsIds->removeElement($id);
+        return $this;
+    }
+
 
 }

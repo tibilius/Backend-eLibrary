@@ -25,7 +25,7 @@ Library\CatalogBundle\Entity\Readlists:
         color:
             type: string
             nullable: true
-            length: 6
+            length: 50
             fixed: false
             comment: ''
         type:
@@ -57,5 +57,5 @@ Library\CatalogBundle\Entity\Readlists:
                     book_id:
                         referencedColumnName: id
             orderBy: null
-            fetch: EXTRA_LAZY
+            fetch: LAZY
     lifecycleCallbacks: {  }

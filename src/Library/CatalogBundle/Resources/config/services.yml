@@ -1,4 +1,11 @@
 services:
+    library_catalogbundle.repository.bookrepository:
+        class: Library\CatalogBundle\Repository\BookRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [Library\CatalogBundle\Entity\Books]
+        calls:
+            - [setContainer, [@service_container]]
     form.reviews:
         class: Library\CatalogBundle\Form\ReviewsType
         arguments: [%max_revision_symbols%]
