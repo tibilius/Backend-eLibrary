@@ -662,9 +662,9 @@ class Books
      * @param mixed $id
      * @return Books
      */
-    public function addUserReadlistsId($id, $entityId)
+    public function addUserReadlistsId($readlist_id, $book_id)
     {
-        $this->userReadlistsIds[$id] = $entityId;
+        $this->userReadlistsIds[] = compact('readlist_id', 'book_id');
         return $this;
     }
 
