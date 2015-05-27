@@ -280,7 +280,7 @@ class User extends BaseUser
         $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
         $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
         foreach($readlists as $entity) {
-            $types = array_diff($types, $entity->getType());
+            $types = array_diff($types, [$entity->getType()]);
         }
         if (!$types){
             return;

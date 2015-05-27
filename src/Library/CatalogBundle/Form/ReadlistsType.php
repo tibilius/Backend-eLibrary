@@ -16,9 +16,13 @@ class ReadlistsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('color', 'text')
-            ->add('type', 'choice', ['choices' => ReadlistEnumType::getAllowedChoices()])
+            ->add('name', 'text', ['max_length'=> 1024])
+            ->add('color', 'text', ['max_length'=> 50])
+            ->add('type', 'choice', [
+                'choices' => ReadlistEnumType::getAllowedChoices(),
+                'required' => true,
+                'empty_data'  => ReadlistEnumType::USUAL,
+            ])
             ->add('books', 'entity', [
                 'class' => 'Library\CatalogBundle\Entity\Books',
                 'required' => false,

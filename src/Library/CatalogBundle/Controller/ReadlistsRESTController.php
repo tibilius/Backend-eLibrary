@@ -18,13 +18,11 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
 /**
  * Readlists controller.
  * @RouteResource("Readlists")
- * @Security("has_role('ROLE_READER')")
  */
 class ReadlistsRESTController extends VoryxController
 {
@@ -32,19 +30,22 @@ class ReadlistsRESTController extends VoryxController
      * Get a Readlists entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_READER")
      * @return Response
      *
      */
     public function getAction(Readlists $entity)
     {
+        if ($entity->getUser()->getId() !==  $this->getUser()->getId()) {
+            FOSView::create(null, 403);
+        }
         return $entity;
     }
     /**
      * Get all Readlists entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_READER")
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
@@ -63,6 +64,7 @@ class ReadlistsRESTController extends VoryxController
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
             $em = $this->getDoctrine()->getManager();
+            $filters['user'] = $this->getUser()->getId();
             $entities = $em->getRepository('CatalogBundle:Readlists')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
@@ -77,6 +79,7 @@ class ReadlistsRESTController extends VoryxController
      * Create a Readlists entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
      *
      * @param Request $request
      *
@@ -105,6 +108,7 @@ class ReadlistsRESTController extends VoryxController
      * Update a Readlists entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
      *
      * @param Request $request
      * @param $entity
@@ -139,6 +143,7 @@ class ReadlistsRESTController extends VoryxController
      * Partial Update to a Readlists entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
      *
      * @param Request $request
      * @param $entity
@@ -153,6 +158,7 @@ class ReadlistsRESTController extends VoryxController
      * Delete a Readlists entity.
      *
      * @View(statusCode=204)
+     * @Secure(roles="ROLE_READER")
      *
      * @param Request $request
      * @param $entity

@@ -3,6 +3,7 @@
 namespace Library\CatalogBundle\Repository;
 
 
+use Library\CatalogBundle\Entity\Books;
 use Symfony\Component\DependencyInjection\Container;
 
 class BookRepository extends \Doctrine\ORM\EntityRepository
@@ -90,7 +91,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 
 
     /**
-     * @param $result
+     * @param Books[] $result
      * @throws \Doctrine\DBAL\DBALException
      * @return void
      */
@@ -101,6 +102,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $user = $token->getUser();
         $linked = [];
         foreach ($result as &$entity) {
+            $entity->setUserReadlistsIds([]);
             $linked[$entity->getId()] = $entity;
         }
         $dbResult = $this->getEntityManager()->getConnection()->query('

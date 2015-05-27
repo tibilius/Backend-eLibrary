@@ -55,7 +55,7 @@ Library\CatalogBundle\Entity\Books:
     manyToOne:
         thread:
             targetEntity: Library\CommentBundle\Entity\Thread
-            cascade: {  }
+            cascade: [ "remove", "persist" ]
             mappedBy: null
             inversedBy: null
             joinColumns:
