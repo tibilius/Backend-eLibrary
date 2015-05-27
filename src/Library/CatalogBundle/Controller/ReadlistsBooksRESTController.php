@@ -35,7 +35,7 @@ class ReadlistsBooksRESTController extends VoryxController
      */
     public function getAction(ReadlistsBooks $entity)
     {
-        if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()){
+        if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
             return FOSView::create(null, 403);
         }
         return $entity;
@@ -61,7 +61,7 @@ class ReadlistsBooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            $filters['user'] => $this->getUser()->getId();
+            $filters['user'] = $this->getUser()->getId();
             $em = $this->getDoctrine()->getManager();
             $entities = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
