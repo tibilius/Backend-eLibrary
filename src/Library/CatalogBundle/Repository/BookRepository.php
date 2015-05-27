@@ -106,7 +106,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             $linked[$entity->getId()] = $entity;
         }
         $dbResult = $this->getEntityManager()->getConnection()->query('
-            select b.id as id, r.id as rid from
+            select b.id as id, r.id as rid, rb.id as rbid from
             books b
             inner join readlists_books rb  on rb.book_id = b.id
             inner join readlists r on r.id = rb.readlist_id
@@ -114,7 +114,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             AND r.user_id = '. $user->getId()
         )->fetchAll();
         foreach($dbResult as $row) {
-            $linked[$row['id']]->addUserReadlistsId($row['rid']);
+            $linked[$row['id']]->addUserReadlistsId($row['rid'], $row['rbid']);
         }
     }
 
