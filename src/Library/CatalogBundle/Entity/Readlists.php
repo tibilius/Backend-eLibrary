@@ -4,38 +4,52 @@ namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation\ExclusionPolicy,
+    JMS\Serializer\Annotation\Exclude,
+    JMS\Serializer\Annotation\VirtualProperty,
+    JMS\Serializer\Annotation\SerializedName,
+    JMS\Serializer\Annotation\Type,
+    JMS\Serializer\Annotation\Groups,
+    JMS\Serializer\Annotation\MaxDepth;
 /**
  * Readlists
+ * @ExclusionPolicy("none")
  */
 class Readlists
 {
     /**
      * @var integer
+     * @Groups({"id", "readlist"})
      */
     private $id;
 
     /**
      * @var string
+     * @Groups({"readlist"})
      */
     private $name;
 
     /**
      * @var string
+     * @Groups({"readlist"})
      */
     private $color;
 
     /**
      * @var string
+     * @Groups({"readlist"})
      */
     private $type;
 
     /**
      * @var \Library\UserBundle\Entity\User
+     * @Groups({"readlist"})
      */
     private $user;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"readlist"})
      */
     private $books;
 
@@ -149,15 +163,16 @@ class Readlists
         return $this->user;
     }
 
+
     /**
      * Add books
      *
-     * @param \Library\CatalogBundle\Entity\Books $book
+     * @param \Library\CatalogBundle\Entity\ReadlistsBooks $book
      * @return Readlists
      */
-    public function addBook(\Library\CatalogBundle\Entity\Books $book)
+    public function addBook(\Library\CatalogBundle\Entity\ReadlistsBooks $book)
     {
-        $book->addReadlist($this);
+        $book->setReadlist($this);
         $this->books->add($book);
         return $this;
     }
@@ -165,10 +180,10 @@ class Readlists
     /**
      * Remove books
      *
-     * @param \Library\CatalogBundle\Entity\Books $book
+     * @param \Library\CatalogBundle\Entity\ReadlistsBooks $book
      * @return Readlists
      */
-    public function removeBook(\Library\CatalogBundle\Entity\Books $book)
+    public function removeBook(\Library\CatalogBundle\Entity\ReadlistsBooks $book)
     {
         $this->books->removeElement($book);
         return $this;
@@ -177,7 +192,7 @@ class Readlists
     /**
      * Get books
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBooks()
     {

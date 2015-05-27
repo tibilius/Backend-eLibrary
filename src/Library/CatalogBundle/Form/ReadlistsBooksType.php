@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ReadlistsType extends AbstractType
+class ReadlistsBooksType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,19 +16,20 @@ class ReadlistsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', ['max_length'=> 1024])
-            ->add('color', 'text', ['max_length'=> 50])
-            ->add('type', 'choice', [
-                'choices' => ReadlistEnumType::getAllowedChoices(),
-                'required' => true,
-                'empty_data'  => ReadlistEnumType::USUAL,
-            ]);
-//            ->add('books', 'entity', [
-//                'class' => 'Library\CatalogBundle\Entity\Books',
-//                'required' => false,
-//                'multiple' => true,
-//                'property' => 'id',
-//            ]);
+
+            ->add('fact', 'integer')
+            ->add('plan', 'integer')
+            ->add('book', 'entity', [
+                'class' => 'Library\CatalogBundle\Entity\Books',
+                'property' => 'id',
+                'required' => true
+            ])
+            ->add('readlist', 'entity', [
+                'class' => 'Library\CatalogBundle\Entity\Readlists',
+                'property' => 'id',
+                'required' => true
+            ])
+        ;
     }
 
     /**
@@ -37,7 +38,7 @@ class ReadlistsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Library\CatalogBundle\Entity\Readlists',
+            'data_class' => 'Library\CatalogBundle\Entity\ReadlistsBooks',
             'csrf_protection' => false,
         ));
     }
@@ -47,6 +48,6 @@ class ReadlistsType extends AbstractType
      */
     public function getName()
     {
-        return 'library_catalog_readlists';
+        return 'library_catalog_readlist_books';
     }
 }

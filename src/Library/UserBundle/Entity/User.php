@@ -10,6 +10,7 @@ use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Readlists;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * User
@@ -30,6 +31,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"id", "user"})
      */
     protected $id;
 
@@ -64,28 +66,32 @@ class User extends BaseUser
     /**
      *
      * @Vich\UploadableField(mapping="user_image", fileNameProperty="avatar")
-     *
+     * @Groups({"user"})
      * @var File $avatarImage
      */
     protected $avatarImage;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"user"})
      */
     protected $phone;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"user"})
      */
     protected $firstName;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"user"})
      */
     protected $lastName;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"user"})
      */
     protected $middleName;
 
@@ -280,7 +286,7 @@ class User extends BaseUser
         $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
         $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
         foreach($readlists as $entity) {
-            $types = array_diff($types, [$entity->getType()]);
+            $types = array_diff($types, $entity->getType());
         }
         if (!$types){
             return;
@@ -291,7 +297,10 @@ class User extends BaseUser
                 ->setUser($this)
                 ->setType($type)
                 ->setName(ReadlistEnumType::getChoices()[$type])
-                ->setColor(ReadlistEnumType::getColors()[$type]);
+//        inread info
+//        readed success
+//        paused warning
+                ->setColor('000000');
             $em->persist($readlist);
         }
         $em->flush();

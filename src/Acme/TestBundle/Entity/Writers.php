@@ -1,67 +1,55 @@
 <?php
 
-namespace Library\CatalogBundle\Entity;
+namespace Acme\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use JMS\Serializer\Annotation\Groups;
+
 /**
- *  Writers
+ * Writers
  */
 class Writers
 {
     /**
      * @var integer
-     * @Groups({"id", "writers"})
      */
     private $id;
 
     /**
      * @var string
-     * @Groups({"writers"})
      */
     private $firstName;
 
     /**
      * @var string
-     * @Groups({"writers"})
      */
     private $middleName;
 
     /**
      * @var string
-     * @Groups({"writers"})
      */
     private $lastName;
 
     /**
      * @var string
-     * @Groups({"writers"})
      */
     private $description;
 
     /**
      * @var string
-     * @Groups({"writers"})
      */
     private $filepath;
 
     /**
-     *
-     * @var File $file
-     * @Groups({"writers"})
+     * @var \Doctrine\Common\Collections\Collection
      */
-    protected $file;
+    private $book;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     * @Groups({"writers", "books"})
+     * Constructor
      */
-    private $books;
-
-
-    public function __toString() {
-        return $this->getId() .':' .$this->getFirstName().$this->getLastName();
+    public function __construct()
+    {
+        $this->book = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -167,7 +155,7 @@ class Writers
     }
 
     /**
-     * Set pictures
+     * Set filepath
      *
      * @param string $filepath
      * @return Writers
@@ -180,67 +168,45 @@ class Writers
     }
 
     /**
-     * Get pictures
+     * Get filepath
      *
-     * @return string
+     * @return string 
      */
     public function getFilepath()
     {
         return $this->filepath;
     }
 
-
     /**
+     * Add book
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param \Acme\TestBundle\Entity\Books $book
      * @return Writers
      */
-
-    public function setFile(File $image = null)
+    public function addBook(\Acme\TestBundle\Entity\Books $book)
     {
-        $this->file = $image;
-        return $this;
-
-    }
-
-    /**
-     * @return File
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Add books
-     *
-     * @param \Library\CatalogBundle\Entity\Books $book
-     * @return Categories
-     */
-    public function addBook(\Library\CatalogBundle\Entity\Books $book)
-    {
-        $this->books[] = $book;
+        $this->book[] = $book;
 
         return $this;
     }
 
     /**
-     * Remove books
+     * Remove book
      *
-     * @param \Library\CatalogBundle\Entity\Books $book
+     * @param \Acme\TestBundle\Entity\Books $book
      */
-    public function removeBook(\Library\CatalogBundle\Entity\Books $book)
+    public function removeBook(\Acme\TestBundle\Entity\Books $book)
     {
-        $this->books->removeElement($book);
+        $this->book->removeElement($book);
     }
 
     /**
-     * Get books
+     * Get book
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getBooks()
+    public function getBook()
     {
-        return $this->books;
+        return $this->book;
     }
 }

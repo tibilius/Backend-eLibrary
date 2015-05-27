@@ -3,6 +3,7 @@
 namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Categories
@@ -11,21 +12,25 @@ class Categories
 {
     /**
      * @var integer
+     * @Groups({"categories", "id"})
      */
     private $id;
 
     /**
      * @var string
+     * @Groups({"categories"})
      */
     private $name;
 
     /**
      * @var string
+     * @Groups({"categories"})
      */
     private $description;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"categories", "books"})
      */
     private $books;
 

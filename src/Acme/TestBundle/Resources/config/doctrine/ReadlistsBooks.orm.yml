@@ -1,0 +1,55 @@
+Acme\TestBundle\Entity\ReadlistsBooks:
+    type: entity
+    table: readlists_books
+    indexes:
+        idx_ea9e7458457c67b9:
+            columns:
+                - readlist_id
+        idx_ea9e745816a2b381:
+            columns:
+                - book_id
+    uniqueConstraints:
+        readlists_books_book_id_readlist_id_key:
+            columns:
+                - book_id
+                - readlist_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        fact:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        plan:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+    manyToOne:
+        book:
+            targetEntity: Books
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                book_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        readlist:
+            targetEntity: Readlists
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                readlist_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

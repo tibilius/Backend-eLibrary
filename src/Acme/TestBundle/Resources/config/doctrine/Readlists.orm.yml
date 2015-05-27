@@ -1,7 +1,6 @@
-Library\CatalogBundle\Entity\Readlists:
+Acme\TestBundle\Entity\Readlists:
     type: entity
     table: readlists
-#    repositoryClass: Library\CatalogBundle\Repository\ReadlistsRepository
     indexes:
         idx_d0f73387a76ed395:
             columns:
@@ -29,12 +28,14 @@ Library\CatalogBundle\Entity\Readlists:
             fixed: false
             comment: ''
         type:
-            type: readlist_type
+            type: string
             nullable: true
+            length: 255
+            fixed: false
             comment: ''
     manyToOne:
         user:
-            targetEntity: Library\UserBundle\Entity\User
+            targetEntity: Users
             cascade: {  }
             mappedBy: null
             inversedBy: null
@@ -42,9 +43,4 @@ Library\CatalogBundle\Entity\Readlists:
                 user_id:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        books:
-            targetEntity: ReadlistsBooks
-            cascade: {  }
-            mappedBy: readlist
     lifecycleCallbacks: {  }

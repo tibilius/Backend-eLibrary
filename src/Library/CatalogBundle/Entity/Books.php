@@ -4,6 +4,7 @@ namespace Library\CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Books
@@ -16,64 +17,89 @@ class Books
     protected $file;
     /**
      * @var integer
+     * @Groups({"id", "books"})
      */
     private $id;
     /**
      * @var string
+     * @Groups({"books"})
      */
     private $name;
     /**
      * @var string
+     * @Groups({"books"})
      */
     private $description;
     /**
      * @var string
+     * @Groups({"books"})
      */
     private $isbn;
     /**
      * @var string
+     * @Groups({"books"})
      */
     private $filepath;
     /**
      * @var integer
+     * @Groups({"books"})
      */
     private $pageNumber;
     /**
      * @var integer
+     * @Groups({"books"})
      */
     private $created;
     /**
      * @var integer
+     * @Groups({"books"})
      */
     private $updated;
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"books"})
      */
     private $writers;
     /**
      * @var \Library\CommentBundle\Entity\Thread
+     * @Groups({"books"})
      */
     private $thread;
     /**
      * @var \Library\VotesBundle\Entity\Rating
+     * @Groups({"books"})
      */
     private $rating;
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"books"})
      */
     private $categories;
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"books"})
      */
     private $readlists;
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Groups({"books"})
      */
     private $reviews;
 
-
+    /**
+     * @var
+     * @Groups({"books"})
+     */
     protected $commentCount;
+    /**
+     * @var
+     * @Groups({"books"})
+     */
     protected $reviewsCount;
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @Groups({"books"})
+     */
     protected $userReadlistsIds;
 
     /**
