@@ -35,6 +35,9 @@ class ReadlistsBooksRESTController extends VoryxController
      */
     public function getAction(ReadlistsBooks $entity)
     {
+        if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()){
+            return FOSView::create(null, 403);
+        }
         return $entity;
     }
     /**
@@ -58,7 +61,7 @@ class ReadlistsBooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+            $filters['user'] => $this->getUser()->getId();
             $em = $this->getDoctrine()->getManager();
             $entities = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
@@ -89,6 +92,9 @@ class ReadlistsBooksRESTController extends VoryxController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -110,6 +116,9 @@ class ReadlistsBooksRESTController extends VoryxController
     public function putAction(Request $request, ReadlistsBooks $entity)
     {
         try {
+            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
             $form = $this->createForm(new ReadlistsBooksType(), $entity, array("method" => $request->getMethod()));
@@ -154,6 +163,9 @@ class ReadlistsBooksRESTController extends VoryxController
     public function deleteAction(Request $request, ReadlistsBooks $entity)
     {
         try {
+            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);
             $em->flush();
