@@ -8,8 +8,24 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20150527171417 extends AbstractMigration
+class Version20150527171417 extends AbstractMigration  implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+    /**
+     * Sets the Container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * @param Schema $schema
      */
@@ -46,5 +62,32 @@ class Version20150527171417 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
 
+    }
+
+
+    public function postUp(Schema $schema)
+    {
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $users = $em->getRepository('UserBundle:User')->findAll();
+        $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
+        foreach ($users as $user) {
+            $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $user->getId(), 'type' => $types]);
+            foreach($readlists as $entity) {
+                $types = array_diff($types, [$entity->getType()]);
+            }
+            if (!$types) {
+                continue;
+            }
+            foreach($types as $type) {
+                $readlist =  new Readlists();
+                $readlist
+                    ->setUser($user)
+                    ->setType($type)
+                    ->setName(ReadlistEnumType::getChoices()[$type])
+                    ->setColor(ReadlistEnumType::getColors()[$type]);
+                $em->persist($readlist);
+            }
+        }
+        $em->flush();
     }
 }
