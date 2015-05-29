@@ -659,7 +659,8 @@ class Books
     }
 
     /**
-     * @param mixed $id
+     * @param integer $readlist_id
+     * @param integer $readlist_book_id
      * @return Books
      */
     public function addUserReadlistsId($readlist_id, $readlist_book_id)

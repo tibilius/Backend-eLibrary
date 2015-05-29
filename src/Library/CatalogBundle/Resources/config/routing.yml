@@ -26,3 +26,7 @@ catalog_readlists_books_api_v1:
     resource: "@CatalogBundle/Controller/ReadlistsBooksRESTController.php"
     type:   rest
 
+catalog_readlists_fts_api_v1:
+    resource: "@CatalogBundle/Controller/FTSRESTController.php"
+    type:   rest
+
