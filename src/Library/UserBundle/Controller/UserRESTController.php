@@ -3,6 +3,7 @@
 namespace Library\UserBundle\Controller;
 
 use Library\UserBundle\Entity\User;
+use Library\UserBundle\Form\UserSelfEditType;
 use Library\UserBundle\Form\UserType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -46,7 +47,7 @@ class UserRESTController extends VoryxController
     public function getWhoamiAction() {
         $currentUser = $this->getUser();
         $user = $this->container->get('fos_user.user_manager')->findUserBy(['id'=>$currentUser->getId()]);
-        $view = View::create($user, 200);
+        $view = FOSView::create($user, 200);
         return $view;
     }
 
@@ -79,7 +80,7 @@ class UserRESTController extends VoryxController
 
         $salt = $entity->getSalt();
 
-        $view = View::create();
+        $view = FOSView::create();
         $view->setData(array('salt' => $salt))->setStatusCode(200);
 
         return $view;
@@ -165,7 +166,7 @@ class UserRESTController extends VoryxController
      * Update a User entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_GUEST")
      *
      * @param Request $request
      * @param $entity
@@ -177,7 +178,15 @@ class UserRESTController extends VoryxController
         try {
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
+            if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')){
+                $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
+            }
+            elseif($this->getUser()->getId() == $entity->getId()){
+                $form = $this->createForm(new UserSelfEditType(), $entity, array("method" => $request->getMethod()));
+            }
+            else {
+                return FOSView::create(null, 403);
+            }
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -195,7 +204,7 @@ class UserRESTController extends VoryxController
      * Partial Update to a User entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_GUEST")
      *
      * @param Request $request
      * @param $entity

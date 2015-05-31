@@ -44,7 +44,7 @@ class RegisterUserRESTController extends Controller
         if ($process) {
             $user = $form->getData();
             /**@var $user \Library\UserBundle\Entity\User*/
-            $user->addRole(User::ROLE_READER);
+            $user->addRole(User::ROLE_GUEST);
             $em =$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

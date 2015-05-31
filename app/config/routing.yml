@@ -1,3 +1,8 @@
+library_comment_comment_api:
+    resource: "@LibraryCommentBundle/Controller/CommentRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
 catalog:
     resource: "@CatalogBundle/Resources/config/routing.yml"
     prefix: /api/v1/
@@ -13,11 +18,11 @@ NelmioApiDocBundle:
     prefix:   /doc
 
 
-fos_comment_api:
-    type: rest
-    resource: "@FOSCommentBundle/Resources/config/routing.yml"
-    prefix: /api
-    defaults: { _format: html }
+#fos_comment_api:
+#    type: rest
+#    resource: "@FOSCommentBundle/Resources/config/routing.yml"
+#    prefix: /api
+#    defaults: { _format: html }
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"

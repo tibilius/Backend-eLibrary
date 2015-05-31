@@ -2,7 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
-use FOS\CommentBundle\Form\CommentType;
+use Library\CommentBundle\Form\CommentType;
 use Library\CatalogBundle\Entity\Reviews;
 use Library\CatalogBundle\Form\ReviewsType;
 
@@ -187,11 +187,12 @@ class ReviewsRESTController extends VoryxController
              * @var $comment \Library\CommentBundle\Entity\Comment
              */
             $comment = $this->container->get('fos_comment.manager.comment')->createComment($thread);
-            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $form = $this->createForm(new CommentType('Library\CommentBundle\Entity\Comment'), $comment, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $comment->setAuthor($this->getUser());
+                $this->container->get('fos_comment.manager.comment')->saveComment($comment);
                 return $entity;
             }
             return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
@@ -216,7 +217,7 @@ class ReviewsRESTController extends VoryxController
         if(! $thread = $entity->getThread()) {
             return FOSView::create(null, 404);
         }
-        $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+        $form = $this->createForm(new CommentType('Library\CommentBundle\Entity\Comment'), $comment, array("method" => $request->getMethod()));
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
         if ($form->isValid()) {

@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Books;
 use Library\CatalogBundle\Form\BooksType;
@@ -14,7 +15,7 @@ use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
 use Library\CommentBundle\Entity\Comment;
 use Library\CommentBundle\Entity\Thread;
-use FOS\CommentBundle\Form\CommentType;
+use Library\CommentBundle\Form\CommentType;
 use Library\VotesBundle\Entity\Rating;
 use Library\VotesBundle\Entity\Vote;
 use Library\VotesBundle\Form\VoteType;
@@ -42,21 +43,24 @@ class BooksRESTController extends VoryxController
 
     /**
      * Get a Books entity
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @View(serializerEnableMaxDepthChecks=true)
      * @return Response
      *
      */
     public function getAction(Books $entity)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_READER')) {
+            $this->get('serializer')->setGroups(['books', 'guest']);
+        }
         return $entity;
     }
 
     /**
      * Get all Books entities.
      *
-     * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+//     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_GUEST")
      *
      * @param ParamFetcherInterface $paramFetcher
      * @return Response
@@ -73,13 +77,16 @@ class BooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
-
             $entities = $this->booksRepository->findBy($filters, $order_by, $limit, $offset);
-            if ($entities) {
-                return $entities;
+            $view  = FOSView::create();
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_READER')) {
+                $view->setSerializationContext(SerializationContext::create()->setGroups(['id', 'guest', 'categories', 'writers']));
             }
-
+            if ($entities) {
+                $view->setStatusCode(200);
+                $view->setData($entities);
+                return $view;
+            }
             return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
@@ -219,11 +226,16 @@ class BooksRESTController extends VoryxController
              * @var $comment \Library\CommentBundle\Entity\Comment
             */
             $comment = $this->container->get('fos_comment.manager.comment')->createComment($thread);
-            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $form = $this->createForm(
+                new CommentType('Library\CommentBundle\Entity\Comment'),
+                $comment,
+                array("method" => $request->getMethod())
+            );
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $comment->setAuthor($this->getUser());
+                $this->container->get('fos_comment.manager.comment')->saveComment($comment);
                 return $entity;
             }
             return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
@@ -284,7 +296,7 @@ class BooksRESTController extends VoryxController
             if ($comment->getAuthor()->getId() !== $this->getUser()->getId()) {
                 return FOSView::create(null, Codes::HTTP_FORBIDDEN);
             }
-            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $form = $this->createForm(new CommentType('Library\CommentBundle\Entity\Comment'), $comment, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {

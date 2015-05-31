@@ -42,7 +42,7 @@ class FTSRESTController extends VoryxController
      * Get Books entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      *
      * @param ParamFetcherInterface $paramFetcher
      * @return Response

@@ -30,7 +30,7 @@ class WritersRESTController extends VoryxController
      * Get a Writers entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      *
      * @return Response
      *
@@ -46,7 +46,7 @@ class WritersRESTController extends VoryxController
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
@@ -78,7 +78,7 @@ class WritersRESTController extends VoryxController
      * Create a Writers entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      *
      * @return Response
@@ -105,7 +105,7 @@ class WritersRESTController extends VoryxController
      * Update a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -135,7 +135,7 @@ class WritersRESTController extends VoryxController
      * Partial Update to a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -150,7 +150,7 @@ class WritersRESTController extends VoryxController
      * Update a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -180,7 +180,7 @@ class WritersRESTController extends VoryxController
      * Delete a Writers entity.
      *
      * @View(statusCode=204)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      * @internal param $id

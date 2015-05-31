@@ -7,9 +7,12 @@ security:
             iterations: 1
 
     role_hierarchy:
-        ROLE_EXPERT:      [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
-        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_USER]
-        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_ADMIN]
+        ROLE_GUEST:       [ROLE_GUEST, ROLE_USER]
+        ROLE_READER:      [ROLE_READER, ROLE_GUEST, ROLE_USER]
+        ROLE_GROSSMEISER: [ROLE_GROSSMEISER, ROLE_READER, ROLE_GUEST, ROLE_USER]
+        ROLE_EXPERT:      [ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_GUEST, ROLE_USER]
+        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_GUEST, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_EXPERT, ROLE_GROSSMEISER, ROLE_READER, ROLE_GUEST, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
@@ -62,4 +65,4 @@ security:
         - { path: ^/api/v1/registers, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/time, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/api/v1/, role: ROLE_READER }
+        - { path: ^/api/v1/, role: ROLE_GUEST }

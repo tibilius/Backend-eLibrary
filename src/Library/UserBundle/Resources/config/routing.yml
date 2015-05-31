@@ -7,7 +7,6 @@ service_token:
 user_user_api_v1:
     resource: "@UserBundle/Controller/UserRESTController.php"
     type:   rest
-    prefix:   /api/v1
 
 
 #fos_user_old_reg:

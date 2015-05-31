@@ -31,7 +31,7 @@ class CategoriesRESTController extends VoryxController
 {
     /**
      * Get a Categories entity
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @return Response
@@ -46,7 +46,7 @@ class CategoriesRESTController extends VoryxController
      * Get all Categories entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response

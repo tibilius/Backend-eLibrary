@@ -1,10 +1,9 @@
 <?php
 
-namespace Library\CatalogBundle\Controller;
+namespace Library\CommentBundle\Controller;
 
-use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
-use Library\CatalogBundle\Entity\ReadlistsBooks;
-use Library\CatalogBundle\Form\ReadlistsBooksType;
+use Library\CommentBundle\Entity\Comment;
+use Library\CommentBundle\Form\CommentType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -20,39 +19,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-
 /**
- * ReadlistsBooks controller.
- * @RouteResource("ReadlistsBooks")
+ * Comment controller.
+ * @RouteResource("Comment")
  */
-class ReadlistsBooksRESTController extends VoryxController
+class CommentRESTController extends VoryxController
 {
     /**
-     * @JMS\DiExtraBundle\Annotation\Inject("library_catalogbundle.repository.readlistsbookrepository")
-    */
-    protected $repository;
-
-    /**
-     * Get a ReadlistsBooks entity
+     * Get a Comment entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
      *
      * @return Response
      *
      */
-    public function getAction(ReadlistsBooks $entity)
+    public function getAction(Comment $entity)
     {
-        if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
-            return FOSView::create(null, 403);
-        }
         return $entity;
     }
     /**
-     * Get all ReadlistsBooks entities.
+     * Get all Comment entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     *
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
@@ -69,11 +58,9 @@ class ReadlistsBooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            if (!isset($filters['readlist'])){
-                $filters['readlist'] = $this->getDoctrine()->getRepository('CatalogBundle:Readlists')
-                    ->findBy(['user' => $this->getUser()->getId()]);
-            }
-            $entities = $this->repository->findBy($filters, $order_by, $limit, $offset);
+
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('LibraryCommentBundle:Comment')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
             }
@@ -84,27 +71,24 @@ class ReadlistsBooksRESTController extends VoryxController
         }
     }
     /**
-     * Create a ReadlistsBooks entity.
+     * Create a Comment entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
-     * @param Request $request
      *
+     * @param Request $request
+     * @Secure(roles="ROLE_READER")
      * @return Response
      *
      */
     public function postAction(Request $request)
     {
-        $entity = new ReadlistsBooks();
-        $form = $this->createForm(new ReadlistsBooksType(), $entity, array("method" => $request->getMethod()));
+        $entity = new Comment();
+        $form = $this->createForm(new CommentType(), $entity, array("method" => $request->getMethod()));
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
-                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
-            }
             $em->persist($entity);
             $em->flush();
 
@@ -114,7 +98,7 @@ class ReadlistsBooksRESTController extends VoryxController
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
     /**
-     * Update a ReadlistsBooks entity.
+     * Update a Comment entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
@@ -123,22 +107,20 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @return Response
      */
-    public function putAction(Request $request, ReadlistsBooks $entity)
+    public function putAction(Request $request, Comment $entity)
     {
         try {
-            if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
-                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            if ($this->getUser()->getId() != $entity->getAuthor()->getId()) {
+                return FOSView::create(null, 403);
             }
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new ReadlistsBooksType(), $entity, array("method" => $request->getMethod()));
+            $form = $this->createForm(new CommentType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
-                if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
-                    $this->repository->clearReadlists($entity->getId(), $this->getUser()->getId());
-                }
                 $em->flush();
+
                 return $entity;
             }
 
@@ -148,7 +130,7 @@ class ReadlistsBooksRESTController extends VoryxController
         }
     }
     /**
-     * Partial Update to a ReadlistsBooks entity.
+     * Partial Update to a Comment entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
@@ -157,12 +139,12 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @return Response
 */
-    public function patchAction(Request $request, ReadlistsBooks $entity)
+    public function patchAction(Request $request, Comment $entity)
     {
         return $this->putAction($request, $entity);
     }
     /**
-     * Delete a ReadlistsBooks entity.
+     * Delete a Comment entity.
      *
      * @View(statusCode=204)
      * @Secure(roles="ROLE_READER")
@@ -172,11 +154,11 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @return Response
      */
-    public function deleteAction(Request $request, ReadlistsBooks $entity)
+    public function deleteAction(Request $request, Comment $entity)
     {
         try {
-            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
-                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            if ($this->getUser()->getId() != $entity->getAuthor()->getId()) {
+                return FOSView::create(null, 403);
             }
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);

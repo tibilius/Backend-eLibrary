@@ -17,12 +17,12 @@ class Books
     protected $file;
     /**
      * @var integer
-     * @Groups({"id", "books"})
+     * @Groups({"id", "books", "guest"})
      */
     private $id;
     /**
      * @var string
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $name;
     /**
@@ -32,73 +32,73 @@ class Books
     private $description;
     /**
      * @var string
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $isbn;
     /**
      * @var string
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $filepath;
     /**
      * @var integer
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $pageNumber;
     /**
      * @var integer
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $created;
     /**
      * @var integer
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $updated;
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $writers;
     /**
      * @var \Library\CommentBundle\Entity\Thread
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $thread;
     /**
      * @var \Library\VotesBundle\Entity\Rating
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $rating;
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $categories;
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $readlists;
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     private $reviews;
 
     /**
      * @var
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     protected $commentCount;
     /**
      * @var
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     protected $reviewsCount;
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @Groups({"books"})
+     * @Groups({"books", "guest"})
      */
     protected $userReadlistsIds;
 
