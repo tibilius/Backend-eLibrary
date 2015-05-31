@@ -27,6 +27,13 @@ class User extends BaseUser
     const ROLE_GROSSMEISER = 'ROLE_GROSSMEISER';
     const ROLE_EXPERT = 'ROLE_EXPERT';
 
+    static $userRoles = [
+        self::ROLE_GUEST => 'Гость',
+        self::ROLE_READER => 'Читатель',
+        self::ROLE_EXPERT => 'Эксперт',
+        self::ROLE_GROSSMEISER => 'Гроссмейстер',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -94,6 +101,14 @@ class User extends BaseUser
      * @Groups({"user"})
      */
     protected $middleName;
+
+    /**
+     * @return array
+     */
+    public static function getUserRoles()
+    {
+        return static::$userRoles;
+    }
 
     /**
      * Get avatar
@@ -278,6 +293,24 @@ class User extends BaseUser
         $this->vkontakte_access_token = $vkontakte_access_token;
     }
 
+
+    /**
+     * @return File
+     */
+    public function getAvatarImage()
+    {
+        return $this->avatarImage;
+    }
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setAvatarImage(File $image = null)
+    {
+        $this->avatarImage = $image;
+    }
+
     /**
      * @ORM\PostUpdate
      */
@@ -286,7 +319,7 @@ class User extends BaseUser
         $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
         $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
         foreach($readlists as $entity) {
-            $types = array_diff($types, $entity->getType());
+            $types = array_diff($types, [$entity->getType()]);
         }
         if (!$types){
             return;
@@ -297,9 +330,6 @@ class User extends BaseUser
                 ->setUser($this)
                 ->setType($type)
                 ->setName(ReadlistEnumType::getChoices()[$type])
-//        inread info
-//        readed success
-//        paused warning
                 ->setColor('000000');
             $em->persist($readlist);
         }

@@ -2,6 +2,7 @@
 
 namespace Library\UserBundle\Form;
 
+use Library\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,11 +16,17 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('avatar')
-            ->add('phone')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('middleName')
+            ->add('phone', 'text')
+            ->add('firstName', 'text')
+            ->add('lastName', 'text')
+            ->add('middleName', 'text')
+            ->add('avatarImage', 'file')
+            ->add('email', 'email')
+            ->add('roles', 'choice',[
+                'choices' => User::getUserRoles(),
+                'multiple' => true,
+            ])
+
         ;
     }
     

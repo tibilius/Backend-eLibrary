@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Books;
 use Library\CatalogBundle\Form\BooksType;
 
@@ -11,6 +12,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
+use Library\CommentBundle\Entity\Comment;
+use Library\CommentBundle\Entity\Thread;
+use FOS\CommentBundle\Form\CommentType;
 use Library\VotesBundle\Entity\Rating;
 use Library\VotesBundle\Entity\Vote;
 use Library\VotesBundle\Form\VoteType;
@@ -151,27 +155,80 @@ class BooksRESTController extends VoryxController
      * @return Response
      */
     public function postVoteAction(Request $request, Books $entity) {
-        $vote = new \Library\VotesBundle\Entity\Vote();
-        $em = $this->getDoctrine()->getManager();
-        if(! $rate = $entity->getRating()) {
-            $rate = new Rating();
-            $entity->setRating($rate);
-            $em->persist($rate);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            /**@var $readBook */
+            $readBook = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy([
+                    'book' => $entity->getId(),
+                    'user' => $this->getUser()->getId(),
+                    'readlist' => ['type' => ReadlistEnumType::READED]
+                ]
+            );
+            if (!$readBook) {
+                return FOSView::create(array('errors' => ['cannot voted']), Codes::HTTP_FORBIDDEN);
+            }
+            $vote = new \Library\VotesBundle\Entity\Vote();
+            if(! $rate = $entity->getRating()) {
+                $rate = new Rating();
+                $entity->setRating($rate);
+                $em->persist($rate);
+            }
+            $voteManager = $this->container->get('dcs_rating.manager.vote');
+            if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
+                return FOSView::create(array('errors' => ['already voted']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $vote->setRating($rate);
+            $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $vote->setVoter($this->getUser());
+                $voteManager->saveVote($vote);
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $voteManager = $this->container->get('dcs_rating.manager.vote');
-        if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
-            return FOSView::create(array('errors' => ['already voted']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postCommentAction(Request $request, Books $entity) {
+        try {
+            if(! $thread = $entity->getThread()) {
+                $threadManager = $this->container->get('fos_comment.manager.thread');
+                $thread = $threadManager->createThread();
+                $thread->setCommentable(true);
+                $entity->setThread($thread);
+                $threadManager->saveThread($thread);
+            }
+            if (!$thread->isCommentable()) {
+                return FOSView::create(null, Codes::HTTP_FORBIDDEN);
+            }
+            /**
+             * @var $comment \Library\CommentBundle\Entity\Comment
+            */
+            $comment = $this->container->get('fos_comment.manager.comment')->createComment($thread);
+            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $comment->setAuthor($this->getUser());
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $vote->setRating($rate);
-        $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
-        $this->removeExtraFields($request, $form);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $vote->setVoter($this->getUser());
-            $voteManager->saveVote($vote);
-            return $entity;
-        }
-        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -185,19 +242,59 @@ class BooksRESTController extends VoryxController
      * @return Response
      */
     public function putVoteAction(Request $request, Books $entity, Vote $vote) {
-        $em = $this->getDoctrine()->getManager();
-        if(! $rate = $entity->getRating()) {
-            return FOSView::create(null, 404);
+        try {
+            if (!$rate = $entity->getRating()) {
+                return FOSView::create(null, 404);
+            }
+            if ($vote->getVoter()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(null, Codes::HTTP_FORBIDDEN);
+            }
+
+            $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $voteManager = $this->container->get('dcs_rating.manager.vote');
+                $voteManager->saveVote($vote);
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
-        $this->removeExtraFields($request, $form);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $voteManager = $this->container->get('dcs_rating.manager.vote');
-            $voteManager->saveVote($vote);
-            return $entity;
+    }
+
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putCommentAction(Request $request, Books $entity, Comment $comment) {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            if (!$thread = $entity->getThread()) {
+                return FOSView::create(null, 404);
+            }
+            if ($comment->getAuthor()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(null, Codes::HTTP_FORBIDDEN);
+            }
+            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->persist($comment);
+                $em->flush();
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
 
 

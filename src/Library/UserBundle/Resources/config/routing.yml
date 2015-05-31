@@ -3,16 +3,12 @@ service_token:
     resource: "UserBundle:TokenRest"
     name_prefix:  api_
 
-service_user:
-    type: rest
-    resource: "UserBundle:UserRest"
-    name_prefix:  api_
 
-service_user_role:
-    type: rest
-    parent: service_user
-    resource: "UserBundle:UserRoleRest"
-    name_prefix:  api_
+user_user_api_v1:
+    resource: "@UserBundle/Controller/UserRESTController.php"
+    type:   rest
+    prefix:   /api/v1
+
 
 #fos_user_old_reg:
 #    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"

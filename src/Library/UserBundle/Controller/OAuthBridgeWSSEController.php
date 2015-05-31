@@ -22,6 +22,8 @@ class OAuthBridgeWSSEController extends Controller
             $params = ['username' => $user->getUsername(), 'password' => $user->getPassword()];
             $route = $this->container->getParameter('front_url') . '/login?' . http_build_query($params);
         }
+        $request->getSession()->invalidate();
+        $this->get('security.token_storage')->setToken(null);
         return new RedirectResponse($route);
     }
 

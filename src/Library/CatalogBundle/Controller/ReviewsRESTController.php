@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use FOS\CommentBundle\Form\CommentType;
 use Library\CatalogBundle\Entity\Reviews;
 use Library\CatalogBundle\Form\ReviewsType;
 
@@ -11,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
+use Library\CommentBundle\Entity\Comment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -156,6 +158,75 @@ class ReviewsRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postCommentAction(Request $request, Reviews $entity) {
+        try {
+            if(! $thread = $entity->getThread()) {
+                $threadManager = $this->container->get('fos_comment.manager.thread');
+                $thread = $threadManager->createThread();
+                $thread->setCommentable(true);
+                $entity->setThread($thread);
+                $threadManager->saveThread($thread);
+            }
+
+            if (!$thread->isCommentable()) {
+                return FOSView::create(null, 403);
+            }
+
+            /**
+             * @var $comment \Library\CommentBundle\Entity\Comment
+             */
+            $comment = $this->container->get('fos_comment.manager.comment')->createComment($thread);
+            $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $comment->setAuthor($this->getUser());
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putCommentAction(Request $request, Reviews $entity, Comment $comment) {
+        $em = $this->getDoctrine()->getManager();
+        if(! $thread = $entity->getThread()) {
+            return FOSView::create(null, 404);
+        }
+        $form = $this->createForm(new CommentType(), $comment, array("method" => $request->getMethod()));
+        $this->removeExtraFields($request, $form);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em->persist($comment);
+            $em->flush();
+            return $entity;
+        }
+        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
 
     /**
      * Delete a Reviews entity.
