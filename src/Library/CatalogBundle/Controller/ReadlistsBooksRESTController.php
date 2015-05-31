@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\Form\ReadlistsBooksType;
 
@@ -25,6 +26,11 @@ use Voryx\RESTGeneratorBundle\Controller\VoryxController;
  */
 class ReadlistsBooksRESTController extends VoryxController
 {
+    /**
+     * @JMS\DiExtraBundle\Annotation\Inject("library_catalogbundle.repository.readlistsbookrepository")
+    */
+    protected $repository;
+
     /**
      * Get a ReadlistsBooks entity
      *
@@ -61,9 +67,11 @@ class ReadlistsBooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            $filters['user'] = $this->getUser()->getId();
-            $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy($filters, $order_by, $limit, $offset);
+            if (!isset($filters['readlist'])){
+                $filters['readlist'] = $this->getDoctrine()->getRepository('CatalogBundle:Readlists')
+                    ->findBy(['user' => $this->getUser()->getId()]);
+            }
+            $entities = $this->repository->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
             }
@@ -116,7 +124,7 @@ class ReadlistsBooksRESTController extends VoryxController
     public function putAction(Request $request, ReadlistsBooks $entity)
     {
         try {
-            if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
+            if ($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
                 return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }
             $em = $this->getDoctrine()->getManager();
@@ -125,6 +133,8 @@ class ReadlistsBooksRESTController extends VoryxController
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
+                if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
+                }
                 $em->flush();
 
                 return $entity;

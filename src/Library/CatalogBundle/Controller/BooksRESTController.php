@@ -160,8 +160,9 @@ class BooksRESTController extends VoryxController
             /**@var $readBook */
             $readBook = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy([
                     'book' => $entity->getId(),
-                    'user' => $this->getUser()->getId(),
-                    'readlist' => ['type' => ReadlistEnumType::READED]
+                    'readlist' => $em->getRepository('CatalogBundle:Readlists')->findBy(
+                        ['user' => $this->getUser()->getId(), 'type' => ReadlistEnumType::READED]
+                    )
                 ]
             );
             if (!$readBook) {
