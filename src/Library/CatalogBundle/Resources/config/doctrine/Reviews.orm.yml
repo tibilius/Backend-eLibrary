@@ -8,6 +8,9 @@ Library\CatalogBundle\Entity\Reviews:
         fki_book_id_fkey:
             columns:
                 - book_id
+        fki_rating_id_fkey:
+            columns:
+                -rating_id
         IDX_6970EB0FF675F31B:
             columns:
                 - author_id
@@ -27,6 +30,8 @@ Library\CatalogBundle\Entity\Reviews:
             length: 255
             fixed: false
             comment: ''
+        created:
+            type: datetime
         text:
             type: text
             nullable: true
@@ -51,6 +56,15 @@ Library\CatalogBundle\Entity\Reviews:
                 author_id:
                     referencedColumnName: id
             orphanRemoval: false
+        rating:
+            targetEntity: Library\VotesBundle\Entity\Rating
+            cascade: {  }
+            mappedBy: null
+            inversedBy: votes
+            joinColumns:
+                rating_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         thread:
             targetEntity: Library\CommentBundle\Entity\Thread
             cascade: {  }
@@ -60,4 +74,5 @@ Library\CatalogBundle\Entity\Reviews:
                 thread_id:
                     referencedColumnName: id
             orphanRemoval: false
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+         prePersist: [updateTimestamps]

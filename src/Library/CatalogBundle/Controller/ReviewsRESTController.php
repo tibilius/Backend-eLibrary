@@ -201,6 +201,44 @@ class ReviewsRESTController extends VoryxController
         }
     }
 
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postVoteAction(Request $request, Reviews $entity) {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            /**@var $readBook */
+            $vote = new \Library\VotesBundle\Entity\Vote();
+            if(! $rate = $entity->getRating()) {
+                $rate = new Rating();
+                $entity->setRating($rate);
+                $em->persist($rate);
+            }
+            $voteManager = $this->container->get('dcs_rating.manager.vote');
+            if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
+                return FOSView::create(array('errors' => ['already voted']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $vote->setRating($rate);
+            $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $vote->setVoter($this->getUser());
+                $voteManager->saveVote($vote);
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Vote a Books entity.
@@ -228,6 +266,38 @@ class ReviewsRESTController extends VoryxController
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Vote a Books entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putVoteAction(Request $request, Reviews  $entity, Vote $vote) {
+        try {
+            if (!$rate = $entity->getRating()) {
+                return FOSView::create(null, 404);
+            }
+            if ($vote->getVoter()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(null, Codes::HTTP_FORBIDDEN);
+            }
+
+            $form = $this->createForm(new VoteType(), $vote, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $voteManager = $this->container->get('dcs_rating.manager.vote');
+                $voteManager->saveVote($vote);
+                return $entity;
+            }
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Delete a Reviews entity.

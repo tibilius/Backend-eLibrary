@@ -39,6 +39,17 @@ class Reviews
      */
     private $book;
 
+    /**
+     * @var integer
+     * @Groups({"books", "guest"})
+     */
+    private $created;
+    /**
+     * @var \Library\VotesBundle\Entity\Rating
+     * @Groups({"books", "guest"})
+     */
+    private $rating;
+
 
     /**
      * Set text
@@ -155,6 +166,59 @@ class Reviews
         return $this;
     }
 
+
+    public function updateTimestamps()
+    {
+        if ($this->getCreated() == null) {
+            $this->setCreated(new \DateTime("now"));
+        }
+
+    }
+
+    /**
+     * Get created
+     *
+     * @return integer
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set created
+     *
+     * @param integer $created
+     * @return Books
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return \Library\VotesBundle\Entity\Rating
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param \Library\VotesBundle\Entity\Rating $rating
+     * @return Books
+     */
+    public function setRating(\Library\VotesBundle\Entity\Rating $rating = null)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
 
 
 
