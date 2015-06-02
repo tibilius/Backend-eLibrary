@@ -41,12 +41,11 @@ class Reviews
 
     /**
      * @var integer
-     * @Groups({"books", "guest"})
      */
     private $created;
+
     /**
      * @var \Library\VotesBundle\Entity\Rating
-     * @Groups({"books", "guest"})
      */
     private $rating;
 
