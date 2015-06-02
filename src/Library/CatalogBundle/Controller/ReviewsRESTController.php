@@ -101,9 +101,7 @@ class ReviewsRESTController extends VoryxController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-//            if ($entity->getBooks() && !$em->getRepository('CatalogBundle:Readlists')->isReaded($this->getUser(), $entity->getBooks())) {
-//                return FOSView::create(array('errors' => 'unreaded'), Codes::HTTP_INTERNAL_SERVER_ERROR);
-//            }
+            $entity->setAuthor($this->getUser());
             $em->persist($entity);
             $em->flush();
 
