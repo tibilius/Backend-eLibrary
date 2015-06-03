@@ -29,8 +29,8 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             ) as t3
             where
                 c.id IN (' . implode(',', array_keys($linked)) . ')
-                AND t2.category_id = c.id
-                AND t3.category_id = c.id';
+                AND (t2.category_id = c.id
+                OR t3.category_id = c.id)';
         $dbResult = $this->getEntityManager()->getConnection()->query($sql)->fetchAll();
         foreach($dbResult as $row) {
             $linked[$row['id']]->setLast($row['bcount'])->setItems($row['ballcount']);
