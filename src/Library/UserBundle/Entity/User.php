@@ -305,11 +305,36 @@ class User extends BaseUser
     /**
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @return User
      */
     public function setAvatarImage(File $image = null)
     {
         $this->avatarImage = $image;
+        return $this;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     * @return User
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+
+
+
 
     /**
      * @ORM\PostUpdate
