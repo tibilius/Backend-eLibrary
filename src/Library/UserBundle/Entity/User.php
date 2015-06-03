@@ -156,7 +156,7 @@ class User extends BaseUser
 
     public function setEmail($email)
     {
-        $email = strtolower($email);
+        $email = urldecode(strtolower($email));
         $this->setEmailCanonical($email);
         $this->setUsername($email);
         return parent::setEmail($email);

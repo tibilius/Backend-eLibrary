@@ -16,12 +16,12 @@ class UserSelfEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('phone', 'text', ['required' => false])
-            ->add('firstName', 'text', ['required' => true])
-            ->add('lastName', 'text', ['required' => true])
-            ->add('middleName', 'text', ['required' => false])
-            ->add('avatarImage', 'file', ['required' => false])
-            ->add('email', 'email', ['required' => true]);
+            ->add('phone', 'text', ['required' => false, 'empty_data' => null])
+            ->add('firstName', 'text', ['required' => false, 'empty_data' => null])
+            ->add('lastName', 'text', ['required' => false, 'empty_data' => null])
+            ->add('middleName', 'text', ['required' => false, 'empty_data' => null])
+            ->add('avatarImage', 'file', ['required' => false, 'empty_data' => null])
+            ->add('email', 'email', ['required' => false, 'empty_data' => null]);
     }
 
     /**
@@ -40,6 +40,6 @@ class UserSelfEditType extends AbstractType
      */
     public function getName()
     {
-        return 'library_userbundle_user';
+        return 'library_user_self_update';
     }
 }
