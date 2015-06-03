@@ -162,6 +162,7 @@ class UserRESTController extends VoryxController
 
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
+
     /**
      * Update a User entity.
      *
@@ -200,6 +201,45 @@ class UserRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Update a User entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_GUEST")
+     *
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function postUpdateAction(Request $request, User $entity)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')){
+                $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
+            }
+            elseif($this->getUser()->getId() == $entity->getId()){
+                $form = $this->createForm(new UserSelfEditType(), $entity, array("method" => $request->getMethod()));
+            }
+            else {
+                return FOSView::create(null, 403);
+            }
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * Partial Update to a User entity.
      *
