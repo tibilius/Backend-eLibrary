@@ -16,27 +16,26 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('phone', 'text')
-            ->add('firstName', 'text')
-            ->add('lastName', 'text')
-            ->add('middleName', 'text')
-            ->add('avatarImage', 'file')
-            ->add('email', 'email')
-            ->add('roles', 'choice',[
-                'choices' => User::getUserRoles(),
+            ->add('phone', 'text', ['required' => false])
+            ->add('firstName', 'text', ['required' => true])
+            ->add('lastName', 'text', ['required' => true])
+            ->add('middleName', 'text', ['required' => false])
+            ->add('avatarImage', 'file', ['required' => false])
+            ->add('email', 'email', ['required' => true])
+            ->add('roles', 'choice', [
+                'choices'  => User::getUserRoles(),
                 'multiple' => true,
-            ])
-
-        ;
+                'required' => true,
+            ]);
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Library\UserBundle\Entity\User',
+            'data_class'      => 'Library\UserBundle\Entity\User',
             'csrf_protection' => false,
         ));
     }
