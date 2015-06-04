@@ -35,7 +35,7 @@ class ReviewsRESTController extends VoryxController
      * Get a Reviews entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @return Response
      *
      */
@@ -48,7 +48,7 @@ class ReviewsRESTController extends VoryxController
      * Get all Reviews entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_READER")
+     * @Secure(roles="ROLE_GUEST")
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
