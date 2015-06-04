@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Reviews controller.
- * @RouteResource("Reviews")нrb
+ * @RouteResource("Reviews")
  */
 class ReviewsRESTController extends VoryxController
 {

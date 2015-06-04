@@ -20,12 +20,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Categories controller.
  * @RouteResource("Categories")
- * @Security("has_role('ROLE_EXPERT')")
  */
 class CategoriesRESTController extends VoryxController
 {
@@ -80,7 +78,7 @@ class CategoriesRESTController extends VoryxController
      * Create a Categories entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      *
      * @return Response
@@ -108,7 +106,7 @@ class CategoriesRESTController extends VoryxController
      * Update a Categories entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -138,7 +136,7 @@ class CategoriesRESTController extends VoryxController
      * Partial Update to a Categories entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      *
@@ -153,7 +151,7 @@ class CategoriesRESTController extends VoryxController
      * Delete a Categories entity.
      *
      * @View(statusCode=204)
-     *
+     * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
      * @internal param $id

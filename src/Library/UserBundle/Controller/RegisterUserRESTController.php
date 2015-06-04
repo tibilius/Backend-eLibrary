@@ -45,6 +45,8 @@ class RegisterUserRESTController extends Controller
             $user = $form->getData();
             /**@var $user \Library\UserBundle\Entity\User*/
             $user->addRole(User::ROLE_GUEST);
+            $date = new \DateTime();
+            $user->setCreated($date)->setUpdated($date);
             $em =$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
