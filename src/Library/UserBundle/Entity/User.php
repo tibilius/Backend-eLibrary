@@ -406,7 +406,7 @@ class User extends BaseUser
                 ->setUser($this)
                 ->setType($type)
                 ->setName(ReadlistEnumType::getChoices()[$type])
-                ->setColor('000000');
+                ->setColor(ReadlistEnumType::getColors()[$type]);
             $em->persist($readlist);
         }
         $em->flush();
