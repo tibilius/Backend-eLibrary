@@ -16,7 +16,7 @@ class WsseProvider extends Provider implements AuthenticationProviderInterface
 {
     protected function validateDigest($digest, $nonce, $created, $secret, $salt)
     {
-        return true;
+//        return true;
         //check whether timestamp is formatted correctly
         if(!$this->isFormattedCorrectly($created))
         {

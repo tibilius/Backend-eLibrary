@@ -103,6 +103,18 @@ class User extends BaseUser
     protected $middleName;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * @Groups({"user"})
+     */
+    protected $created;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * @Groups({"user"})
+     */
+    protected $updated;
+
+    /**
      * @return array
      */
     public static function getUserRoles()
@@ -310,9 +322,11 @@ class User extends BaseUser
     public function setAvatarImage(File $image = null)
     {
         $this->avatarImage = $image;
+        if ($image) {
+            $this->setUpdated(new \DateTime());
+        }
         return $this;
     }
-
 
     /**
      * @return mixed
@@ -332,14 +346,51 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
 
+    /**
+     * @param mixed $created
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param mixed $updated
+     * @return User
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
 
 
     /**
      * @ORM\PostUpdate
      */
     public function onPostUpdate(LifecycleEventArgs $args) {
+        if (!$this->getCreated()) {
+            $this->setCreated(new \DateTime('now'));
+        }
+        $this->setUpdated(new \DateTime('now'));
         $em = $args->getObjectManager();
         $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
         $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);

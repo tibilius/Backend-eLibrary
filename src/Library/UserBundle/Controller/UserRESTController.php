@@ -218,10 +218,10 @@ class UserRESTController extends VoryxController
         try {
             $request->setMethod('PATCH');
             $em = $this->getDoctrine()->getManager();
-            if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')){
+            if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')) {
                 $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
             }
-            elseif($this->getUser()->getId() == $entity->getId()) {
+            elseif ($this->getUser()->getId() == $entity->getId()) {
                 $form = $this->createForm(new UserSelfEditType(), $entity, array("method" => $request->getMethod()));
             }
             else {
@@ -251,7 +251,7 @@ class UserRESTController extends VoryxController
      * @param $entity
      *
      * @return Response
-*/
+    */
     public function patchAction(Request $request, User $entity)
     {
         return $this->putAction($request, $entity);

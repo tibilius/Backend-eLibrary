@@ -10,7 +10,7 @@ Library\CatalogBundle\Entity\Reviews:
                 - book_id
         fki_rating_id_fkey:
             columns:
-                -rating_id
+                - rating_id
         IDX_6970EB0FF675F31B:
             columns:
                 - author_id
