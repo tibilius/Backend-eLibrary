@@ -20,7 +20,7 @@ class Vote extends BaseVote
 
     /**
      * @ORM\ManyToOne(targetEntity="Library\VotesBundle\Entity\Rating", inversedBy="votes")
-     * @ORM\JoinColumn(name="rating_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="rating_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $rating;
 

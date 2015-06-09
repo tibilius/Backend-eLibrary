@@ -5,6 +5,7 @@ namespace Library\CatalogBundle\Controller;
 use JMS\Serializer\SerializationContext;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Books;
+use Library\CatalogBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\Form\BooksType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -16,6 +17,7 @@ use FOS\RestBundle\View\View as FOSView;
 use Library\CommentBundle\Entity\Comment;
 use Library\CommentBundle\Entity\Thread;
 use Library\CommentBundle\Form\CommentType;
+use Library\UserBundle\Entity\User;
 use Library\VotesBundle\Entity\Rating;
 use Library\VotesBundle\Entity\Vote;
 use Library\VotesBundle\Form\VoteType;
@@ -163,18 +165,11 @@ class BooksRESTController extends VoryxController
      */
     public function postVoteAction(Request $request, Books $entity) {
         try {
-            $em = $this->getDoctrine()->getManager();
-            /**@var $readBook */
-            $readBook = $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy([
-                    'book' => $entity->getId(),
-                    'readlist' => $em->getRepository('CatalogBundle:Readlists')->findBy(
-                        ['user' => $this->getUser()->getId(), 'type' => ReadlistEnumType::READED]
-                    )
-                ]
-            );
-            if (!$readBook) {
+
+            if (!$this->_canVote($entity)) {
                 return FOSView::create(array('errors' => ['cannot voted']), Codes::HTTP_FORBIDDEN);
             }
+            $em = $this->getDoctrine()->getManager();
             $vote = new \Library\VotesBundle\Entity\Vote();
             if(! $rate = $entity->getRating()) {
                 $rate = new Rating();
@@ -378,4 +373,31 @@ class BooksRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * @param Books $entity
+     * @return bool
+     */
+    protected function _canVote(Books $entity) {
+        $roleHierarchy = $this->get('service_container')->getParameter('security.role_hierarchy.roles');
+        foreach($this->getUser()->getRoles() as $role) {
+            if (!isset($roleHierarchy[$role])) {
+                continue;
+            }
+            if (in_array(User::ROLE_GROSSMEISER, (array)$roleHierarchy[$role])) {
+                return true;
+            }
+        }
+        $em = $this->getDoctrine()->getManager();
+        /**@var $readBook ReadlistsBooks[]*/
+        $readBook =  $em->getRepository('CatalogBundle:ReadlistsBooks')->findBy([
+                    'book' => $entity->getId(),
+                    'readlist' => $em->getRepository('CatalogBundle:Readlists')->findBy(
+                        ['user' => $this->getUser()->getId(), 'type' => ReadlistEnumType::READED]
+                    )
+                ]
+            );
+        return (bool) count($readBook);
+    }
+
 }

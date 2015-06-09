@@ -61,15 +61,17 @@ Library\CatalogBundle\Entity\Books:
             joinColumns:
                 thread_id:
                     referencedColumnName: id
+                    onDelete:  "SET NULL"
             orphanRemoval: false
         rating:
             targetEntity: Library\VotesBundle\Entity\Rating
-            cascade: {  }
+            cascade: ["persist"]
             mappedBy: null
             inversedBy: votes
             joinColumns:
                 rating_id:
                     referencedColumnName: id
+                    onDelete:  "SET NULL"
             orphanRemoval: false
     manyToMany:
         writers:

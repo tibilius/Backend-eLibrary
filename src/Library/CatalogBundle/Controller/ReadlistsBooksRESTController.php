@@ -136,7 +136,7 @@ class ReadlistsBooksRESTController extends VoryxController
             $form->handleRequest($request);
             if ($form->isValid()) {
                 if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
-                    $this->repository->clearReadlists($entity->getId(), $this->getUser()->getId());
+                    $this->repository->clearReadlists($entity, $this->getUser());
                 }
                 $em->flush();
                 return $entity;
