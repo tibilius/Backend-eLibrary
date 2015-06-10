@@ -175,6 +175,7 @@ class BooksRESTController extends VoryxController
                 $rate = new Rating();
                 $entity->setRating($rate);
                 $em->persist($rate);
+                $em->flush();
             }
             $voteManager = $this->container->get('dcs_rating.manager.vote');
             if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
@@ -187,6 +188,7 @@ class BooksRESTController extends VoryxController
             if ($form->isValid()) {
                 $vote->setVoter($this->getUser());
                 $voteManager->saveVote($vote);
+                $em->flush();
                 return $entity;
             }
             return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);

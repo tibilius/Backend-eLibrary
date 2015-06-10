@@ -3,7 +3,7 @@
 namespace Library\CatalogBundle\Repository;
 
 
-use Acme\TestBundle\Entity\ReadlistsBooks;
+use Library\CatalogBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Readlists;
 use Library\CatalogBundle\Entity\ReadlistsBooksSort;
@@ -35,14 +35,16 @@ class ReadlistsBookRepository extends \Doctrine\ORM\EntityRepository
         )->execute();
     }
 
-    public function getLastPosition(Readlists $readlist)
+    public function getLastPosition(Readlists $readlist, ReadlistsBooks $entity)
     {
         $lastItem = $this->getEntityManager()->createQueryBuilder()
             ->select('rb.position')
             ->from('CatalogBundle:ReadlistsBooks', 'rb')
             ->where('rb.readlist = :readlist_id')
+            ->andWhere('rb.id != :id')
             ->orderBy('rb.position', 'desc')
             ->setMaxResults(1)
+            ->setParameter('id', $entity->getId())
             ->setParameter('readlist_id', $readlist->getId())->getQuery()->getResult();
         return $lastItem ? intval($lastItem[0]['position']) + 1 : 0;
     }

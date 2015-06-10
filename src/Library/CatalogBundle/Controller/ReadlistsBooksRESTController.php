@@ -110,7 +110,10 @@ class ReadlistsBooksRESTController extends VoryxController
             if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
                 return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }
-            $entity->setPosition($this->repository->getLastPosition($entity->getReadlist()));
+            if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
+                $this->repository->clearReadlists($entity, $this->getUser());
+            }
+            $entity->setPosition($this->repository->getLastPosition($entity->getReadlist(), $entity));
             $em->persist($entity);
             $em->flush();
 
@@ -144,6 +147,7 @@ class ReadlistsBooksRESTController extends VoryxController
                 if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
                     $this->repository->clearReadlists($entity, $this->getUser());
                 }
+                $entity->setPosition($this->repository->getLastPosition($entity->getReadlist(), $entity));
                 $em->flush();
                 return $entity;
             }
