@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Readlists;
 use Library\CatalogBundle\Form\ReadlistsType;
 
@@ -174,6 +175,9 @@ class ReadlistsRESTController extends VoryxController
             return FOSView::create(null, 403);
         }
         try {
+            if (in_array($entity->getType(), [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED])) {
+                return FOSView::create('cannot delete this type', Codes::HTTP_BAD_REQUEST);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);
             $em->flush();

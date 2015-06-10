@@ -395,23 +395,11 @@ class User extends BaseUser
         $this->_createInternalReadlists($types, $em);
     }
 
-
-
     /**
      * @ORM\PreUpdate
      */
     public function onPreUpdate(LifecycleEventArgs $args) {
         $this->setUpdated(new \DateTime());
-        $em = $args->getObjectManager();
-        $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
-        $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
-        foreach($readlists as $entity) {
-            $types = array_diff($types, [$entity->getType()]);
-        }
-        if (!$types) {
-            return;
-        }
-        $this->_createInternalReadlists($types, $em);
     }
 
     protected function _createInternalReadlists(array $types, EntityManagerInterface $em) {

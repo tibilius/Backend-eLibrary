@@ -139,6 +139,7 @@ class UserRESTController extends VoryxController
      */
     public function postAction(Request $request)
     {
+
         $entity = new User();
         $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
         $this->removeExtraFields($request, $form);

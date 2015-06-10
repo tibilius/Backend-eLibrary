@@ -22,7 +22,7 @@ class UserType extends AbstractType
             ->add('lastName', 'text', ['required' => true])
             ->add('middleName', 'text', ['required' => false])
             ->add('avatarImage', 'file', ['required' => false])
-            ->add('email', 'email', ['required' => true])
+            ->add('email', 'email', ['required' => true, 'label' => 'form.email', 'translation_domain' => 'FOSUserBundle'])
             ->add('roles', 'choice', [
                 'choices'  => User::getUserRoles(),
                 'multiple' => true,

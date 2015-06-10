@@ -1,6 +1,7 @@
 <?php
 namespace Library\UserBundle\Controller;
 
+use FOS\RestBundle\Util\Codes;
 use Library\UserBundle\Entity\User;
 use Library\UserBundle\Entity\Roles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,6 +38,7 @@ class RegisterUserRESTController extends Controller
     public function postRegisterAction(Request $request)
     {
 
+
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
@@ -48,10 +50,10 @@ class RegisterUserRESTController extends Controller
             $em =$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $view = View::create($user, 201);
+            $view = View::create($user, Codes::HTTP_CREATED);
             return $this->get('fos_rest.view_handler')->handle($view);
         }
-        $view = View::create($form, 400);
+        $view = View::create($form, Codes::HTTP_BAD_REQUEST);
         return $this->get('fos_rest.view_handler')->handle($view);
     }
 }
