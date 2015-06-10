@@ -12,6 +12,7 @@ user_user_api_v1:
 #fos_user_old_reg:
 #    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
 #    prefix: /register
+
 fos_user_old_sec:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     prefix: /register

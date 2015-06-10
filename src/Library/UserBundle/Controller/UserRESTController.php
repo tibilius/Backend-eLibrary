@@ -69,7 +69,6 @@ class UserRESTController extends VoryxController
      */
     public function getSaltAction($slug)
     {
-
         $entity = $this->getDoctrine()->getRepository('Library\UserBundle\Entity\User')->findOneBy(
             ['username' => strtolower($slug)]
         );
@@ -77,16 +76,8 @@ class UserRESTController extends VoryxController
         if (!$entity) {
             throw $this->createNotFoundException('Data not found.');
         }
-
-        $salt = $entity->getSalt();
-
-        $view = FOSView::create();
-        $view->setData(array('salt' => $salt))->setStatusCode(200);
-
-        return $view;
+        return FOSView::create(['salt' => $entity->getSalt()], 200);
     }
-
-
 
     /**
      * Get a User entity
@@ -100,6 +91,7 @@ class UserRESTController extends VoryxController
     {
         return $entity;
     }
+
     /**
      * Get all User entities.
      *
@@ -199,14 +191,15 @@ class UserRESTController extends VoryxController
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em->flush();
                 if ($request->get('password')) {
                     $factory = $this->get('security.encoder_factory');
                     $encoder = $factory->getEncoder($entity);
                     $password = $encoder->encodePassword($request->get('password'), $entity->getSalt());
                     $entity->setPassword($password);
                 }
-
+                $entity->setUpdated(new \DateTime());
+                $em->persist($entity);
+                $em->flush();
                 return $entity;
             }
 
@@ -233,6 +226,37 @@ class UserRESTController extends VoryxController
     }
 
     /**
+     * Update a User entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function postResetAction(Request $request)
+    {
+        try {
+            $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($request->get('email'));
+            if (!$user) {
+                return FOSView::create(null, 404);
+            }
+            $plainPassword = substr(md5(microtime()), 0, 8);
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($plainPassword, $user->getSalt());
+            $user->setPassword($password);
+            $this->container->get('fos_user.user_manager')->updateUser($user);
+            $this->container->get('library_user_mailer')->sendNewPasswordMessage($user, $plainPassword);
+            return FOSView::create($user, Codes::HTTP_OK);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+    /**
      * Partial Update to a User entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
@@ -247,6 +271,7 @@ class UserRESTController extends VoryxController
     {
         return $this->putAction($request, $entity);
     }
+
     /**
      * Delete a User entity.
      *

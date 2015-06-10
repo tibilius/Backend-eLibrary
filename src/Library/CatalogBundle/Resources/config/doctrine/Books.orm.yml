@@ -48,10 +48,6 @@ Library\CatalogBundle\Entity\Books:
             type: datetime
         updated:
             type: datetime
-#    oneToMany:
-#        reviews:
-#            targetEntity: Library\CatalogBundle\Entity\Reviews
-#            mappedBy: reviews
     manyToOne:
         thread:
             targetEntity: Library\CommentBundle\Entity\Thread
@@ -106,13 +102,6 @@ Library\CatalogBundle\Entity\Books:
                        name: category_id
                        referencedColumnName: id
             orderBy: null
-#        readlists:
-#            targetEntity: Readlists
-#            cascade: {  }
-#            mappedBy: readlists
-#            inversedBy: null
-#            joinTable: null
-#            orderBy: null
     lifecycleCallbacks:
         prePersist: [updateTimestamps]
         preUpdate: [updateTimestamps]

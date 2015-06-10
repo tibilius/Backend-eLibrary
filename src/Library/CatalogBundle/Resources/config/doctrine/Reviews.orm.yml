@@ -46,33 +46,37 @@ Library\CatalogBundle\Entity\Reviews:
             joinColumn:
                 name: book_id
                 referencedColumnName: id
+                onDelete: CASCADE
             fetch: EXTRA_LAZY
         author:
             targetEntity: Library\UserBundle\Entity\User
-            cascade: {  }
+            cascade: [ "remove" ]
             mappedBy: null
             inversedBy: null
             joinColumns:
                 author_id:
                     referencedColumnName: id
+                    onDelete: CASCADE
             orphanRemoval: false
         rating:
             targetEntity: Library\VotesBundle\Entity\Rating
-            cascade: {  }
+            cascade: [ "remove" ]
             mappedBy: null
             inversedBy: votes
             joinColumns:
                 rating_id:
                     referencedColumnName: id
+                    onDelete: CASCADE
             orphanRemoval: false
         thread:
             targetEntity: Library\CommentBundle\Entity\Thread
-            cascade: {  }
+            cascade: [ "remove" ]
             mappedBy: null
             inversedBy: null
             joinColumns:
                 thread_id:
                     referencedColumnName: id
+                    onDelete: CASCADE
             orphanRemoval: false
     lifecycleCallbacks:
          prePersist: [updateTimestamps]

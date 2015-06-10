@@ -58,6 +58,7 @@ security:
         - { path: ^/connect, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth/bridge, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/users/resets, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/time, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/oauths/tokens, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/users/.*/salt, role: IS_AUTHENTICATED_ANONYMOUSLY }

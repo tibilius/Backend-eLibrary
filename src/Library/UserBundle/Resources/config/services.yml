@@ -1,3 +1,7 @@
+parameters:
+    password_reset_template: UserBundle:Default:email_reset.txt.twig
+    footer_sign: "eLibrary team"
+
 services:
     library.registration.form.type:
         class: Library\UserBundle\Form\RestRegistrationType
@@ -16,3 +20,7 @@ services:
         arguments: [@security.context]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onIntaractiveLogin }
+
+    library_user_mailer:
+        class: Library\UserBundle\Mailer\Mailer
+        arguments: [@mailer, @router, @templating, {confirmation.template: %fos_user.registration.confirmation.template%, resetting.template: %password_reset_template%, from_email: {confirmation: %fos_user.registration.confirmation.from_email%, resseting: %fos_user.resetting.email.from_email%, footer_sign: %footer_sign%}}]

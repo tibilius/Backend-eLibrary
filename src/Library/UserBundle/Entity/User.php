@@ -32,6 +32,7 @@ class User extends BaseUser
         self::ROLE_READER => 'Читатель',
         self::ROLE_EXPERT => 'Эксперт',
         self::ROLE_GROSSMEISER => 'Гроссмейстер',
+        self::ROLE_SUPER_ADMIN => 'Администратор',
     ];
 
     /**

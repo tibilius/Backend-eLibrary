@@ -17,15 +17,10 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
 
-
-#fos_comment_api:
-#    type: rest
-#    resource: "@FOSCommentBundle/Resources/config/routing.yml"
-#    prefix: /api
-#    defaults: { _format: html }
-
+#Liip image routes
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
 #HWIOAuthBundle routes
 hwi_oauth_security:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
