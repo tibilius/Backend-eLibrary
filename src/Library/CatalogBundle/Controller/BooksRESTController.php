@@ -176,6 +176,7 @@ class BooksRESTController extends VoryxController
                 $entity->setRating($rate);
                 $em->persist($rate);
                 $em->flush();
+                $em->refresh($rate);
             }
             $voteManager = $this->container->get('dcs_rating.manager.vote');
             if ($voteManager->findBy(['voter' => $this->getUser(), 'rating' => $rate])) {
@@ -381,14 +382,8 @@ class BooksRESTController extends VoryxController
      * @return bool
      */
     protected function _canVote(Books $entity) {
-        $roleHierarchy = $this->get('service_container')->getParameter('security.role_hierarchy.roles');
-        foreach($this->getUser()->getRoles() as $role) {
-            if (!isset($roleHierarchy[$role])) {
-                continue;
-            }
-            if (in_array(User::ROLE_GROSSMEISER, (array)$roleHierarchy[$role])) {
-                return true;
-            }
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_GROSSMEISER')) {
+            return true;
         }
         $em = $this->getDoctrine()->getManager();
         /**@var $readBook ReadlistsBooks[]*/
