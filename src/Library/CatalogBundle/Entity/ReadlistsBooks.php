@@ -25,6 +25,11 @@ class ReadlistsBooks
     private $plan;
 
     /**
+     * @var integer
+     */
+    private $position;
+
+    /**
      * @var \Library\CatalogBundle\Entity\Books
      */
     private $book;
@@ -135,5 +140,23 @@ class ReadlistsBooks
     public function getReadlist()
     {
         return $this->readlist;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     * @return ReadlistsBooks
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
     }
 }

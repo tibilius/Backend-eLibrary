@@ -31,6 +31,10 @@ class Version20150609150149 extends AbstractMigration
       ');
 
 
+    $this->addSql('ALTER TABLE readlists_books  ADD COLUMN "position" integer');
+
+
+
     }
 
     /**

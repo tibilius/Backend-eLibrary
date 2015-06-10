@@ -92,7 +92,7 @@ class UserRESTController extends VoryxController
      * Get a User entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_SUPER_ADMIN")
+     * @Secure(roles="ROLE_GUEST")
      * @return Response
      *
      */

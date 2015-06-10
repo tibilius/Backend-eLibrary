@@ -6,6 +6,7 @@ namespace Library\CatalogBundle\Repository;
 use Acme\TestBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Books;
+use Library\CatalogBundle\Entity\Readlists;
 use Library\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -29,6 +30,17 @@ class ReadlistsBookRepository extends \Doctrine\ORM\EntityRepository
 
             )'
         )->execute();
+    }
+
+    public function getLastPosition(Readlists $readlist) {
+        $lastItem = $this->getEntityManager()->createQueryBuilder()
+            ->select('rb.position')
+            ->from('CatalogBundle:ReadlistsBooks', 'rb')
+            ->where('rb.readlist = :readlist_id')
+            ->orderBy('rb.position', 'desc')
+            ->setMaxResults(1)
+            ->setParameter('readlist_id', $readlist->getId())->getQuery()->getResult();
+        return $lastItem ? intval($lastItem[0]['position']) + 1 : 0;
     }
 
 

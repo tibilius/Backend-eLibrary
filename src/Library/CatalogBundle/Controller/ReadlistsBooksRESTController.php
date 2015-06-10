@@ -2,6 +2,7 @@
 
 namespace Library\CatalogBundle\Controller;
 
+use Library\CatalogBundle\Entity\Readlists;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\Form\ReadlistsBooksType;
@@ -12,6 +13,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as FOSView;
+use Library\CatalogBundle\Repository\ReadlistsBookRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -29,6 +31,7 @@ class ReadlistsBooksRESTController extends VoryxController
 {
     /**
      * @JMS\DiExtraBundle\Annotation\Inject("library_catalogbundle.repository.readlistsbookrepository")
+     * @var ReadlistsBookRepository
     */
     protected $repository;
 
@@ -105,6 +108,7 @@ class ReadlistsBooksRESTController extends VoryxController
             if($entity->getReadlist()->getUser()->getId() !== $this->getUser()->getId()) {
                 return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }
+            $entity->setPosition($this->repository->getLastPosition($entity->getReadlist()));
             $em->persist($entity);
             $em->flush();
 
@@ -147,6 +151,49 @@ class ReadlistsBooksRESTController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Update a ReadlistsBooks entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @Secure(roles="ROLE_READER")
+     * @param Request $request
+     * @param $entity
+     *
+     * @return Response
+     */
+    public function putSortAction(Request $request, Readlists $entity)
+    {
+        try {
+            if ($entity->getUser()->getId() !== $this->getUser()->getId()) {
+                return FOSView::create(array('errors' => ['bad readlist']), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            var_dump($request->getContent());die;
+
+
+            $em = $this->getDoctrine()->getManager();
+            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new ReadlistsBooksType(), $entity, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
+                    $this->repository->clearReadlists($entity, $this->getUser());
+                }
+                $em->flush();
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+
     /**
      * Partial Update to a ReadlistsBooks entity.
      *
