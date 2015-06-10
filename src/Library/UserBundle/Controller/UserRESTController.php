@@ -154,9 +154,17 @@ class UserRESTController extends VoryxController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $date =new \DateTime();
+            if ($entity->getPassword()) {
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($entity);
+                $password = $encoder->encodePassword($request->get('password'), $entity->getSalt());
+                $entity->setPassword($password);
+            }
+            $entity->setCreated($date);
+            $entity->setUpdated($date);
             $em->persist($entity);
             $em->flush();
-
             return $entity;
         }
 
@@ -192,6 +200,12 @@ class UserRESTController extends VoryxController
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->flush();
+                if ($request->get('password')) {
+                    $factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($entity);
+                    $password = $encoder->encodePassword($request->get('password'), $entity->getSalt());
+                    $entity->setPassword($password);
+                }
 
                 return $entity;
             }
@@ -215,30 +229,7 @@ class UserRESTController extends VoryxController
      */
     public function postUpdateAction(Request $request, User $entity)
     {
-        try {
-            $request->setMethod('PATCH');
-            $em = $this->getDoctrine()->getManager();
-            if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')) {
-                $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
-            }
-            elseif ($this->getUser()->getId() == $entity->getId()) {
-                $form = $this->createForm(new UserSelfEditType(), $entity, array("method" => $request->getMethod()));
-            }
-            else {
-                return FOSView::create(null, 403);
-            }
-            $this->removeExtraFields($request, $form);
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
-
-                return $entity;
-            }
-
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (\Exception $e) {
-            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
-        }
+       return $this->putAction($request, $entity);
     }
 
     /**
