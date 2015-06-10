@@ -145,18 +145,7 @@ class UserRESTController extends VoryxController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $date =new \DateTime();
-            if ($entity->getPassword()) {
-                $factory = $this->get('security.encoder_factory');
-                $encoder = $factory->getEncoder($entity);
-                $password = $encoder->encodePassword($request->get('password'), $entity->getSalt());
-                $entity->setPassword($password);
-            }
-            $entity->setCreated($date);
-            $entity->setUpdated($date);
-            $em->persist($entity);
-            $em->flush();
+            $this->get('fos_user.user_manager')->updateUser($entity);
             return $entity;
         }
 
@@ -177,7 +166,6 @@ class UserRESTController extends VoryxController
     public function putAction(Request $request, User $entity)
     {
         try {
-            $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
             if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')){
                 $form = $this->createForm(new UserType(), $entity, array("method" => $request->getMethod()));
@@ -191,15 +179,7 @@ class UserRESTController extends VoryxController
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
-                if ($request->get('password')) {
-                    $factory = $this->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($entity);
-                    $password = $encoder->encodePassword($request->get('password'), $entity->getSalt());
-                    $entity->setPassword($password);
-                }
-                $entity->setUpdated(new \DateTime());
-                $em->persist($entity);
-                $em->flush();
+                $this->get('fos_user.user_manager')->updateUser($entity);
                 return $entity;
             }
 

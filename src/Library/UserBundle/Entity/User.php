@@ -3,6 +3,7 @@
 namespace Library\UserBundle\Entity;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -362,6 +363,7 @@ class User extends BaseUser
     public function setCreated($created)
     {
         $this->created = $created;
+        $this->setUpdated($created);
         return $this;
     }
 
@@ -383,24 +385,37 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @ORM\PrePersist
+    */
+    public function onPrePersist(LifecycleEventArgs $args) {
+        $this->setCreated(new \DateTime());
+        $em = $args->getObjectManager();
+        $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
+        $this->_createInternalReadlists($types, $em);
+    }
+
+
 
     /**
-     * @ORM\PostUpdate
+     * @ORM\PreUpdate
      */
-    public function onPostUpdate(LifecycleEventArgs $args) {
-        if (!$this->getCreated()) {
-            $this->setCreated(new \DateTime('now'));
-        }
-        $this->setUpdated(new \DateTime('now'));
+    public function onPreUpdate(LifecycleEventArgs $args) {
+        $this->setUpdated(new \DateTime());
         $em = $args->getObjectManager();
         $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
         $readlists = $em->getRepository('CatalogBundle:Readlists')->findBy(['user' => $this->getId(), 'type' => $types]);
+        var_dump($readlists);die;
         foreach($readlists as $entity) {
             $types = array_diff($types, [$entity->getType()]);
         }
-        if (!$types){
+        if (!$types) {
             return;
         }
+        $this->_createInternalReadlists($types, $em);
+    }
+
+    protected function _createInternalReadlists(array $types, EntityManagerInterface $em) {
         foreach($types as $type) {
             $readlist =  new Readlists();
             $readlist
@@ -410,6 +425,6 @@ class User extends BaseUser
                 ->setColor(ReadlistEnumType::getColors()[$type]);
             $em->persist($readlist);
         }
-        $em->flush();
     }
+
 }
