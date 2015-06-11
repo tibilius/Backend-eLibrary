@@ -160,7 +160,9 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             ->setFirstResult((int)$offset)
             ->setMaxResults((int)$limit)
             ->getQuery();
-        return $dQuery->getResult();
+        $result = $dQuery->getResult();
+        $this->_mergeUserReadlistsIds($result);
+        return $result;
     }
 
 }
