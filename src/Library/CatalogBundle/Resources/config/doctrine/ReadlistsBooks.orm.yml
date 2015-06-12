@@ -57,5 +57,6 @@ Library\CatalogBundle\Entity\ReadlistsBooks:
             joinColumns:
                 readlist_id:
                     referencedColumnName: id
+                    onDelete: "CASCADE"
             orphanRemoval: false
     lifecycleCallbacks: {  }

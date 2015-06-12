@@ -48,6 +48,7 @@ class RegisterUserRESTController extends Controller
             /**@var $user \Library\UserBundle\Entity\User*/
             $user->addRole(User::ROLE_GUEST);
             $em =$this->getDoctrine()->getManager();
+            $user->setModerated(false);
             $em->persist($user);
             $em->flush();
             $view = View::create($user, Codes::HTTP_CREATED);

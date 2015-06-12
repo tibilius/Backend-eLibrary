@@ -24,12 +24,4 @@ Library\CatalogBundle\Entity\Categories:
             length: null
             fixed: false
             comment: ''
-#    manyToMany:
-#        books:
-#            targetEntity: Books
-#            cascade: {  }
-#            mappedBy: categories
-#            inversedBy: null
-#            joinTable: null
-#            orderBy: null
     lifecycleCallbacks: {  }

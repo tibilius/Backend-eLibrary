@@ -79,6 +79,10 @@ class BooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+            $filters += ['owner' => null];
+            if ($filters['owner'] && $filters['owner'] != $this->getUser()->getId()) {
+                return FOSView::create(null, 403);
+            }
             $entities = $this->booksRepository->findBy($filters, $order_by, $limit, $offset);
             $view  = FOSView::create();
             if (!$this->get('security.authorization_checker')->isGranted('ROLE_READER')) {
@@ -324,6 +328,11 @@ class BooksRESTController extends VoryxController
         try {
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $canEdit = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT')
+                || $entity->getOwner()->getId() == $this->getUser()->getId();
+            if (!$canEdit) {
+                return FOSView::create(null , 403);
+            }
             $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
@@ -367,6 +376,11 @@ class BooksRESTController extends VoryxController
     public function deleteAction(Request $request, Books $entity)
     {
         try {
+            $canEdit = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT')
+                || $entity->getOwner()->getId() == $this->getUser()->getId();
+            if (!$canEdit) {
+                return FOSView::create(null , 403);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);
             $em->flush();

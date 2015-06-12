@@ -50,6 +50,11 @@ class BooksType extends AbstractType
                 'required' => false,
                 'property' => 'id',
             ])
+            ->add('owner', 'entity', [
+                'class'    => 'Library\UserBundle\Entity\User',
+                'required' => false,
+                'property' => 'id',
+            ])
             ->add('file', 'file');
     }
 

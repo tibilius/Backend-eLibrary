@@ -24,13 +24,16 @@ class Comment extends BaseComment implements SignedCommentInterface
      *
      * @var Thread
      * @ORM\ManyToOne(targetEntity="Library\CommentBundle\Entity\Thread")
+     * @ORM\JoinColumn(name="thread_id", referencedColumnName="id", onDelete="CASCADE")
+     *
      */
     protected $thread;
 
     /**
      * Author of the comment
      *
-     * @ORM\ManyToOne(targetEntity="Library\UserBundle\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Library\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      *
      * @var User
      */

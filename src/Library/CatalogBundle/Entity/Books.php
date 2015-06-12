@@ -65,6 +65,12 @@ class Books
      * @Groups({"books", "guest"})
      */
     private $thread;
+
+    /**
+     * @var \Library\UserBundle\Entity\User
+     * @Groups({"books", "guest"})
+     */
+    private $owner;
     /**
      * @var \Library\VotesBundle\Entity\Rating
      * @Groups({"books", "guest"})
@@ -101,6 +107,8 @@ class Books
      * @Groups({"books", "guest"})
      */
     protected $userReadlistsIds;
+
+
 
     /**
      * Constructor
@@ -415,6 +423,24 @@ class Books
     {
         $this->thread = $thread;
 
+        return $this;
+    }
+
+    /**
+     * @return \Library\UserBundle\Entity\User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param \Library\UserBundle\Entity\User $owner
+     * @return Books
+     */
+    public function setOwner(\Library\UserBundle\Entity\User $owner = null)
+    {
+        $this->owner = $owner;
         return $this;
     }
 

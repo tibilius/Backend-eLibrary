@@ -61,6 +61,7 @@ class FOSUBUserProvider extends BaseClass
 //I have set all requested data with the user's username
 //modify here with relevant data
             $user->setEmail($response->getEmail());
+            $user->setModerated(false);
             $user->setPassword(base64_encode(sha1($username. $user->getSalt())));
             $user->setEnabled(true);
             $date = new \DateTime();

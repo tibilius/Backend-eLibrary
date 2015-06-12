@@ -117,6 +117,13 @@ class User extends BaseUser
     protected $updated;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":"TRUE"})
+     * @Groups({"user"})
+     * @var boolean
+     */
+    protected $moderated = true;
+
+    /**
      * @return array
      */
     public static function getUserRoles()
@@ -386,6 +393,24 @@ class User extends BaseUser
     }
 
     /**
+     * @return mixed
+     */
+    public function isModerated()
+    {
+        return $this->moderated;
+    }
+
+    /**
+     * @param mixed $moderated
+     * @return User
+     */
+    public function setModerated($moderated)
+    {
+        $this->moderated = $moderated;
+        return $this;
+    }
+
+    /**
      * @ORM\PrePersist
     */
     public function onPrePersist(LifecycleEventArgs $args) {
@@ -413,5 +438,6 @@ class User extends BaseUser
             $em->persist($readlist);
         }
     }
+
 
 }

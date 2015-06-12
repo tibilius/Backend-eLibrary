@@ -26,6 +26,7 @@ class Vote extends BaseVote
 
     /**
      * @ORM\ManyToOne(targetEntity="Library\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="voter_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $voter;
 }

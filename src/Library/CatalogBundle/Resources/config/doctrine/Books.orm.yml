@@ -57,7 +57,7 @@ Library\CatalogBundle\Entity\Books:
             joinColumns:
                 thread_id:
                     referencedColumnName: id
-                    onDelete:  "SET NULL"
+                    onDelete:  "CASCADE"
             orphanRemoval: false
         rating:
             targetEntity: Library\VotesBundle\Entity\Rating
@@ -67,7 +67,17 @@ Library\CatalogBundle\Entity\Books:
             joinColumns:
                 rating_id:
                     referencedColumnName: id
-                    onDelete:  "SET NULL"
+                    onDelete:  "CASCADE"
+            orphanRemoval: false
+        owner:
+            targetEntity: Library\UserBundle\Entity\User
+            cascade: { }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                owner_id:
+                    referencedColumnName: id
+                    onDelete:  "CASCADE"
             orphanRemoval: false
     manyToMany:
         writers:
@@ -81,10 +91,12 @@ Library\CatalogBundle\Entity\Books:
                    -
                        name: book_id
                        referencedColumnName: id
+                       onDelete: "CASCADE"
                 inverseJoinColumns:
                    -
                        name: writer_id
                        referencedColumnName: id
+                       onDelete: "CASCADE"
             orderBy: null
         categories:
             targetEntity: Categories
@@ -97,10 +109,12 @@ Library\CatalogBundle\Entity\Books:
                    -
                        name: book_id
                        referencedColumnName: id
+                       onDelete: "CASCADE"
                 inverseJoinColumns:
                    -
                        name: category_id
                        referencedColumnName: id
+                       onDelete: "CASCADE"
             orderBy: null
     lifecycleCallbacks:
         prePersist: [updateTimestamps]
