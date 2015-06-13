@@ -19,10 +19,7 @@ class Version20150612183637 extends AbstractMigration
         $this->addSql('ALTER TABLE books ADD COLUMN owner_id integer');
         $this->addSql('ALTER TABLE books  ADD CONSTRAINT fk_4a1b2a927e3c61f9 FOREIGN KEY (owner_id)
           REFERENCES users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;');
-
-        $this->addSql('ALTER TABLE users ADD COLUMN moderated boolean');
-        $this->addSql('ALTER TABLE users ALTER COLUMN moderated SET NOT NULL');
-        $this->addSql('ALTER TABLE users ALTER COLUMN moderated SET DEFAULT true;');
+        $this->addSql('ALTER TABLE users ADD COLUMN moderated BOOLEAN NOT NULL DEFAULT TRUE');
     }
 
     /**
