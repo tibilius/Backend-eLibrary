@@ -22,6 +22,6 @@ class ToTsvector extends FunctionNode
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
         return
-            'to_tsvector(lower(' . $this->text->dispatch($sqlWalker) . '))';
+            'to_tsvector(\'russian\', lower(' . $this->text->dispatch($sqlWalker) . '))';
     }
 }

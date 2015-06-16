@@ -26,6 +26,6 @@ class TsqueryFunction extends FunctionNode
     {
         return
             $this->fieldName->dispatch($sqlWalker) .
-            ' @@ to_tsquery(lower(' . $this->queryString->dispatch($sqlWalker) . '))';
+            ' @@ to_tsquery(\'russian\', lower(' . $this->queryString->dispatch($sqlWalker) . '))';
     }
 }
