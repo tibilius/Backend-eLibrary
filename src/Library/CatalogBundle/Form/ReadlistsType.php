@@ -23,12 +23,6 @@ class ReadlistsType extends AbstractType
                 'required' => true,
                 'empty_data'  => ReadlistEnumType::USUAL,
             ]);
-//            ->add('books', 'entity', [
-//                'class' => 'Library\CatalogBundle\Entity\Books',
-//                'required' => false,
-//                'multiple' => true,
-//                'property' => 'id',
-//            ]);
     }
 
     /**
