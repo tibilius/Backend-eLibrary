@@ -144,19 +144,26 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
     public function findByQuery($query, $limit = null, $offset = null)
     {
         $db = $this->getEntityManager()->createQueryBuilder();
+        $uid = ($token = $this->getContainer()->get('security.context')->getToken())
+            ? $token->getUser()->getId()
+            : 0;
         $query = str_replace(' ', ' | ', $query);
         $dQuery = $db
             ->select('b')
             ->from('CatalogBundle:Books', 'b')
             ->innerJoin('b.categories', 'c')
             ->innerJoin('b.writers', 'w')
-            ->where('TSQUERY(TOTSVECTOR(b.name), :query) = true')
-            ->orWhere('TSQUERY(TOTSVECTOR(b.isbn), :query) = true')
-            ->orWhere('TSQUERY(TOTSVECTOR(c.name), :query) = true')
-            ->orWhere('TSQUERY(TOTSVECTOR(w.firstName), :query) = true')
-            ->orWhere('TSQUERY(TOTSVECTOR(w.middleName), :query) = true')
-            ->orWhere('TSQUERY(TOTSVECTOR(w.lastName), :query) = true')
+            ->leftJoin('b.owner','u')
+            ->where('TSQUERY(TOTSVECTOR(b.name), :query) = true
+                OR TSQUERY(TOTSVECTOR(b.isbn), :query) = true
+                OR TSQUERY(TOTSVECTOR(c.name), :query) = true
+                OR TSQUERY(TOTSVECTOR(w.firstName), :query) = true
+                OR TSQUERY(TOTSVECTOR(w.middleName), :query) = true
+                OR TSQUERY(TOTSVECTOR(w.lastName), :query) = true'
+            )
+            ->andWhere('u.id is NULL OR u.id = :uid')
             ->setParameter('query', $query)
+            ->setParameter('uid', $uid)
             ->setFirstResult((int)$offset)
             ->setMaxResults((int)$limit)
             ->getQuery();

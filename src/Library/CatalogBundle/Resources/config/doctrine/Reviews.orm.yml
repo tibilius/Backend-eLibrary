@@ -50,7 +50,7 @@ Library\CatalogBundle\Entity\Reviews:
             fetch: EXTRA_LAZY
         author:
             targetEntity: Library\UserBundle\Entity\User
-            cascade: [ "remove" ]
+            cascade: {}
             mappedBy: null
             inversedBy: null
             joinColumns:
