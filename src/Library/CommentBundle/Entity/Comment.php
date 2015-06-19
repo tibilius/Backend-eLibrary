@@ -33,7 +33,7 @@ class Comment extends BaseComment implements SignedCommentInterface
      * Author of the comment
      *
      * @ORM\ManyToOne(targetEntity="Library\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="CASCADE")
      *
      * @var User
      */
