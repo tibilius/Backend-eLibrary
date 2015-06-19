@@ -79,10 +79,7 @@ class BooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            $filters += ['owner' => null];
-            if ($filters['owner'] && $filters['owner'] != $this->getUser()->getId()) {
-                return FOSView::create(null, 403);
-            }
+            $filters += ['published' => true];
             $entities = $this->booksRepository->findBy($filters, $order_by, $limit, $offset);
             $view  = FOSView::create();
             if (!$this->get('security.authorization_checker')->isGranted('ROLE_READER')) {
@@ -327,16 +324,20 @@ class BooksRESTController extends VoryxController
     {
         try {
             $em = $this->getDoctrine()->getManager();
+            $isExpert = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT');
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $canEdit = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT')
-                || $entity->getOwner()->getId() == $this->getUser()->getId();
+            $canEdit =$isExpert || $entity->getOwner()->getId() == $this->getUser()->getId();
             if (!$canEdit) {
                 return FOSView::create(null , 403);
             }
+            $wasPublished = $entity->isPublished();
             $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
+                if (!$wasPublished  && $entity->isPublished() && !$isExpert) {
+                    return FOSView::create(null , 403);
+                }
                 $em->flush();
 
                 return $entity;
