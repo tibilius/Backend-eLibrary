@@ -335,7 +335,7 @@ class BooksRESTController extends VoryxController
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
-                if (j!$wasPublished  && $entity->isPublished() && !$isExpert) {
+                if (!$wasPublished  && $entity->isPublished() && !$isExpert) {
                     return FOSView::create(null , 403);
                 }
                 $em->flush();
