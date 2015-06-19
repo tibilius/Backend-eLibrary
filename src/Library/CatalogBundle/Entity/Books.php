@@ -55,6 +55,13 @@ class Books
      * @Groups({"books", "guest"})
      */
     private $updated;
+
+    /**
+     * @var boolean
+     * @Groups({"books", "guest"})
+     */
+    private $published;
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      * @Groups({"books", "guest"})
@@ -269,6 +276,26 @@ class Books
 
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     * @return Books
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+        return $this;
+    }
+
+
 
     /**
      * Add writer

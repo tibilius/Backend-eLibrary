@@ -44,6 +44,10 @@ Library\CatalogBundle\Entity\Books:
             unsigned: false
             comment: ''
             column: page_number
+        published:
+            type: boolean
+            nullable: false
+            options: { default: "TRUE"}
         created:
             type: datetime
         updated:

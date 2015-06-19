@@ -21,6 +21,7 @@ class BooksType extends AbstractType
             ->add('description', 'text')
             ->add('isbn', 'text')
             ->add('pageNumber', 'integer', ['required' => true])
+            ->add('published', 'checkbox', ['required' => false, 'data' => false])
             ->add('writers', 'entity', [
                 'class'    => 'Library\CatalogBundle\Entity\Writers',
                 'required' => true,
