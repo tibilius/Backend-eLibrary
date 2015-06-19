@@ -79,7 +79,9 @@ class BooksRESTController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            $filters += ['published' => isset($filters['owner']) ? null : true];
+            if (!isset($filters['owner'])) {
+                $filters += ['published' => true];
+            }
             $entities = $this->booksRepository->findBy($filters, $order_by, $limit, $offset);
             $view  = FOSView::create();
             if (!$this->get('security.authorization_checker')->isGranted('ROLE_READER')) {
