@@ -416,8 +416,7 @@ class User extends BaseUser
     public function onPrePersist(LifecycleEventArgs $args) {
         $this->setCreated(new \DateTime());
         $em = $args->getObjectManager();
-        $types = [ReadlistEnumType::IN_READ, ReadlistEnumType::READED, ReadlistEnumType::PAUSED];
-        $this->_createInternalReadlists($types, $em);
+        $this->_createInternalReadlists(ReadlistEnumType::getInternalTypes(), $em);
     }
 
     /**

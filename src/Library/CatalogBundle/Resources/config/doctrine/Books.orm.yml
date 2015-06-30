@@ -18,6 +18,12 @@ Library\CatalogBundle\Entity\Books:
             length: 255
             fixed: false
             comment: ''
+        teaser:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
         description:
             type: text
             nullable: true

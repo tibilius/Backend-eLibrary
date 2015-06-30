@@ -21,6 +21,7 @@ class UserSelfEditType extends AbstractType
             ->add('lastName', 'text', ['required' => false, 'empty_data' => null])
             ->add('middleName', 'text', ['required' => false, 'empty_data' => null])
             ->add('avatarImage', 'file', ['required' => false, 'empty_data' => null])
+            ->add('plain_password', 'text', ['required' => false, 'empty_data' => null])
             ->add('email', 'email', ['required' => false, 'empty_data' => null]);
     }
 

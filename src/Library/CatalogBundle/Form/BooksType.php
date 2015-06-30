@@ -19,6 +19,7 @@ class BooksType extends AbstractType
         $builder
             ->add('name', 'text', ['required' => true])
             ->add('description', 'text')
+            ->add('teaser', 'text')
             ->add('isbn', 'text')
             ->add('pageNumber', 'integer', ['required' => true])
             ->add('published', 'checkbox', ['required' => false, 'data' => false])

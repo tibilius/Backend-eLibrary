@@ -34,6 +34,11 @@ class Books
      * @var string
      * @Groups({"books", "guest"})
      */
+    private $teaser;
+    /**
+     * @var string
+     * @Groups({"books", "guest"})
+     */
     private $isbn;
     /**
      * @var string
@@ -184,6 +189,27 @@ class Books
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTeaser()
+    {
+        return $this->teaser;
+    }
+
+    /**
+     * @param string $teaser
+     * @return Books
+     */
+    public function setTeaser($teaser)
+    {
+        $this->teaser = $teaser;
+        return $this;
+    }
+
+
+
 
     /**
      * Get isbn

@@ -265,6 +265,33 @@ class UserRESTController extends VoryxController
      *
      * @return Response
      */
+    public function deleteAvatarAction(Request $request, User $entity)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $this->get("vich_uploader.upload_handler")->remove($entity, 'avatarImage');
+            $entity->setUpdated(new \DateTime());
+            $em->persist($entity);
+            $em->flush();
+
+            return null;
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Delete a User entity.
+     *
+     * @View(statusCode=204)
+     * @Secure(roles="ROLE_SUPER_ADMIN")
+     *
+     * @param Request $request
+     * @param $entity
+     * @internal param $id
+     *
+     * @return Response
+     */
     public function deleteAction(Request $request, User $entity)
     {
         try {
