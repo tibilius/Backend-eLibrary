@@ -17,6 +17,7 @@ class TokenRestController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
+     *   section="users",
      *   description = "Creates a new token from the submitted data.",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -61,6 +62,7 @@ class TokenRestController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
+     *   section="users",
      *   description = "Creates a new token from the submitted data.",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -103,6 +105,7 @@ class TokenRestController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
+     *   section="users",
      *   description = "Creates a new token from the submitted data.",
      *   statusCodes = {
      *     200 = "Returned when successful"

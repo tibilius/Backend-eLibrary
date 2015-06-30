@@ -5,7 +5,7 @@ namespace Library\CatalogBundle\Controller;
 use Library\CommentBundle\Form\CommentType;
 use Library\CatalogBundle\Entity\Reviews;
 use Library\CatalogBundle\Form\ReviewsType;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -36,6 +36,14 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      */
@@ -49,6 +57,14 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
@@ -83,7 +99,15 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      input="\Library\CatalogBundle\Form\ReviewsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @return Response
      *
@@ -115,7 +139,16 @@ class ReviewsRESTController extends VoryxController
      * Partial Update to a Reviews entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      input="\Library\CatalogBundle\Form\ReviewsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      * @Secure(roles="ROLE_EXPERT")
@@ -131,7 +164,15 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      input="\Library\CatalogBundle\Form\ReviewsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -165,6 +206,16 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      tags={"comments"},
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -207,6 +258,16 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      tags={"votes"},
+     *      input="\Library\VotesBundle\Form\VoteType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -246,6 +307,16 @@ class ReviewsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      tags={"comment"},
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -268,10 +339,20 @@ class ReviewsRESTController extends VoryxController
     }
 
     /**
-     * Vote a Books entity.
+     * Vote a Review entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="reviews",
+     *      tags={"votes"},
+     *      input="\Library\VotesBundle\Form\VoteType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *

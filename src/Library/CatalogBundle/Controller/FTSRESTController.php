@@ -46,7 +46,10 @@ class FTSRESTController extends VoryxController
      *
      * @param ParamFetcherInterface $paramFetcher
      * @return Response
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books"
+     * )
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
      * @QueryParam(name="query", default="", description="query for search")

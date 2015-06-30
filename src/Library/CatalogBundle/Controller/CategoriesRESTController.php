@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -31,7 +31,14 @@ class CategoriesRESTController extends VoryxController
      * Get a Categories entity
      * @Secure(roles="ROLE_GUEST")
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="categories",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      */
@@ -47,6 +54,14 @@ class CategoriesRESTController extends VoryxController
      * @Secure(roles="ROLE_GUEST")
      * @param ParamFetcherInterface $paramFetcher
      *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="categories",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
@@ -80,7 +95,15 @@ class CategoriesRESTController extends VoryxController
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="categories",
+     *      input="\Library\CatalogBundle\Form\CategoriesType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      *
      */
@@ -109,7 +132,15 @@ class CategoriesRESTController extends VoryxController
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="categories",
+     *      input="\Library\CatalogBundle\Form\CategoriesType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function putAction(Request $request, Categories $entity)
@@ -137,6 +168,15 @@ class CategoriesRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="categories",
+     *      input="\Library\CatalogBundle\Form\CategoriesType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *

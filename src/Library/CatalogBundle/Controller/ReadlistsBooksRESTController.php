@@ -8,7 +8,7 @@ use Library\CatalogBundle\Entity\ReadlistsBooks;
 use Library\CatalogBundle\Entity\ReadlistsBooksSort;
 use Library\CatalogBundle\Form\ReadlistsBooksSortType;
 use Library\CatalogBundle\Form\ReadlistsBooksType;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -42,7 +42,14 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      */
@@ -57,6 +64,14 @@ class ReadlistsBooksRESTController extends VoryxController
      * Get all ReadlistsBooks entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @Secure(roles="ROLE_READER")
      * @param ParamFetcherInterface $paramFetcher
      *
@@ -93,6 +108,15 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsBooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      *
      * @return Response
@@ -129,7 +153,15 @@ class ReadlistsBooksRESTController extends VoryxController
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsBooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function putAction(Request $request, ReadlistsBooks $entity)
@@ -159,13 +191,21 @@ class ReadlistsBooksRESTController extends VoryxController
     }
 
     /**
-     * Update a ReadlistsBooks entity.
+     * Sort ReadlistsBooks entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsBooksSortType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function putSortAction(Request $request, Readlists $entity)
@@ -199,6 +239,15 @@ class ReadlistsBooksRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsBooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *

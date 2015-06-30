@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
@@ -29,6 +29,14 @@ class CommentRESTController extends VoryxController
      * Get a Comment entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      *
      * @return Response
      *
@@ -41,8 +49,16 @@ class CommentRESTController extends VoryxController
      * Get all Comment entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param ParamFetcherInterface $paramFetcher
+     *
      *
      * @return Response
      *
@@ -74,7 +90,15 @@ class CommentRESTController extends VoryxController
      * Create a Comment entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @Secure(roles="ROLE_READER")
      * @return Response
@@ -102,6 +126,15 @@ class CommentRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -134,6 +167,15 @@ class CommentRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="Successful",
+     *          400="Bad Request"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *

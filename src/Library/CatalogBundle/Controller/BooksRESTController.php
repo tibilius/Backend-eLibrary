@@ -47,6 +47,14 @@ class BooksRESTController extends VoryxController
      * Get a Books entity
      * @Secure(roles="ROLE_GUEST")
      * @View(serializerEnableMaxDepthChecks=true)
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      */
@@ -61,12 +69,19 @@ class BooksRESTController extends VoryxController
     /**
      * Get all Books entities.
      *
-//     * @View(serializerEnableMaxDepthChecks=true)
+     * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
      *
      * @param ParamFetcherInterface $paramFetcher
      * @return Response
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
      * @QueryParam(name="order_by", nullable=true, array=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
@@ -104,26 +119,38 @@ class BooksRESTController extends VoryxController
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      input="\Library\CatalogBundle\Form\BooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      *
      */
     public function postAction(Request $request)
     {
-        $entity = new Books();
-        $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
-        $this->removeExtraFields($request, $form);
-        $form->handleRequest($request);
+        try {
+            $entity = new Books();
+            $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
 
-            return $entity;
+                return $entity;
+            }
+
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -133,7 +160,15 @@ class BooksRESTController extends VoryxController
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      input="\Library\CatalogBundle\Form\BooksType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function postUpdateAction(Request $request, Books $entity)
@@ -150,7 +185,7 @@ class BooksRESTController extends VoryxController
                 return $entity;
             }
 
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -163,7 +198,16 @@ class BooksRESTController extends VoryxController
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      tags={"votes"},
+     *      input="\Library\VotesBundle\Form\VoteType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function postVoteAction(Request $request, Books $entity) {
@@ -195,20 +239,29 @@ class BooksRESTController extends VoryxController
                 $em->flush();
                 return $entity;
             }
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Vote a Books entity.
+     * Create comment for Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      tags={"comments"},
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function postCommentAction(Request $request, Books $entity) {
@@ -239,19 +292,29 @@ class BooksRESTController extends VoryxController
                 $this->container->get('fos_comment.manager.comment')->saveComment($comment);
                 return $entity;
             }
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Vote a Books entity.
+     * Edit vote for Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      tags={"votes"},
+     *      input="\Library\VotesBundle\Form\VoteType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      *
      * @return Response
      */
@@ -272,20 +335,29 @@ class BooksRESTController extends VoryxController
                 $voteManager->saveVote($vote);
                 return $entity;
             }
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Vote a Books entity.
+     * Edit vote for Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      tags={"comment"},
+     *      input="\Library\CommentBundle\Form\CommentType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Errors",
+     *      }
+     * )
      * @return Response
      */
     public function putCommentAction(Request $request, Books $entity, Comment $comment) {
@@ -305,7 +377,7 @@ class BooksRESTController extends VoryxController
                 $em->flush();
                 return $entity;
             }
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -319,6 +391,15 @@ class BooksRESTController extends VoryxController
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      input="\Library\CatalogBundle\Form\BooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      *
      * @return Response
      */
@@ -345,7 +426,7 @@ class BooksRESTController extends VoryxController
                 return $entity;
             }
 
-            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -358,6 +439,15 @@ class BooksRESTController extends VoryxController
      * @Secure(roles="ROLE_EXPERT")
      * @param Request $request
      * @param $entity
+     * @ApiDoc(
+     *      resource=true,
+     *      section="books",
+     *      input="\Library\CatalogBundle\Form\BooksType",
+     *      statusCodes={
+     *          201="Created",
+     *          400="Errors",
+     *      }
+     * )
      *
      * @return Response
 */

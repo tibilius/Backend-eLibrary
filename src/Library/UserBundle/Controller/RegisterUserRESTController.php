@@ -19,6 +19,7 @@ class RegisterUserRESTController extends Controller
      * Create a new resource
      * @ApiDoc(
      *   resource = true,
+     *   section = "users",
      *   description = "Creates a new user from the submitted data.",
      *   statusCodes = {
      *     201 = "Returned when successful",

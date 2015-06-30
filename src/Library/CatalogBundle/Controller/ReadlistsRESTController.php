@@ -5,7 +5,7 @@ namespace Library\CatalogBundle\Controller;
 use Library\CatalogBundle\DBAL\Types\ReadlistEnumType;
 use Library\CatalogBundle\Entity\Readlists;
 use Library\CatalogBundle\Form\ReadlistsType;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -32,6 +32,14 @@ class ReadlistsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @return Response
      *
      */
@@ -47,6 +55,14 @@ class ReadlistsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return Response
@@ -81,7 +97,15 @@ class ReadlistsRESTController extends VoryxController
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param Request $request
      *
      * @return Response
@@ -110,7 +134,15 @@ class ReadlistsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -145,7 +177,15 @@ class ReadlistsRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_READER")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="readlist",
+     *      input="\Library\CatalogBundle\Form\ReadlistsType",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *

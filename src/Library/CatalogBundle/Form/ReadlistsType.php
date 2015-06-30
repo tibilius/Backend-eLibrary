@@ -10,8 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ReadlistsType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

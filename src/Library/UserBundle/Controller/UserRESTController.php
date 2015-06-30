@@ -35,6 +35,7 @@ class UserRESTController extends VoryxController
      * @Secure(roles="ROLE_GUEST")
      * @ApiDoc(
      *   resource = true,
+     *   section="users",
      *   description = "Return the current loginned user",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -56,6 +57,7 @@ class UserRESTController extends VoryxController
      *
      * @ApiDoc(
      *   resource = true,
+     *   section="users",
      *   description = "Get user salt by its username",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -84,6 +86,14 @@ class UserRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the user is not found"
+     *   }
+     * )
      * @return Response
      *
      */
@@ -99,7 +109,14 @@ class UserRESTController extends VoryxController
      *
      * @param ParamFetcherInterface $paramFetcher
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the user is not found"
+     *   }
+     * )
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
@@ -131,7 +148,15 @@ class UserRESTController extends VoryxController
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_SUPER_ADMIN")
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   input="\Library\UserBundle\Form\UserType",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     400 = "Bad request"
+     *   }
+     * )
      * @param Request $request
      *
      * @return Response
@@ -158,7 +183,15 @@ class UserRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   input="\Library\UserBundle\Form\UserSelfEditType",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     400 = "Bad request"
+     *   }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -195,7 +228,15 @@ class UserRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   input="\Library\UserBundle\Form\UserSelfEditType",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     400 = "Bad request"
+     *   }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -242,7 +283,15 @@ class UserRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   input="\Library\UserBundle\Form\UserSelfEditType",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     400 = "Bad request"
+     *   }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -262,7 +311,14 @@ class UserRESTController extends VoryxController
      * @param Request $request
      * @param $entity
      * @internal param $id
-     *
+     * @ApiDoc(
+     *   resource = true,
+     *   section="users",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Not found"
+     *   }
+     * )
      * @return Response
      */
     public function deleteAvatarAction(Request $request, User $entity)

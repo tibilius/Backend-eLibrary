@@ -4,7 +4,7 @@ namespace Library\CatalogBundle\Controller;
 
 use Library\CatalogBundle\Entity\Writers;
 use Library\CatalogBundle\Form\WritersType;
-
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -31,7 +31,14 @@ class WritersRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_GUEST")
-     *
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      statusCodes={
+     *          200="OK",
+     *          404="Not Found",
+     *      }
+     * )
      * @return Response
      *
      */
@@ -47,6 +54,14 @@ class WritersRESTController extends VoryxController
      *
      * @param ParamFetcherInterface $paramFetcher
      * @Secure(roles="ROLE_GUEST")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      statusCodes={
+     *          200="OK",
+     *          404="Not Found",
+     *      }
+     * )
      * @return Response
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
@@ -79,6 +94,15 @@ class WritersRESTController extends VoryxController
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      input="\Library\CatalogBundle\Form\WritersType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Bad request",
+     *      }
+     * )
      * @param Request $request
      *
      * @return Response
@@ -106,6 +130,15 @@ class WritersRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      input="\Library\CatalogBundle\Form\WritersType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Bad request",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -136,6 +169,15 @@ class WritersRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      input="\Library\CatalogBundle\Form\WritersType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Bad request",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -151,6 +193,15 @@ class WritersRESTController extends VoryxController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      * @Secure(roles="ROLE_EXPERT")
+     * @ApiDoc(
+     *      resource=true,
+     *      section="writers",
+     *      input="\Library\CatalogBundle\Form\WritersType",
+     *      statusCodes={
+     *          200="OK",
+     *          400="Bad request",
+     *      }
+     * )
      * @param Request $request
      * @param $entity
      *
@@ -184,7 +235,6 @@ class WritersRESTController extends VoryxController
      * @param Request $request
      * @param $entity
      * @internal param $id
-     *
      * @return Response
      */
     public function deleteAction(Request $request, Writers $entity)
