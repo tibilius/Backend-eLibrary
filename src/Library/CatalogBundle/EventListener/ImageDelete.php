@@ -7,6 +7,7 @@ use Library\UserBundle\Entity\User;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Psr\Log\LoggerInterface;
 use Vich\UploaderBundle\Event\Event;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 class ImageDelete
 {
@@ -18,14 +19,22 @@ class ImageDelete
      * @var CacheManager
      */
     protected $cacheManager;
+
+    /**
+     * @var StorageInterface
+     */
+    protected $vichStorage;
+
     /**
      * @param LoggerInterface $logger
      * @param CacheManager $cacheManager
      */
-    public function __construct(LoggerInterface $logger, CacheManager $cacheManager)
+
+    public function __construct(LoggerInterface $logger, CacheManager $cacheManager, StorageInterface $vichStorage)
     {
         $this->logger = $logger;
         $this->cacheManager = $cacheManager;
+        $this->vichStorage = $vichStorage;
     }
 
     public function onImageRemoved(Event $event)
