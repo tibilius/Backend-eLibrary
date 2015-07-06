@@ -15,7 +15,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             'WITH threads as (
                 select id, author_id, body, created_at, thread_id
                 from comment c
-                order by created_at
+                order by created_at desc
                 limit ' . intval($limit) . ' offset ' . intval($offset) . '
             )
             (
