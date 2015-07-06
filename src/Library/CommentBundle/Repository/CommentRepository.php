@@ -19,19 +19,19 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                 limit ' . intval($limit) . ' offset ' . intval($offset) . '
             )
             (
-                select b.id as entity_id, \'book\' as type, t.*
+                select b.id as entity_id, \'books\' as type, t.*
                 from threads t inner join books b on b.thread_id = t.thread_id
                 UNION
-                select r.id as entity_id, \'review\' as type, t.*
+                select r.id as entity_id, \'reviews\' as type, t.*
                 from threads t inner join reviews r on r.thread_id = t.thread_id
             ) order by type'
-        )->execute();
+        )->fetchAll();
         $books  =  [];
         $reviews = [];
         $authors  = [];
         foreach ($entities as $entity) {
             ${$entity['type']}[$entity['entity_id']][] = $entity;
-            $authors = [$entity['author_id']];
+            $authors[] = $entity['author_id'];
         }
         $dbUsers = $this->getEntityManager()->getRepository('UserBundle:User')->findBy(
             ['id' => $authors]
@@ -52,6 +52,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                 $entity = new Comment();
                 $entity->setAuthor($mapUsers[$comment['author_id']]);
                 $entity->setCreatedAt(new \DateTime($comment['created_at']));
+                $entity->setBody($comment['body']);
                 $comments->add($entity);
             }
             $dbBook->getThread()->setComments($comments);
@@ -62,9 +63,10 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                 $entity = new Comment();
                 $entity->setAuthor($mapUsers[$comment['author_id']]);
                 $entity->setCreatedAt(new \DateTime($comment['created_at']));
+                $entity->setBody($comment['body']);
                 $comments->add($entity);
             }
-            $dbBook->getThread()->setComments($comments);
+            $dbReview->getThread()->setComments($comments);
         }
         return ['books' => $dbBooks, 'reviews' => $dbReviews];
     }

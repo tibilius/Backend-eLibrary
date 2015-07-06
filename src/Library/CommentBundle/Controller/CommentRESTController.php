@@ -105,7 +105,7 @@ class CommentRESTController extends VoryxController
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
      */
-    public function getLast(ParamFetcherInterface $paramFetcher){
+    public function cgetLastCommentAction(ParamFetcherInterface $paramFetcher){
         try {
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');

@@ -101,6 +101,9 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      */
     protected function _mergeUserReadlistsIds(&$result)
     {
+        if (!$this->getContainer()) {
+            return;
+        }
         if (!$token = $this->getContainer()->get('security.context')->getToken()) {
             return;
         }
