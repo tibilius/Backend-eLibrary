@@ -87,6 +87,39 @@ class CommentRESTController extends VoryxController
         }
     }
     /**
+     * Get last Comment entities.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
+     *
+     * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
+     * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
+     */
+    public function getLast(ParamFetcherInterface $paramFetcher){
+        try {
+            $offset = $paramFetcher->get('offset');
+            $limit = $paramFetcher->get('limit');
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('LibraryCommentBundle:Comment')->findLast($limit, $offset);
+            if ($entities) {
+                return $entities;
+            }
+            return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    /**
      * Create a Comment entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
@@ -107,7 +140,11 @@ class CommentRESTController extends VoryxController
     public function postAction(Request $request)
     {
         $entity = new Comment();
-        $form = $this->createForm(new CommentType(), $entity, array("method" => $request->getMethod()));
+        $form = $this->createForm(
+            new CommentType('Library\CommentBundle\Entity\Comment'),
+            $entity,
+            array("method" => $request->getMethod())
+        );
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
 
@@ -148,7 +185,11 @@ class CommentRESTController extends VoryxController
             }
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new CommentType(), $entity, array("method" => $request->getMethod()));
+            $form = $this->createForm(
+                new CommentType('Library\CommentBundle\Entity\Comment'),
+                $entity,
+                array("method" => $request->getMethod())
+            );
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {

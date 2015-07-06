@@ -18,6 +18,7 @@ class ReadlistsBooksType extends AbstractType
 
             ->add('fact', 'integer')
             ->add('plan', 'integer')
+            ->add('position','integer', ['required' => false])
             ->add('book', 'entity', [
                 'class' => 'Library\CatalogBundle\Entity\Books',
                 'property' => 'id',

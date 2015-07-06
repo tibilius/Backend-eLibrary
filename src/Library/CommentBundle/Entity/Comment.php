@@ -7,7 +7,7 @@ use FOS\CommentBundle\Entity\Comment as BaseComment;
 use FOS\CommentBundle\Model\SignedCommentInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Library\CommentBundle\Repository\CommentRepository")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class Comment extends BaseComment implements SignedCommentInterface
