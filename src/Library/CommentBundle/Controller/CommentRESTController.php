@@ -104,13 +104,17 @@ class CommentRESTController extends VoryxController
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
+     * @QueryParam(name="commentator_id", requirements="\d+", nullable=true, description="User which commented")
+     * @QueryParam(name="owner_id", requirements="\d+", nullable=true, description="User which answer we read")
      */
     public function cgetLastCommentAction(ParamFetcherInterface $paramFetcher){
         try {
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');
+            $ownerId = $paramFetcher->get('user_id');
+            $commentatorId = $paramFetcher->get('commentator_id');
             $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('LibraryCommentBundle:Comment')->findLast($limit, $offset);
+            $entities = $em->getRepository('LibraryCommentBundle:Comment')->findLast($ownerId, $commentatorId, $limit, $offset);
             if ($entities) {
                 return $entities;
             }
