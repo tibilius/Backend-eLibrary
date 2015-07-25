@@ -460,7 +460,7 @@ class BooksRESTController extends VoryxController
      * Delete a Books entity.
      *
      * @View(statusCode=204)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
      * @internal param $id
