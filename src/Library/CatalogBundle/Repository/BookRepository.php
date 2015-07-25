@@ -165,7 +165,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
                 OR TSQUERY(TOTSVECTOR(w.middleName), :query) = true
                 OR TSQUERY(TOTSVECTOR(w.lastName), :query) = true'
             )
-            ->andWhere('u.id is NULL OR u.id = :uid OR b.published')
+            ->andWhere('u.id is NULL OR u.id = :uid OR b.published=TRUE')
             ->setParameter('query', $query)
             ->setParameter('uid', $uid)
             ->setFirstResult((int)$offset)
