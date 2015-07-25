@@ -157,14 +157,15 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('b.categories', 'c')
             ->leftJoin('b.writers', 'w')
             ->leftJoin('b.owner','u')
-            ->where('TSQUERY(TOTSVECTOR(b.name), :query) = true
+            ->where(
+                'TSQUERY(TOTSVECTOR(b.name), :query) = true
                 OR TSQUERY(TOTSVECTOR(b.isbn), :query) = true
                 OR TSQUERY(TOTSVECTOR(c.name), :query) = true
                 OR TSQUERY(TOTSVECTOR(w.firstName), :query) = true
                 OR TSQUERY(TOTSVECTOR(w.middleName), :query) = true
                 OR TSQUERY(TOTSVECTOR(w.lastName), :query) = true'
             )
-            ->andWhere('u.id is NULL OR u.id = :uid')
+            ->andWhere('u.id is NULL OR u.id = :uid OR b.published')
             ->setParameter('query', $query)
             ->setParameter('uid', $uid)
             ->setFirstResult((int)$offset)
