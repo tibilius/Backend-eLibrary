@@ -117,7 +117,7 @@ class BooksRESTController extends VoryxController
      * Create a Books entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @ApiDoc(
      *      resource=true,
@@ -134,11 +134,13 @@ class BooksRESTController extends VoryxController
     public function postAction(Request $request)
     {
         try {
+            if (!$this->_canPost($request->get('owner'))) {
+                return FOSView::create(null, 403);
+            }
             $entity = new Books();
             $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
-
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
@@ -388,7 +390,7 @@ class BooksRESTController extends VoryxController
      * Update a Books entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @param Request $request
      * @param $entity
      * @ApiDoc(
@@ -406,13 +408,12 @@ class BooksRESTController extends VoryxController
     public function putAction(Request $request, Books $entity)
     {
         try {
+            if (!$this->_canPost($entity->getOwner() ? $entity->getOwner()->getId() : null)) {
+                return FOSView::create(null , 403);
+            }
             $em = $this->getDoctrine()->getManager();
             $isExpert = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT');
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $canEdit =$isExpert || $entity->getOwner()->getId() == $this->getUser()->getId();
-            if (!$canEdit) {
-                return FOSView::create(null , 403);
-            }
             $wasPublished = $entity->isPublished();
             $form = $this->createForm(new BooksType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
@@ -469,9 +470,7 @@ class BooksRESTController extends VoryxController
     public function deleteAction(Request $request, Books $entity)
     {
         try {
-            $canEdit = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT')
-                || $entity->getOwner()->getId() == $this->getUser()->getId();
-            if (!$canEdit) {
+            if (!$this->_canPost($entity->getOwner() ? $entity->getOwner()->getId() : null)) {
                 return FOSView::create(null , 403);
             }
             $em = $this->getDoctrine()->getManager();
@@ -502,6 +501,14 @@ class BooksRESTController extends VoryxController
                 ]
             );
         return (bool) count($readBook);
+    }
+
+    protected function _canPost($owner) {
+        $isExpert = $this->get('security.authorization_checker')->isGranted('ROLE_EXPERT');
+        if ($owner != $this->getUser()->getId() && !$isExpert) {
+            return false;
+        }
+        return true;
     }
 
 }

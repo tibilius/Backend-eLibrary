@@ -154,8 +154,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $dQuery = $db
             ->select('b')
             ->from('CatalogBundle:Books', 'b')
-            ->innerJoin('b.categories', 'c')
-            ->innerJoin('b.writers', 'w')
+            ->leftJoin('b.categories', 'c')
+            ->leftJoin('b.writers', 'w')
             ->leftJoin('b.owner','u')
             ->where('TSQUERY(TOTSVECTOR(b.name), :query) = true
                 OR TSQUERY(TOTSVECTOR(b.isbn), :query) = true
