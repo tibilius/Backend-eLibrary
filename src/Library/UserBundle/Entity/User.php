@@ -124,6 +124,13 @@ class User extends BaseUser
     protected $moderated = true;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false, name="time_readed_comments", options={"default":"NOW()"})
+     * @Groups({"user"})
+     * @var \DateTime
+     */
+    protected $timeReadedComments;
+
+    /**
      * @return array
      */
     public static function getUserRoles()
@@ -407,6 +414,24 @@ class User extends BaseUser
     public function setModerated($moderated)
     {
         $this->moderated = $moderated;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimeReadedComments()
+    {
+        return $this->timeReadedComments;
+    }
+
+    /**
+     * @param string $timeReadedComments
+     * @return User
+     */
+    public function setTimeReadedComments($timeReadedComments = "now")
+    {
+        $this->timeReadedComments = new \DateTime($timeReadedComments);
         return $this;
     }
 

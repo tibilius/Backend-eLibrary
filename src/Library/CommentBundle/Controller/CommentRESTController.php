@@ -111,11 +111,19 @@ class CommentRESTController extends VoryxController
         try {
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');
-            $ownerId = $paramFetcher->get('user_id');
-            $commentatorId = $paramFetcher->get('commentator_id');
+            if (!$ownerId = (int)$paramFetcher->get('owner_id')) {
+                $ownerId =  $this->getUser()->getId();
+
+            }
+            $commentatorId = $paramFetcher->get('commentator_id', null);
             $em = $this->getDoctrine()->getManager();
             $entities = $em->getRepository('LibraryCommentBundle:Comment')->findLast($ownerId, $commentatorId, $limit, $offset);
             if ($entities) {
+                if ($ownerId === $this->getUser()->getId()) {
+                    $this->getUser()->setTimeReadedComments();
+                    $em->persist($this->getUser());
+                    $em->flush();
+                }
                 return $entities;
             }
             return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);

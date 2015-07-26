@@ -39,6 +39,11 @@ class Comment extends BaseComment implements SignedCommentInterface
      */
     protected $author;
 
+    /**
+     * @var bool
+     */
+    protected $new = false;
+
     public function setAuthor(UserInterface $author)
     {
         $this->author = $author;
@@ -57,4 +62,23 @@ class Comment extends BaseComment implements SignedCommentInterface
 
         return $this->getAuthor()->getUsername();
     }
+
+    /**
+     * @return boolean
+     */
+    public function isNew()
+    {
+        return $this->new;
+    }
+
+    /**
+     * @param boolean $new
+     * @return Comment
+     */
+    public function setNew($new)
+    {
+        $this->new = $new;
+        return $this;
+    }
+
 }
