@@ -44,6 +44,17 @@ class Comment extends BaseComment implements SignedCommentInterface
      */
     protected $new = false;
 
+    /**
+     * @param mixed $id
+     * @return Comment
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+
     public function setAuthor(UserInterface $author)
     {
         $this->author = $author;

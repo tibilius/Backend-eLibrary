@@ -51,6 +51,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
         $setComment = function($comment) use (&$mapUsers) {
             $entity = new Comment();
+            $entity->setId($comment['id']);
             $entity->setAuthor($mapUsers[$comment['author_id']]);
             $entity->setNew($comment['new']);
             $entity->setAncestors(explode('/', $comment['ancestors']));
