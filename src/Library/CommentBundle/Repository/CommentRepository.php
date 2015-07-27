@@ -45,8 +45,8 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             ['id' => array_keys($reviews)]
         );
         $mapUsers = [];
-        foreach ($dbUsers as $user) {
-            $mapUsers[$user->getId()] = &$user;
+        foreach ($dbUsers as &$user) {
+            $mapUsers[$user->getId()] = $user;
         }
 
         $setComment = function($comment) use (&$mapUsers) {
