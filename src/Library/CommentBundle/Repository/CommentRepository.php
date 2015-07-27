@@ -33,10 +33,10 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         $authors = [];
         foreach ($entities as $entity) {
             ${$entity['type']}[$entity['entity_id']][] = $entity;
-            $authors[] = $entity['author_id'];
+            $authors[$entity['author_id']] = $entity['author_id'];
         }
         $dbUsers = $this->getEntityManager()->getRepository('UserBundle:User')->findBy(
-            ['id' => $authors]
+            ['id' =>  array_values($authors)]
         );
         $dbBooks = $this->getEntityManager()->getRepository('CatalogBundle:Books')->findBy(
             ['id' => array_keys($books)]

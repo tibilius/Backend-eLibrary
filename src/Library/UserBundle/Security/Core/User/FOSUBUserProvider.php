@@ -70,6 +70,7 @@ class FOSUBUserProvider extends BaseClass
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setMiddleName($middleName);
+            $user->setTimeReadedComments("now");
             $user->addRole(User::ROLE_GUEST);
             $this->userManager->updateUser($user);
             return $user;
