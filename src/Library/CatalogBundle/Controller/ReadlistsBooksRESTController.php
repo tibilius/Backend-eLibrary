@@ -179,7 +179,10 @@ class ReadlistsBooksRESTController extends VoryxController
                 if ($entity->getReadlist()->getType() === ReadlistEnumType::READED) {
                     $this->repository->clearReadlists($entity, $this->getUser());
                 }
-                $entity->setPosition($this->repository->getLastPosition($entity->getReadlist(), $entity));
+                if (!$entity->getPosition()) {
+                    /** for move to another list */
+                    $entity->setPosition($this->repository->getLastPosition($entity->getReadlist(), $entity));
+                }
                 $em->flush();
                 return $entity;
             }
