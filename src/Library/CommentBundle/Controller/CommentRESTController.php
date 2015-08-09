@@ -107,7 +107,8 @@ class CommentRESTController extends VoryxController
      * @QueryParam(name="commentator_id", requirements="\d+", nullable=true, description="User which commented")
      * @QueryParam(name="owner_id", requirements="\d+", nullable=true, description="User which answer we read")
      */
-    public function cgetLastCommentAction(ParamFetcherInterface $paramFetcher){
+    public function cgetLastCommentAction(ParamFetcherInterface $paramFetcher)
+    {
         try {
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');
@@ -124,6 +125,42 @@ class CommentRESTController extends VoryxController
                     $em->persist($this->getUser());
                     $em->flush();
                 }
+                return $entities;
+            }
+            return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    /**
+     * Get last Comment entities.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     * @ApiDoc(
+     *      resource=true,
+     *      section="comments",
+     *      statusCodes={
+     *          200="Successful",
+     *          404="Not Found"
+     *      }
+     * )
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
+     *
+     * @QueryParam(name="commentator_id", requirements="\d+", nullable=true, description="User which commented")
+     * @QueryParam(name="owner_id", requirements="\d+", nullable=true, description="User which answer we read")
+     */
+    public function cgetLastCommentCountAction(ParamFetcherInterface $paramFetcher)
+    {
+        try {
+            if (!$ownerId = (int)$paramFetcher->get('owner_id')) {
+                $ownerId =  $this->getUser()->getId();
+            }
+            $commentatorId = $paramFetcher->get('commentator_id', null);
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('LibraryCommentBundle:Comment')->findLastAnswerCount($ownerId, $commentatorId);
+            if ($entities) {
                 return $entities;
             }
             return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
