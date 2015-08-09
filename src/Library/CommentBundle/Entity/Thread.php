@@ -43,6 +43,26 @@ class Thread extends BaseThread
         return $this;
     }
 
+    /**
+     * @param \Library\CommentBundle\Entity\Comment $comment
+     * @return Thread
+     */
+    public function addComment($comment)
+    {
+        $this->comments->add($comment);
+        return $this;
+    }
+
+    /**
+     * @param \Library\CommentBundle\Entity\Comment $comment
+     * @return Thread
+     */
+    public function removeComment($comment)
+    {
+        $this->comments->removeElement($comment);
+        return $this;
+    }
+
 
 
 

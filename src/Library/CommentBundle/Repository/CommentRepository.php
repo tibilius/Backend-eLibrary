@@ -5,6 +5,7 @@ namespace Library\CommentBundle\Repository;
 
 
 use Library\CommentBundle\Entity\Comment;
+use Library\CommentBundle\Entity\Thread;
 
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
@@ -133,17 +134,26 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             limit ' . intval($limit) . ' offset ' . intval($offset)
         )->fetchAll();
         $authors = [];
+        $threads = [];
         foreach ($comments as $entity) {
             $authors[$entity['author_id']] = $entity['author_id'];
+            $threads[$entity['thread_id']] = $entity['thread_id'];
         }
         $dbUsers = $this->getEntityManager()->getRepository('UserBundle:User')->findBy(
             ['id' =>  array_values($authors)]
         );
+        $dbThreads = $this->getEntityManager()->getRepository('LibraryCommentBundle:Thread') ->findBy([
+            'id' => array_keys($threads)
+        ]);
+        foreach($dbThreads as $thread) {
+            $thread->setComments(new \Doctrine\Common\Collections\ArrayCollection());
+            $threads[$thread->getId()] = &$thread;
+        }
         $mapUsers = [];
         foreach ($dbUsers as &$user) {
             $mapUsers[$user->getId()] = $user;
         }
-        $result = new \Doctrine\Common\Collections\ArrayCollection();
+//        $result = new \Doctrine\Common\Collections\ArrayCollection();
         foreach($comments as $comment) {
             $entity = new Comment();
             $entity->setId($comment['id']);
@@ -152,9 +162,9 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             $entity->setAncestors(explode('/', $comment['ancestors']));
             $entity->setCreatedAt(new \DateTime($comment['created_at']));
             $entity->setBody($comment['body']);
-            $result->add($entity);
+            $threads[$comment['thread_id']]->addComment($entity);
         }
-        return $result;
+        return array_values($threads);
     }
 
 }
