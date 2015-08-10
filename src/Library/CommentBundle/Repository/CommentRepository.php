@@ -102,7 +102,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                 UNION
                 SELECT count(id) as count, \'comments\' as type
                 FROM comment WHERE ancestors IN (
-                    SELECT CASE ancestors <> \'\' WHEN TRUE THEN ancestors::text || \',\' || id::text ELSE id::text END
+                    SELECT CASE ancestors <> \'\' WHEN TRUE THEN ancestors::text || \'/\' || id::text ELSE id::text END
 	                FROM comment WHERE author_id = ' . $owner->getId() . '
                 )
                 AND author_id <>  ' . $owner->getId() . '
@@ -126,7 +126,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         $owner = $this->getEntityManager()->getRepository('UserBundle:User')->find($ownerId);
         $comments = $this->getEntityManager()->getConnection()->query(
             'SELECT comment.*, created_at > \''.  $owner->getTimeReadedComments()->format('Y-m-d H:i:s') .'\' as new FROM comment WHERE ancestors IN (
-	            SELECT CASE ancestors <> \'\' WHEN TRUE THEN ancestors::text || \',\' || id::text ELSE id::text END
+	            SELECT CASE ancestors <> \'\' WHEN TRUE THEN ancestors::text || \'/\' || id::text ELSE id::text END
 	            FROM comment WHERE author_id = ' . $owner->getId() . '
             )
             AND author_id <>  ' . $ownerId .'
