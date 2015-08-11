@@ -64,18 +64,16 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             return $entity;
         };
         foreach ($dbBooks as &$dbBook) {
-            $comments = new \Doctrine\Common\Collections\ArrayCollection();
+            $dbBook->getThread()->setComments(new \Doctrine\Common\Collections\ArrayCollection());
             foreach ($books[$dbBook->getId()] as $comment) {
-                $comments->add($setComment($comment));
+                $dbBook->getThread()->addComment($setComment($comment));
             }
-            $dbBook->getThread()->setComments($comments);
         }
         foreach ($dbReviews as &$dbReview) {
-            $comments = new \Doctrine\Common\Collections\ArrayCollection();
+            $dbReview->getThread()->setComments(new \Doctrine\Common\Collections\ArrayCollection());
             foreach ($reviews[$dbReview->getId()] as $comment) {
-                $comments->add($setComment($comment));
+                $dbReview->getThread()->addComment($setComment($comment));
             }
-            $dbReview->getThread()->setComments($comments);
         }
         return ['books' => $dbBooks, 'reviews' => $dbReviews, 'comments' => $this->getCommentAnswers($ownerId, $commentatorId, $limit, $offset)];
     }
