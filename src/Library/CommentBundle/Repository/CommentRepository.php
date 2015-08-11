@@ -76,6 +76,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
         foreach ($dbBooks as &$dbBook) {
             $dbBook->setThread($cloneThread($dbBook->getThread()));
+            $this->getEntityManager()->detach($dbBook);
             $comments = new \Doctrine\Common\Collections\ArrayCollection();
             foreach ($books[$dbBook->getId()] as $comment) {
                 $comments->add($setComment($comment));
@@ -84,6 +85,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         }
         foreach ($dbReviews as &$dbReview) {
             $dbReview->setThread($cloneThread($dbReview->getThread()));
+            $this->getEntityManager()->detach($dbReview);
             $dbReview->getThread()->getComments();
             $comments = new \Doctrine\Common\Collections\ArrayCollection();
             foreach ($reviews[$dbReview->getId()] as $comment) {
@@ -161,6 +163,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             'id' => array_keys($threads)
         ]);
         foreach($dbThreads as &$thread) {
+            $this->getEntityManager()->detach($thread);
             $thread->setComments(new \Doctrine\Common\Collections\ArrayCollection());
             $threads[$thread->getId()] = $thread;
         }

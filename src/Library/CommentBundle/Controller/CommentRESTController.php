@@ -2,6 +2,7 @@
 
 namespace Library\CommentBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Library\CommentBundle\Entity\Comment;
 use Library\CommentBundle\Form\CommentType;
 
