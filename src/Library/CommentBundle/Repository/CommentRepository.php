@@ -145,9 +145,9 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         $dbThreads = $this->getEntityManager()->getRepository('LibraryCommentBundle:Thread') ->findBy([
             'id' => array_keys($threads)
         ]);
-        foreach($dbThreads as $thread) {
+        foreach($dbThreads as &$thread) {
             $thread->setComments(new \Doctrine\Common\Collections\ArrayCollection());
-            $threads[$thread->getId()] = &$thread;
+            $threads[$thread->getId()] = $thread;
         }
         $mapUsers = [];
         foreach ($dbUsers as &$user) {
