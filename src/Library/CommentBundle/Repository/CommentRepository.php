@@ -16,7 +16,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         $sql = 'WITH threads as (
                 select id, author_id, body, created_at, thread_id, ancestors,  created_at > \'' . $owner->getTimeReadedComments()->format('Y-m-d H:i:s') .'\' as new
                 from comment c
-                where ancestors = \'\''
+                where depth=0 and author_id <> '. $owner->getId() .''
                 . ($commentatorId ? ' and author_id=' . $commentatorId : '')
                 . ' order by created_at desc
             )
@@ -63,17 +63,34 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             $entity->setBody($comment['body']);
             return $entity;
         };
+        $cloneThread = function(Thread $copy){
+            $thread = new Thread();
+            $thread->setCommentable($copy->isCommentable());
+            $thread->setPermalink($copy->getPermalink());
+            $thread->setId($copy->getId());
+            $thread->setLastCommentAt($copy->getLastCommentAt());
+            $thread->setNumComments($copy->getNumComments());
+            $thread->setComments(new \Doctrine\Common\Collections\ArrayCollection());
+            return $thread;
+        };
+
         foreach ($dbBooks as &$dbBook) {
-            $dbBook->getThread()->setComments(new \Doctrine\Common\Collections\ArrayCollection());
+            $dbBook->setThread($cloneThread($dbBook->getThread()));
+            $comments = new \Doctrine\Common\Collections\ArrayCollection();
             foreach ($books[$dbBook->getId()] as $comment) {
-                $dbBook->getThread()->addComment($setComment($comment));
+                $comments->add($setComment($comment));
             }
+            $dbBook->getThread()->setComments($comments);
         }
         foreach ($dbReviews as &$dbReview) {
-            $dbReview->getThread()->setComments(new \Doctrine\Common\Collections\ArrayCollection());
+            $dbReview->setThread($cloneThread($dbReview->getThread()));
+            $dbReview->getThread()->getComments();
+            $comments = new \Doctrine\Common\Collections\ArrayCollection();
             foreach ($reviews[$dbReview->getId()] as $comment) {
-                $dbReview->getThread()->addComment($setComment($comment));
+                $comments->add($setComment($comment));
             }
+            $dbReview->getThread()->setComments($comments);
+
         }
         return ['books' => $dbBooks, 'reviews' => $dbReviews, 'comments' => $this->getCommentAnswers($ownerId, $commentatorId, $limit, $offset)];
     }

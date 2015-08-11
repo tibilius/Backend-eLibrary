@@ -125,7 +125,7 @@ class CommentRESTController extends VoryxController
                     $em->persist($this->getUser());
                     $em->flush();
                 }
-                return $entities;
+                return FOSView::create($entities, Codes::HTTP_OK);
             }
             return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
