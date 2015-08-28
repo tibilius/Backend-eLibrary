@@ -129,7 +129,7 @@ class WritersRESTController extends VoryxController
      * Update a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *      resource=true,
      *      section="writers",
@@ -168,7 +168,7 @@ class WritersRESTController extends VoryxController
      * Partial Update to a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *      resource=true,
      *      section="writers",
@@ -192,7 +192,7 @@ class WritersRESTController extends VoryxController
      * Update a Writers entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
-     * @Secure(roles="ROLE_EXPERT")
+     * @Secure(roles="ROLE_READER")
      * @ApiDoc(
      *      resource=true,
      *      section="writers",

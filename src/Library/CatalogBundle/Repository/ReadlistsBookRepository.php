@@ -19,7 +19,10 @@ class ReadlistsBookRepository extends \Doctrine\ORM\EntityRepository
             function ($elem) {
                 return "'{$elem}'";
             },
-            array_diff(array_keys(ReadlistEnumType::getChoices()), [ReadlistEnumType::READED])
+            array_diff(
+                array_keys(ReadlistEnumType::getChoices()),
+                [ReadlistEnumType::READED, ReadlistEnumType::MY_LIBRARY]
+            )
         );
         return $this->getEntityManager()->getConnection()->query(
             'DELETE FROM readlists_books where id IN (
