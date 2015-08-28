@@ -124,7 +124,7 @@ class User extends BaseUser
     protected $moderated = true;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false, name="time_readed_comments", options={"default":"NOW()"})
+     * @ORM\Column(type="datetime", nullable=true, name="time_readed_comments", options={"default":"NOW()"})
      * @Groups({"user"})
      * @var \DateTime
      */
@@ -429,7 +429,7 @@ class User extends BaseUser
      * @param string $timeReadedComments
      * @return User
      */
-    public function setTimeReadedComments($timeReadedComments = "now")
+    public function setTimeReadedComments($timeReadedComments)
     {
         $this->timeReadedComments = new \DateTime($timeReadedComments);
         return $this;

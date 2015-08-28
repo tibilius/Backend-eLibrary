@@ -50,6 +50,7 @@ class RegisterUserRESTController extends Controller
             $user->addRole(User::ROLE_GUEST);
             $em =$this->getDoctrine()->getManager();
             $user->setModerated(false);
+            $user->setTimeReadedComments('now');
             $em->persist($user);
             $em->flush();
             $view = View::create($user, Codes::HTTP_CREATED);
