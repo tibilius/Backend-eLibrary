@@ -429,7 +429,7 @@ class User extends BaseUser
      * @param string $timeReadedComments
      * @return User
      */
-    public function setTimeReadedComments($timeReadedComments)
+    public function setTimeReadedComments($timeReadedComments = 'now')
     {
         $this->timeReadedComments = new \DateTime($timeReadedComments);
         return $this;
